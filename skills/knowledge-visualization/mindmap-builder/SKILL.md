@@ -1,6 +1,6 @@
 ---
 name: mindmap-builder
-description: Create offline local mindmap HTML files from notes, documents, PDFs, reports, papers, books, outlines, or workflow outputs using bundled markmap assets. Use when the user asks to generate a mind map, convert content into a mindmap, produce a double-clickable HTML mindmap, create an overview-first mindmap for long documents, interactively expand chapters/sections into separate mindmaps, use a default overview then expand selected chapters/sections, use a conversational section-expansion mode, or render markmap output without relying on network/CDN access. Also trigger when the user explicitly asks for this mode in Chinese, such as 总览图, 章节展开, 对话式展开, 默认只展示总览, 用户可选章节, or 按需展开.
+description: Create self-contained single-file offline mindmap HTML files from notes, documents, PDFs, reports, papers, books, outlines, or workflow outputs using bundled markmap assets. Use when the user asks to generate a mind map, convert content into a mindmap, produce a double-clickable HTML mindmap, create an overview-first mindmap for long documents, interactively expand chapters/sections into separate mindmaps, use a default overview then expand selected chapters/sections, use a conversational section-expansion mode, or render markmap output without relying on network/CDN access. Also trigger when the user explicitly asks for this mode in Chinese, such as 总览图, 章节展开, 对话式展开, 默认只展示总览, 用户可选章节, or 按需展开.
 ---
 
 # Mindmap Builder
@@ -9,13 +9,13 @@ description: Create offline local mindmap HTML files from notes, documents, PDFs
 
 Use this skill to turn user intent, notes, documents, or workflow outputs into Markdown that renders well as a markmap mindmap, then generate an offline local `.html` file that the user can open directly.
 
-Prefer offline local HTML generation for desktop/client use. The skill bundles markmap browser assets in `assets/markmap/` so generated output does not need CDN access.
+Prefer offline local HTML generation for desktop/client use. The skill bundles markmap browser assets in `assets/markmap/` and embeds their JS/CSS into each generated HTML. The final HTML must work independently, without a sibling asset folder or CDN access.
 
 ## Workflow
 
 1. Identify the desired output:
    - Markdown only: produce clean markmap-oriented Markdown.
-   - Offline local HTML: generate a `.html` file with bundled local JS/CSS assets; this is the default.
+   - Offline local HTML: generate a single `.html` file with bundled JS/CSS embedded inline; this is the default.
    - Markdown only: produce clean markmap-oriented Markdown when the user does not need HTML yet.
 2. Normalize the content into a mindmap hierarchy:
    - Use one `#` root title.
@@ -37,13 +37,13 @@ Prefer offline local HTML generation for desktop/client use. The skill bundles m
    - Save generated Markdown and HTML under the repository root `output/mindmap-builder/` by default, unless the user specifies another path.
    - Save the Markdown next to the desired output when useful for iteration.
    - Prefer `scripts/render_offline_mindmap.ps1 -InputMarkdown input.md -OutputHtml output/mindmap-builder/output.html`.
-   - This script runs `markmap`, copies bundled assets to `markmap-assets/`, replaces compatible CDN URLs with local paths, and fails if external asset URLs remain.
-   - Give the user the local HTML path and note that the sibling `markmap-assets/` folder must stay with it.
+   - This script runs `markmap`, embeds the four bundled runtime assets inline, and fails if separate resource dependencies remain. Keep source links as links; do not mistake citations for runtime dependencies. Use text-only nodes by default; embed requested images as data URLs if a single-file result is required. Write formulas as plain Unicode text unless math rendering dependencies can also be embedded; raw LaTeX may trigger extra KaTeX assets that this renderer rejects.
+   - Give the user the local HTML path and state that it can be shared alone and opened offline.
 6. Verify outputs:
    - Confirm the `.html` file exists and has non-trivial size.
    - Check the generated HTML contains the root title.
-   - Confirm the generated HTML no longer contains `cdn.jsdelivr.net`.
-   - Confirm `markmap-assets/` contains `d3.min.js`, `markmap-view.js`, `markmap-toolbar.js`, and `markmap-toolbar.css`.
+   - Confirm the HTML has inline scripts/styles and no script `src`, stylesheet `href`, or separate media/CSS resource dependencies.
+   - Copy only the HTML to an empty verification directory and open it when browser tools are available; check nodes, expand/collapse, zoom, and toolbar without companion files.
 
 ## Long Document Mode
 
@@ -106,7 +106,6 @@ output/mindmap-builder/
     chapter-01.html
     methods.md
     methods.html
-  markmap-assets/
 ```
 
 Name files with short stable slugs. If generating only one selected section, it is fine to create just the overview plus that section map.
@@ -163,7 +162,7 @@ For local desktop/client use, no service is required:
 source content
   -> mindmap Markdown
   -> render_offline_mindmap.ps1
-  -> local HTML file + markmap-assets/
+  -> self-contained single HTML file
   -> double-click/open in browser
 ```
 
@@ -172,5 +171,5 @@ source content
 - Dependency checks fail: read `references/mindmap-service.md` for exact check/install commands.
 - `markmap command not found`: install `markmap-cli` and ensure `markmap` is on PATH.
 - HTML still references CDN: render with `scripts/render_offline_mindmap.ps1`, not raw `markmap`.
-- HTML moved without assets: keep the generated `markmap-assets/` folder next to the `.html` file.
+- Unsupported CLI output or separate media dependencies: inspect the reported resource; update the supported runtime mapping or embed media. Do not silently deliver a dependent HTML as a single file.
 - Blank or unreadable HTML: reduce Markdown size or simplify nested content.

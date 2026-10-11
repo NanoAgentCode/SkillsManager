@@ -1,6 +1,6 @@
 # Mindmap Offline Local Reference
 
-This reference uses static markmap assets copied from `D:\lark-projects\DifyApp\mindmap\htmljs`.
+The renderer uses the static markmap assets bundled with this skill; no machine-specific source directory is needed.
 
 ## Default Local Client Flow
 
@@ -13,17 +13,24 @@ PDF/text/outline
   -> user double-clicks the HTML file
 ```
 
-Command:
+Command from the repository root (PowerShell):
 
 ```powershell
-.\scripts\render_offline_mindmap.ps1 -InputMarkdown input.md -OutputHtml ..\..\..\output\mindmap-builder\output.html
+.\skills\knowledge-visualization\mindmap-builder\scripts\render_offline_mindmap.ps1 -InputMarkdown input.md -OutputHtml output/mindmap-builder/output.html
 ```
 
 The script:
 
 - Runs `markmap input.md --output <repo-root>/output/mindmap-builder/output.html --no-open`.
-- Copies bundled assets to an output sibling folder named `markmap-assets`.
-- Replaces jsDelivr CDN URLs with local `./markmap-assets/...` paths.
+- Replaces supported CDN script/link tags with inline JS/CSS from bundled assets.
+- Rejects remaining separate resource dependencies; citation hyperlinks are allowed.
+- Outputs one self-contained HTML without creating `markmap-assets/`.
+
+Portable PowerShell 7 invocation (Windows, macOS, or Linux with `pwsh` and markmap on PATH):
+
+```sh
+pwsh -File skills/knowledge-visualization/mindmap-builder/scripts/render_offline_mindmap.ps1 -InputMarkdown input.md -OutputHtml output/mindmap-builder/output.html
+```
 
 Bundled assets:
 
@@ -67,8 +74,9 @@ Validation:
 - The output `.html` file exists.
 - The file has non-trivial size.
 - The root title appears in the generated HTML.
-- The generated HTML does not contain `cdn.jsdelivr.net`.
-- `markmap-assets/` exists next to the HTML file.
+- Runtime scripts and toolbar styles are embedded inline.
+- No separate script, stylesheet, media, or CSS resource dependencies remain.
+- Copying only the HTML into an empty directory preserves rendering and interaction.
 - Opening via `file:///.../output/mindmap-builder/output.html` works in a browser.
 
 ## Markdown Generation Rules
@@ -111,5 +119,6 @@ Not applicable for the default local client flow. Use the PowerShell render scri
 
 - `markmap command not found`: install Node.js and `markmap-cli`, then verify `markmap --version`.
 - Local HTML is blank or too dense: reduce content length or simplify deeply nested Markdown.
-- Browser shows blank while offline: confirm HTML contains no `cdn.jsdelivr.net` references and `markmap-assets/` is next to the HTML file.
-- HTML was emailed/copied alone: copy the sibling `markmap-assets/` folder too.
+- Browser shows blank while offline: inspect browser errors and verify the renderer embedded all four runtime assets.
+- Legacy HTML depends on `markmap-assets/`: rerender its Markdown with the current script to produce a single file.
+- Markdown contains images or external CSS: embed media as data URLs or simplify the map before rendering.

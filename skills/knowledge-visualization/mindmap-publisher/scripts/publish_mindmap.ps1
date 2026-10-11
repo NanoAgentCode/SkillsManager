@@ -51,13 +51,15 @@ function Assert-Slug([string]$value) {
 $sourcePath = (Resolve-Path -LiteralPath $SourceHtml).Path
 $sourceDir = Split-Path -Parent $sourcePath
 $sourceAssets = Join-Path $sourceDir "markmap-assets"
-if (-not (Test-Path -LiteralPath $sourceAssets)) {
-    throw "Missing source markmap-assets directory next to SourceHtml: $sourceAssets"
-}
 
 $html = Get-Content -LiteralPath $sourcePath -Raw -Encoding UTF8
 if ($html.Contains("cdn.jsdelivr.net")) {
     throw "SourceHtml still references CDN assets. Render it with mindmap-builder offline script first."
+}
+
+$needsAssets = $html -match 'markmap-assets/'
+if ($needsAssets -and -not (Test-Path -LiteralPath $sourceAssets -PathType Container)) {
+    throw "Missing source markmap-assets directory next to SourceHtml: $sourceAssets"
 }
 
 Assert-Slug $Slug
@@ -69,25 +71,29 @@ New-Item -ItemType Directory -Force -Path $staticRootPath | Out-Null
 
 $destinationDir = Join-Path $staticRootPath $Slug
 $destinationAssets = Join-Path $destinationDir "markmap-assets"
-New-Item -ItemType Directory -Force -Path $destinationAssets | Out-Null
+New-Item -ItemType Directory -Force -Path $destinationDir | Out-Null
+if ($needsAssets) {
+    New-Item -ItemType Directory -Force -Path $destinationAssets | Out-Null
 
-$requiredAssets = @("d3.min.js", "markmap-view.js", "markmap-toolbar.js", "markmap-toolbar.css")
-foreach ($asset in $requiredAssets) {
-    $sourceAsset = Join-Path $sourceAssets $asset
-    if (-not (Test-Path -LiteralPath $sourceAsset -PathType Leaf)) {
-        throw "Missing required source asset: $sourceAsset"
+    $requiredAssets = @("d3.min.js", "markmap-view.js", "markmap-toolbar.js", "markmap-toolbar.css")
+    foreach ($asset in $requiredAssets) {
+        $sourceAsset = Join-Path $sourceAssets $asset
+        if (-not (Test-Path -LiteralPath $sourceAsset -PathType Leaf)) {
+            throw "Missing required source asset: $sourceAsset"
+        }
+        Copy-Item -LiteralPath $sourceAsset -Destination (Join-Path $destinationAssets $asset) -Force
     }
-    Copy-Item -LiteralPath $sourceAsset -Destination (Join-Path $destinationAssets $asset) -Force
+
+    foreach ($asset in $requiredAssets) {
+        $publishedAsset = Join-Path $destinationAssets $asset
+        if (-not (Test-Path -LiteralPath $publishedAsset -PathType Leaf)) {
+            throw "Failed to publish required asset: $publishedAsset"
+        }
+    }
+
 }
 
-foreach ($asset in $requiredAssets) {
-    $publishedAsset = Join-Path $destinationAssets $asset
-    if (-not (Test-Path -LiteralPath $publishedAsset -PathType Leaf)) {
-        throw "Failed to publish required asset: $publishedAsset"
-    }
-}
-
-# Publish the entrypoint only after all assets are in place. LiteralPath does not
+# Publish the entrypoint only after any required assets are in place. LiteralPath does not
 # expand wildcards, so enumerate the fixed offline asset contract explicitly.
 Copy-Item -LiteralPath $sourcePath -Destination (Join-Path $destinationDir "index.html") -Force
 

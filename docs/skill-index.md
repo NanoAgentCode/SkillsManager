@@ -25,7 +25,7 @@ Use this group when the request is about systematic technical understanding, kno
 - `skills/knowledge-visualization/technical-cognition-framework/SKILL.md`: evidence-based frameworks for systematically understanding a technology through its definition, concept relationships, motivation, construction methods, scenarios, boundaries, common confusions, and relationship with LLMs and agents; includes Ontology as a worked reference.
 - `skills/knowledge-visualization/drawio-skill/SKILL.md`: code dependency analysis and editable `.drawio` import/module/package dependency graphs for Python, JavaScript/TypeScript, Go, and Rust codebases, with local draw.io CLI export when available; do not select it for general visualization requests.
 - `skills/knowledge-visualization/excalidraw/SKILL.md`: clean `.excalidraw` flowcharts, architecture sketches, process diagrams, relationship maps, and whiteboard-style visual explanations with Kroki SVG or local PNG/SVG export.
-- `skills/knowledge-visualization/mindmap-builder/SKILL.md`: offline markmap HTML generation from PDFs, notes, outlines, reports, papers, books, or other documents; supports overview-first long document mode.
+- `skills/knowledge-visualization/mindmap-builder/SKILL.md`: single-file offline markmap HTML generation from PDFs, notes, outlines, reports, papers, books, or other documents; supports overview-first long document mode.
 - `skills/knowledge-visualization/mindmap-publisher/SKILL.md`: static publishing for already generated offline mindmap HTML folders when the user explicitly asks to publish or host.
 
 ## AI Application Delivery
