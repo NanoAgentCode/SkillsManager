@@ -28,7 +28,7 @@ Use this skill to turn subtitles, local media, or user-authorized online media i
    - if the online platform exposes captions, download captions before downloading media
    - if multiple caption tracks exist, prefer human/original-language captions, then translated captions, then auto-generated captions
    - treat a subtitle as usable only when conversion produces one or more text cues; an empty track is a failed subtitle route, not a transcript
-4. Only when subtitles are absent, incomplete, wrong-language, or explicitly rejected by the user, extract audio and run ASR.
+4. When subtitle extraction fails or subtitles are absent, incomplete, wrong-language, or explicitly rejected, explain the concrete failure and ask whether to try local ASR. If the user already requested or approved ASR, continue without asking again. Follow the fallback below; subtitle failure alone does not authorize a model download or cloud transcription.
 5. For local files, check whether the input file exists and identify its extension. Common media inputs include `.mp4`, `.mov`, `.mkv`, `.avi`, `.webm`, `.mp3`, `.m4a`, `.wav`, `.aac`, and `.flac`.
 6. Check local tools before asking the user to install anything:
    - `ffmpeg -version`
@@ -184,6 +184,14 @@ If a WeChat source cannot be downloaded safely, still support the task by guidin
 
 Use this path only when no usable subtitle file or platform caption track exists. Prefer the bundled script instead of hand-writing fragile `ffmpeg` commands.
 
+Before starting local ASR:
+
+1. Offer the fallback after a concrete subtitle failure, including browser/tool capture failures: “字幕提取失败，是否尝试本地语音转写？” Distinguish an unavailable subtitle route from unavailable media; ASR still needs accessible audio.
+2. Inspect the selected Python environment, installed ASR packages, configured model directories, and relevant model caches (for example Hugging Face, Whisper, or ModelScope). Reuse a complete compatible model already on disk, using its local path or the tool's offline/local-files-only option to prevent an implicit download. Do not treat partial downloads as usable models.
+3. If tools or a suitable model are missing, state the proposed model, verified approximate download size, and required installation before requesting approval. Reuse prior approval for that same installation/model; ask again only if the proposed download or processing destination materially changes. Do not fetch a larger replacement model silently.
+4. Reuse existing audio for this video when available. Otherwise acquire accessible audio through the authorized downloader/API route. A subtitle login failure does not imply that public audio is inaccessible; try an ordinary supported audio route without bypassing access controls. If audio is also blocked, request a local media file or an authorized session route.
+5. Save raw timestamped recognition output before editing. Check nonempty cues, increasing timestamps, and coverage against audio duration; investigate substantial missing sections and report any remaining gap. Label delivery as automatic ASR and state the actual proofreading scope.
+
 Local file:
 
 ```powershell
@@ -232,6 +240,17 @@ If a command-line transcriber is available, `extract_audio.py` can run it after 
 ```
 
 Supported placeholders are `{audio}`, `{output_dir}`, `{stem}`, and `{transcript}`. The script writes `transcript.txt` as the default placeholder target, but the chosen ASR tool may emit other files such as `.srt`, `.vtt`, `.json`, or `.txt`.
+
+## Technical Terminology Proofreading
+
+For technical recordings, review model/product names, acronyms, code identifiers, and recurring homophone errors after transcription. Preserve the raw ASR files and write corrections to separate deliverables.
+
+- Verify proposed corrections against the audio and visible video context; use official documentation when spelling remains uncertain. A plausible technical term alone is not evidence that it was spoken.
+- Correct only supported terms, preserving meaning and timestamps. Do not silently rewrite the speaker's factual claims. Mark unresolved words with `[unclear]` and their timestamps rather than guessing.
+- Save `terminology-changes.md` with timestamp, original text, corrected term, and evidence or uncertainty. Apply confirmed corrections consistently to the corrected text and subtitles; avoid global replacement of ambiguous ordinary words.
+- If full publication-level polishing is requested and `technical-article-polisher` is available, use it after preserving the transcript. Term correction alone does not require restructuring the content into an article.
+
+Review these acceptance cases when updating this workflow: usable captions stop the ASR route; failed caption capture prompts for local ASR; prior ASR approval plus a cached compatible model proceeds without another download prompt; a missing model requires size/install disclosure and approval; inaccessible audio remains a blocker; uncertain terminology stays marked and raw recognition remains intact.
 
 ## Output Rules
 
