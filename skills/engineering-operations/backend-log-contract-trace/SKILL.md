@@ -1,6 +1,6 @@
 ---
 name: backend-log-contract-trace
-description: Trace backend logs to the exact code path and contract boundary across API routes, controller methods, request parameters, DTO/VO classes, entity fields, service calls, MyBatis mapper interfaces/XML, SQL column names, cross-service payloads, and database constraints. Use when debugging backend failures such as ORM/MyBatis errors, SQL exceptions, 404/NPE/publish/download failures, enum or field-length violations, mismatched request/response contracts, or when the user asks to verify a fix was not rolled back by re-opening current files before and after changes.
+description: Use when tracing backend failures from logs through routes, DTO/VO fields, services, MyBatis/SQL, database constraints, and downstream contracts, or verifying that a related fix remains in current files. Returns a concrete trace and verification evidence.
 ---
 
 # Backend Log Contract Trace

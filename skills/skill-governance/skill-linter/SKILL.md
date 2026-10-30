@@ -1,6 +1,6 @@
 ---
 name: skill-linter
-description: Lint multi-model skill folders for structural quality, trigger metadata, stale references, missing agents/openai.yaml metadata, stale repository compatibility entrypoints, broken bundled resource links, accidental secrets, placeholder text, and repository catalog sync. Use when creating, updating, reviewing, validating, or preparing to release a skill, especially before committing or installing skills from this repository.
+description: Use when reviewing, updating, or preparing skills for release to check structure, trigger descriptions, bundled links, UI metadata, repository catalogs, compatibility entrypoints, placeholders, and secret hygiene. Combines deterministic lint with workflow review.
 ---
 
 # Skill Linter

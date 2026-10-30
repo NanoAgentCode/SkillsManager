@@ -1,6 +1,6 @@
 ---
 name: mindmap-publisher
-description: Publish an already-generated offline mindmap HTML folder to a configured static hosting directory and return a browser preview URL. Use only when the user explicitly asks to publish, deploy, host, expose, or generate a server preview URL for a mindmap. Do not use for ordinary local mindmap generation. Requires the user to provide a URL path prefix such as /mindmaps; never infer or omit the path prefix.
+description: Use only when explicitly asked to publish an existing mindmap HTML to configured static hosting and return a server URL. Requires a user-supplied URL path prefix; local mindmap generation belongs to mindmap-builder.
 ---
 
 # Mindmap Publisher

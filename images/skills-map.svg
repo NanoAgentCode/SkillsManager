@@ -1,4 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1680" height="944" viewBox="0 0 1680 944">
+  <title>Skills Manager · 25 个技能的职责与按需交接</title>
+  <desc>六个业务场景。连线表示可选工作路径，不表示每次任务都必须依次执行；发布与远端操作遵循各技能的授权约定。</desc>
   <defs>
     <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
       <circle cx="2" cy="2" r="1" fill="#d9e2ef" opacity="0.55"/>
@@ -18,6 +20,8 @@
       .skill{font:600 17px Consolas,'SFMono-Regular',monospace;fill:#132f55;text-anchor:middle;dominant-baseline:middle}
       .skill-sm{font-size:14px}
       .skill-xs{font-size:11.5px}
+      .role{font:500 12px 'Segoe UI','Microsoft YaHei',sans-serif;fill:#52677f;text-anchor:middle;dominant-baseline:middle}
+      .note{font:500 13px 'Segoe UI','Microsoft YaHei',sans-serif;fill:#52677f;text-anchor:middle}
       .legend{font:600 18px 'Segoe UI','Microsoft YaHei',sans-serif;fill:#173f72}
       .flow{fill:none;stroke:#163e72;stroke-width:2;marker-end:url(#arrow)}
       .handoff{fill:none;stroke:#163e72;stroke-width:2;stroke-dasharray:8 7;marker-end:url(#arrow)}
@@ -28,13 +32,13 @@
   <rect width="1680" height="944" fill="url(#dots)"/>
 
   <text x="80" y="68" class="title">Skills Manager · 工作场景全景图</text>
-  <text x="82" y="112" class="subtitle">25 Skills · 6 Work Scenarios · 从输入、理解、生产到交付与治理</text>
+  <text x="82" y="112" class="subtitle">25 Skills · 6 Work Scenarios · 职责清晰 · 按需组合 · 参考资料按需加载</text>
   <g transform="translate(1330 24)">
     <rect width="324" height="96" rx="18" fill="#fff" stroke="#173f72" stroke-width="2" stroke-dasharray="8 6"/>
     <path d="M20 32 H88" class="flow"/>
-    <text x="102" y="38" class="legend">实线：主要工作流</text>
+    <text x="102" y="38" class="legend">实线：常用内容流</text>
     <path d="M20 67 H88" class="handoff"/>
-    <text x="102" y="73" class="legend">虚线：跨场景交接</text>
+    <text x="102" y="73" class="legend">虚线：按需调用 / 交接</text>
   </g>
 
   <!-- Content Operations -->
@@ -50,17 +54,17 @@
     <rect x="296" y="205" width="228" height="42" rx="7"/><rect x="296" y="260" width="228" height="42" rx="7"/>
     <rect x="296" y="370" width="228" height="42" rx="7"/><rect x="296" y="455" width="228" height="42" rx="7"/>
   </g>
-  <text x="160" y="226" class="skill">video-transcriber</text>
-  <text x="160" y="281" class="skill skill-xs">technical-source-to-public-article</text>
-  <text x="160" y="336" class="skill skill-sm">technical-article-polisher</text>
-  <text x="160" y="391" class="skill skill-xs">technical-article-visual-director</text>
-  <text x="160" y="476" class="skill">wechat-format</text>
-  <text x="410" y="226" class="skill">office-cli-skill</text>
-  <text x="410" y="281" class="skill">official-format-pro</text>
-  <text x="410" y="391" class="skill skill-xs">wechat-history-article-archive</text>
-  <text x="410" y="476" class="skill">wechat-cover</text>
-  <path d="M160 247 V259" class="flow"/><path d="M160 302 V314" class="flow"/><path d="M160 357 V369" class="flow"/>
-  <path d="M160 412 V454" class="flow"/><path d="M410 247 V259" class="flow"/>
+  <text x="160" y="219" class="skill">video-transcriber</text><text x="160" y="237" class="role">字幕优先 · 音视频转写</text>
+  <text x="160" y="274" class="skill skill-xs">technical-source-to-public-article</text><text x="160" y="292" class="role">技术来源成文 · 主张可追溯</text>
+  <text x="160" y="329" class="skill skill-sm">technical-article-polisher</text><text x="160" y="347" class="role">术语与表达 · 保留作者原意</text>
+  <text x="160" y="384" class="skill skill-xs">technical-article-visual-director</text><text x="160" y="402" class="role">配图规划 / 生成 · 图注与落位</text>
+  <text x="160" y="469" class="skill">wechat-format</text><text x="160" y="487" class="role">公众号 HTML · 保留已审稿</text>
+  <text x="410" y="219" class="skill">office-cli-skill</text><text x="410" y="237" class="role">DOCX / XLSX / PPTX 操作</text>
+  <text x="410" y="274" class="skill">official-format-pro</text><text x="410" y="292" class="role">党政公文 DOCX 排版</text>
+  <text x="410" y="384" class="skill skill-xs">wechat-history-article-archive</text><text x="410" y="402" class="role">授权文章归档 · 本地图片</text>
+  <text x="410" y="469" class="skill">wechat-cover</text><text x="410" y="487" class="role">封面生成 · 按需插入副本</text>
+  <path d="M160 247 V259" class="flow"/><path d="M160 302 V314" class="handoff"/><path d="M160 357 V369" class="handoff"/>
+  <path d="M160 412 V454" class="flow"/>
   <path d="M410 412 C410 438 285 430 275 455" class="handoff"/><path d="M296 476 H277" class="handoff"/>
 
   <!-- Knowledge Visualization -->
@@ -73,23 +77,25 @@
     <rect x="590" y="392" width="160" height="42" rx="7"/><rect x="772" y="392" width="160" height="42" rx="7"/>
     <rect x="954" y="392" width="160" height="42" rx="7"/><rect x="954" y="464" width="160" height="42" rx="7"/>
   </g>
-  <text x="852" y="225" class="skill">obsidian-memory</text><text x="852" y="287" class="skill">obsidian-memory-cleanup</text>
-  <text x="852" y="349" class="skill">technical-cognition-framework</text>
-  <text x="670" y="413" class="skill">drawio-skill</text><text x="852" y="413" class="skill">excalidraw</text>
-  <text x="1034" y="413" class="skill">mindmap-builder</text><text x="1034" y="485" class="skill">mindmap-publisher</text>
-  <path d="M852 245 V266" class="handoff"/><path d="M852 307 V328" class="flow"/>
-  <path d="M780 369 L700 391" class="flow"/><path d="M852 369 V391" class="flow"/>
-  <path d="M924 369 L1005 391" class="flow"/><path d="M1034 434 V463" class="flow"/>
+  <text x="852" y="218" class="skill">obsidian-memory</text><text x="852" y="236" class="role">日常检索 · 候选记忆 · 索引</text><text x="852" y="280" class="skill">obsidian-memory-cleanup</text><text x="852" y="298" class="role">显式清洗 · 去重合并 · 事实核查</text>
+  <text x="852" y="342" class="skill">technical-cognition-framework</text><text x="852" y="360" class="role">概念 / 机制 / 方法 / 边界</text>
+  <text x="670" y="406" class="skill">drawio-skill</text><text x="670" y="424" class="role">仅代码依赖关系图</text><text x="852" y="406" class="skill">excalidraw</text><text x="852" y="424" class="role">架构 / 流程 / 关系图</text>
+  <text x="1034" y="406" class="skill">mindmap-builder</text><text x="1034" y="424" class="role">离线单文件 · 按需展开</text><text x="1034" y="478" class="skill skill-sm">mindmap-publisher</text><text x="1034" y="496" class="role">显式发布 · 必填路径前缀</text>
+  <path d="M852 245 V266" class="handoff"/>
+  <path d="M852 369 V391" class="handoff"/>
+  <path d="M924 369 L1005 391" class="handoff"/><path d="M1034 434 V463" class="handoff"/>
+
+  <text x="758" y="482" class="note">依赖图 / 通用图 / 思维导图按目标选用</text>
 
   <!-- AI Application Delivery -->
   <g filter="url(#shadow)"><rect x="1160" y="142" width="496" height="382" rx="16" fill="#fff" stroke="#efa100" stroke-width="2"/></g>
   <circle cx="1218" cy="174" r="20" fill="#efa100"/><text x="1218" y="175" class="badge">3</text>
-  <text x="1252" y="183" class="section" fill="#df9300">AI 应用交付 AI Application Delivery</text>
+  <text x="1252" y="183" class="section section-compact" fill="#df9300">AI 应用交付 AI Application Delivery</text>
   <g fill="#fff" stroke="#efa100" stroke-width="1.7">
     <rect x="1236" y="278" width="344" height="56" rx="8"/><rect x="1236" y="398" width="344" height="56" rx="8"/>
   </g>
-  <text x="1408" y="306" class="skill">dify-dsl-app-builder</text><text x="1408" y="426" class="skill">dify-console-admin-api</text>
-  <path d="M1408 334 V397" class="flow"/>
+  <text x="1408" y="299" class="skill">dify-dsl-app-builder</text><text x="1408" y="317" class="role">需求 → 本地 DSL · 静态验证</text><text x="1408" y="419" class="skill">dify-console-admin-api</text><text x="1408" y="437" class="role">远端创建 / 导入 / 导出 / 确认</text>
+  <path d="M1408 334 V397" class="handoff"/><text x="1500" y="367" class="note">仅远端交付时</text>
 
   <!-- Engineering Operations -->
   <g filter="url(#shadow)"><rect x="24" y="548" width="520" height="250" rx="16" fill="#fff" stroke="#1473e6" stroke-width="2"/></g>
@@ -99,10 +105,10 @@
     <rect x="44" y="630" width="230" height="50" rx="7"/><rect x="294" y="630" width="230" height="50" rx="7"/>
     <rect x="44" y="714" width="230" height="50" rx="7"/><rect x="294" y="714" width="230" height="50" rx="7"/>
   </g>
-  <text x="159" y="655" class="skill">website-rebuild</text>
-  <text x="409" y="648" class="skill skill-sm"><tspan x="409" dy="0">python-offline-</tspan><tspan x="409" dy="17">dependency-packager</tspan></text>
-  <text x="159" y="739" class="skill skill-sm">backend-log-contract-trace</text><text x="409" y="739" class="skill">python-db-query</text>
-  <path d="M274 739 H293" class="flow"/>
+  <text x="159" y="648" class="skill">website-rebuild</text><text x="159" y="666" class="role">授权网站镜像与验证式重建</text>
+  <text x="409" y="648" class="skill skill-sm"><tspan x="409" dy="-8">python-offline-</tspan><tspan x="409" dy="16">dependency-packager</tspan></text><text x="409" y="670" class="role">精确版本 + 目标 Python · 离线包</text>
+  <text x="159" y="732" class="skill skill-sm">backend-log-contract-trace</text><text x="159" y="750" class="role">日志 → 代码与数据契约</text><text x="409" y="732" class="skill">python-db-query</text><text x="409" y="750" class="role">数据库 / MinIO · 默认只读</text>
+  <path d="M274 739 H293" class="handoff"/>
 
   <!-- Market Intelligence -->
   <g filter="url(#shadow)"><rect x="568" y="548" width="568" height="250" rx="16" fill="#fff" stroke="#8b58c4" stroke-width="2"/></g>
@@ -111,19 +117,19 @@
   <g fill="#fff" stroke="#8b58c4" stroke-width="1.7">
     <rect x="678" y="640" width="348" height="48" rx="7"/><rect x="678" y="724" width="348" height="48" rx="7"/>
   </g>
-  <text x="852" y="664" class="skill">stock-analysis-system</text><text x="852" y="748" class="skill">us-sector-index-impact-report</text>
-  <path d="M852 688 V723" class="flow"/>
+  <text x="852" y="657" class="skill">stock-analysis-system</text><text x="852" y="675" class="role">个股 / 小型观察列表 · 技术指标</text><text x="852" y="741" class="skill">us-sector-index-impact-report</text><text x="852" y="759" class="role">隔夜板块复盘 · 港股 / A 股影响</text>
+  <text x="852" y="709" class="note">按研究目标选择 · 两条独立分析路径</text>
 
   <!-- Skill Governance -->
   <g filter="url(#shadow)"><rect x="1160" y="548" width="496" height="250" rx="16" fill="#fff" stroke="#559b54" stroke-width="2"/></g>
   <circle cx="1218" cy="580" r="20" fill="#559b54"/><text x="1218" y="581" class="badge">6</text>
   <text x="1252" y="589" class="section" fill="#4c8c4b">技能治理 Skill Governance</text>
   <rect x="1272" y="665" width="272" height="54" rx="8" fill="#fff" stroke="#559b54" stroke-width="1.7"/>
-  <text x="1408" y="692" class="skill" font-size="20">skill-linter</text>
+  <text x="1408" y="685" class="skill">skill-linter</text><text x="1408" y="703" class="role">结构 / 引用 / 元数据 / 路由检查</text>
 
   <!-- Cross-scenario governance -->
   <rect x="24" y="826" width="1632" height="88" rx="16" fill="#f8fcf8" stroke="#559b54" stroke-width="2" stroke-dasharray="9 7"/>
-  <text x="840" y="862" text-anchor="middle" font-family="'Segoe UI','Microsoft YaHei',sans-serif" font-size="19" font-weight="600" fill="#4c8c4b">跨场景质量门禁 · Skill Linter</text>
-  <text x="840" y="892" text-anchor="middle" font-family="Consolas,monospace" font-size="18" fill="#173f72">structure · metadata · references · compatibility · secrets · catalog sync</text>
+  <text x="840" y="862" text-anchor="middle" font-family="'Segoe UI','Microsoft YaHei',sans-serif" font-size="19" font-weight="600" fill="#4c8c4b">跨场景质量检查 · 选择技能 → 阅读入口 → 按需加载参考 → 验证交付</text>
+  <text x="840" y="892" text-anchor="middle" font-family="'Segoe UI','Microsoft YaHei',sans-serif" font-size="17" fill="#173f72">25 个技能职责保持独立 · 连线不是强制步骤 · 发布与远端操作遵循各技能约定</text>
   <path d="M1408 798 V825" class="handoff"/>
 </svg>

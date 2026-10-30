@@ -1,6 +1,6 @@
 ---
 name: python-db-query
-description: Use when Codex needs to query a database or inspect MinIO/S3-compatible object storage, including database metadata and plans or MinIO buckets, objects, metadata and downloads. Supports local config files, read-only defaults, Python database drivers, and the cross-platform MinIO mc client.
+description: Use when querying databases, inspecting schemas or execution plans, or listing and downloading MinIO/S3 objects through bundled Python wrappers. Uses local configuration, read-only defaults, and explicit write/overwrite controls.
 ---
 
 # Python DB Query

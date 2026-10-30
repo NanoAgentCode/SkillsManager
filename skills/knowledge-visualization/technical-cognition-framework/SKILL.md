@@ -1,6 +1,6 @@
 ---
 name: technical-cognition-framework
-description: Build evidence-based, connected technical cognition frameworks for unfamiliar concepts and deliver the final document in Simplified Chinese by answering what the technology is, its core concepts and relationships, why it exists, construction or implementation methods, application scenarios, commonly confused concepts, and its relationship to LLMs and agents. Use when a user asks to systematically learn, explain, compare, map, or establish a knowledge framework for a technology such as Ontology, knowledge graphs, RAG, MCP, vector databases, semantic systems, or agent architectures, especially when the request contains a cluster of related questions instead of one isolated fact.
+description: Use when systematically learning or comparing a technology through connected definitions, concepts, mechanisms, implementation methods, scenarios, boundaries, and LLM/agent relationships. Produces an evidence-based Chinese framework; scales down for narrow questions.
 ---
 
 # Technical Cognition Framework

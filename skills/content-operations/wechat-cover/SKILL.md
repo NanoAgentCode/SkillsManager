@@ -1,6 +1,6 @@
 ---
 name: wechat-cover
-description: "公众号封面图生成器。Use when the user asks to create, generate, insert, or regenerate a WeChat official-account article cover image from an article path, Markdown file, draft title, or topic, especially for requests such as 公众号封面, 微信封面, 文章封面, 封面图, or 2.35:1 cover."
+description: Use when generating, regenerating, or inserting a WeChat article cover (公众号封面、封面图) from an article or topic. Supports the 2.35-to-1 cover composition and reuses the sibling wechat-format image-generation script.
 ---
 
 # 公众号封面图生成器

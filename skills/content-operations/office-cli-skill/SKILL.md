@@ -1,6 +1,6 @@
 ---
 name: office-cli-skill
-description: Create, inspect, validate, proofread, or modify local DOCX, XLSX, and PPTX files with the officecli command-line tool. Use when the requested Office-document operation needs structured element access, repeatable CLI edits, OpenXML validation, or template-based PowerPoint reconstruction; do not use for a simple textual answer that does not require an Office artifact.
+description: Use when creating, inspecting, editing, or validating local DOCX, XLSX, or PPTX artifacts with officecli, including template-based PowerPoint reconstruction. Requires an Office artifact, not a text-only answer.
 ---
 
 # Office CLI Skill

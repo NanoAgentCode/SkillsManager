@@ -1,6 +1,6 @@
 ---
 name: stock-analysis-system
-description: Run, diagnose, or adapt a Python FastAPI technical-analysis service for A-share, Hong Kong, U.S. stock, ETF, and LOF symbols using AKShare, pandas, and rule-based indicators. Use when the user asks to analyze one security by market/date range, compare technical setups for a small watchlist, start or test the local stock analysis API, inspect market-data retrieval failures, extend supported data sources or indicators, or produce a technical-score based research summary.
+description: Use when analyzing a security or small watchlist with the bundled AKShare/FastAPI technical-analysis service, or running, diagnosing, or extending that service. Supports A/HK/US stocks, ETFs, and LOFs; broad overnight sector research uses us-sector-index-impact-report.
 ---
 
 # Stock Analysis System

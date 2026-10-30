@@ -1,6 +1,6 @@
 ---
 name: official-format-pro
-description: Convert Markdown, plain text, or DOCX content into a Chinese party-and-government official-document DOCX following the layout rules summarized from GB/T 9704-2012. Use for 公文排版, 红头文件, 发文字号, 版记, 请示, 通知, 报告, 函, 会议纪要, or other requests that explicitly require formal Chinese government-document formatting; do not trigger for generic Word creation without that formatting requirement.
+description: Use for 公文排版 or 红头文件 when supplied text, Markdown, or DOCX needs Chinese government-document formatting based on GB/T 9704-2012. Produces DOCX; excludes generic Word documents without this formatting requirement.
 ---
 
 # 党政机关公文排版

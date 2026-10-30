@@ -1,6 +1,6 @@
 ---
 name: website-rebuild
-description: Evidence-driven reconstruction of authorized public websites, including offline mirroring, bundle forensics, WebGL or scroll-animation recovery, source-traceable porting, and quantitative parity checks. Use when the user asks to rebuild, reproduce, archive, or study a creative website from a URL. Do not use for ordinary greenfield frontend design or for bypassing authentication, paywalls, access controls, or explicit copying restrictions.
+description: Use when reconstructing, studying, or offline-archiving an authorized existing website from a URL, including WebGL and animation recovery with source tracing and parity checks. Excludes greenfield design and access-control bypass.
 ---
 
 # Website Rebuild

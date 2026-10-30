@@ -1,6 +1,6 @@
 ---
 name: wechat-history-article-archive
-description: Archive, back up, migrate, or reformat historical WeChat official-account mass-send articles for an account the user owns or is explicitly authorized to operate. Use when Codex needs to collect and normalize lawful mp.weixin.qq.com article links, batch-fetch public article pages, save Markdown/metadata/local images, or hand archived articles to wechat-format/scripts/article_workflow.py for republishing preparation without relying on unofficial private APIs.
+description: Use when backing up, migrating, or reformatting historical WeChat articles from an owned or authorized account. Archives lawful article URLs as Markdown, metadata, and local images, with an optional wechat-format handoff; excludes private-API history scraping.
 ---
 
 # wechat-history-article-archive

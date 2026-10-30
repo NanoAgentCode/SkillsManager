@@ -1,6 +1,6 @@
 ---
 name: technical-source-to-public-article
-description: Transform dense technical source material into an accurate, readable, publication-ready Simplified Chinese article for a public audience while preserving evidence, uncertainty, and source attribution. Use when the user asks to turn papers, documentation, reports, transcripts, repositories, technical notes, web pages, or mixed sources into a public-facing article, explainer, blog post, WeChat-ready draft, 技术科普, 公众号文章, or 来源改写 rather than a literal summary or translation.
+description: Use when rewriting papers, documentation, reports, transcripts, or mixed technical sources into a readable Chinese public article or WeChat draft with traceable claims. For polishing an existing article use technical-article-polisher; for HTML use wechat-format.
 ---
 
 # Technical Source To Public Article

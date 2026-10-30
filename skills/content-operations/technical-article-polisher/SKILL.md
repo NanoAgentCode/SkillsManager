@@ -1,6 +1,6 @@
 ---
 name: technical-article-polisher
-description: Polish Chinese technical articles, machine-translated technical drafts, AI/engineering/product architecture essays, and rough technical notes by checking terminology accuracy in context, improving professional expression and logical clarity, preserving the author's meaning, and reporting terminology changes. Use when the user asks to review, polish, professionalize, improve terminology, validate translated technical terms, or list terminology changes for a technical article before publication, documentation review, translation review, or downstream formatting.
+description: Use when polishing or reviewing Chinese technical articles, translated drafts, or technical notes for terminology, professional expression, and logical clarity. Preserves author meaning and returns Markdown, terminology changes, and unresolved terms.
 ---
 
 # Technical Article Polisher

@@ -1,6 +1,6 @@
 ---
 name: us-sector-index-impact-report
-description: Analyze last night's U.S. equity sector and industry-index performance, including Nasdaq Composite and Nasdaq 100 moves, explain the core factors behind gains/losses with fundamental analysis, U.S. AI capital expenditure focus, geopolitical risk, dollar policy, and global gold moves, then assess likely sector impact on Hong Kong and A-share markets and render the result as an investment-bank style HTML report. Use when the user asks for overnight U.S. sector review, Nasdaq/Nasdaq 100 inclusion, AI capex or fundamentals read-through, geopolitics, dollar policy, gold, cross-market impact on HK/A shares, Chinese market commentary, or an HTML investment research page.
+description: Use when preparing an overnight U.S. sector review and its Hong Kong/A-share implications as a cited Chinese HTML report. Includes both Nasdaq indices, fundamental drivers, AI capex, geopolitics, dollar policy, and gold; not a generic single-stock analysis.
 ---
 
 # US Sector Index Impact Report

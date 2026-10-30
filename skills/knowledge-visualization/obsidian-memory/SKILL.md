@@ -1,6 +1,6 @@
 ---
 name: obsidian-memory
-description: 将本地 Obsidian Vault 作为 Codex 可检索、可审核、可视化的中文外部长期记忆系统。Use when 用户要求接入或日常使用 Obsidian 外部记忆、检索项目背景与偏好、写入或归档候选记忆、处理单条冲突或维护索引；全库去重、碎片合并、过期事实核查和分类调整使用 obsidian-memory-cleanup。
+description: Use when retrieving project context or preferences from a local Obsidian Vault, maintaining candidate memories, resolving a single conflict, or rebuilding its index. Requires a known Vault path; bulk semantic cleanup belongs to obsidian-memory-cleanup.
 ---
 
 # Obsidian 外部记忆

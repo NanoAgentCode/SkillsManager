@@ -1,6 +1,6 @@
 ---
 name: obsidian-memory-cleanup
-description: 对本地 Obsidian 长期记忆库进行全量语义清洗。Use when 用户明确要求清洗、去重、合并碎片、核查过期事实、调整正式记忆分类或审核整个 Vault；不用于普通记忆检索、单条候选写入或仅重建索引。
+description: Use when explicitly asked to audit or semantically clean a local Obsidian memory Vault, including deduplication, fragment merging, stale-fact verification, and reclassification. Excludes ordinary retrieval, single candidate writes, and index-only maintenance.
 ---
 
 # Obsidian 记忆清洗

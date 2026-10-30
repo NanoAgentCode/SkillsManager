@@ -1,6 +1,6 @@
 ---
 name: python-offline-dependency-packager
-description: Interactively collect a Python dependency name, show versions visible from the configured pip index when the exact dependency version is missing, and download only after an exact package version and target Python minor-version line are explicitly supplied. Use when preparing a reproducible dependency bundle for an offline or restricted-network machine.
+description: Use when preparing Python dependencies for an offline machine. Discovers package versions and bundles wheels, transitive dependencies, hashes, and installers only after an exact package version and target Python minor version are supplied.
 ---
 
 # Python Offline Dependency Packager

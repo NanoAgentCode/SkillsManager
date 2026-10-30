@@ -1,6 +1,6 @@
 ---
 name: technical-article-visual-director
-description: Design and, when requested and supported by available tools, produce a coherent evidence-grounded visual system for a technical article, including covers, editorial illustrations, architecture or process diagrams, comparison graphics, charts, captions, alt text, and Markdown placement. Use when the user asks to plan, direct, add, generate, improve, or audit illustrations, diagrams, figures, 配图, 图解, 视觉方案, or article visuals for technical explainers, blogs, reports, or WeChat drafts.
+description: Use when planning, auditing, generating, or revising a coherent set of technical-article visuals (配图、图解、视觉方案), with evidence, captions, alt text, and Markdown placement. Distinguishes visual briefs from produced assets.
 ---
 
 # Technical Article Visual Director

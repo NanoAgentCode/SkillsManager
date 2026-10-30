@@ -1,21 +1,11 @@
 ---
 name: dify-dsl-app-builder
-description: 根据用户需求设计并生成 Dify 应用 DSL，创建或更新 workflow/advanced-chat 应用。Use when the user asks to build a Dify workflow from requirements, generate DSL, create an app from DSL, update an existing app DSL, or automate Dify app creation/update through Admin API.
+description: Use when designing or updating Dify workflow/advanced-chat DSL from requirements, generating a local DSL file, or delivering it to a Dify app. Local generation does not require admin credentials; remote operations use dify-console-admin-api.
 ---
 
 # Dify DSL App Builder
 
-## 适用场景
-
-当用户希望“根据需求自动生成 Dify DSL 并创建或更新应用”时使用，包括：
-
-- 从自然语言需求生成 workflow DSL。
-- 修改已有 DSL 并更新应用。
-- 创建新的 workflow 应用并导入 DSL。
-- 覆盖导入已有 workflow 或 advanced-chat 应用。
-- 导入后重新导出并验证远端 DSL。
-
-涉及 Console Admin API 的请求时，必须先读取并遵守 `skills/ai-application-delivery/dify-console-admin-api/SKILL.md`。
+涉及远端 Console Admin API 时，先读取同级 [dify-console-admin-api](../dify-console-admin-api/SKILL.md)。
 
 ## 基本原则
 
