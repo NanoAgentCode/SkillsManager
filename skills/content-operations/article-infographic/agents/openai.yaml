@@ -1,0 +1,4 @@
+interface:
+  display_name: "Article Infographic"
+  short_description: "Turn finished articles into ImageGen single-page infographics"
+  default_prompt: "Use $article-infographic to turn this finished article into a grounded single-page infographic with ImageGen, preserving a content outline, generation prompt, and checked image."

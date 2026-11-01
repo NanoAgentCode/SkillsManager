@@ -166,6 +166,12 @@ python3 {baseDir}/scripts/check_dependencies.py --install
 6. 打开 26 主题 gallery，或用 `--theme` 直接指定主题
 7. 保存最终主题输出、manifest，可选生成 ByteDance 预览和封面
 
+#### 可选：成稿单页信息图
+
+仅当用户要求信息图或明确选择此交付物时，在文章生成后读取并调用 [article-infographic](../article-infographic/SKILL.md)。默认排版不生成信息图，不额外阻塞文章交付。
+
+将 manifest 的 `enhanced_markdown`、可选来源台账、已选主题、用户指定的横版或竖版方向及 workflow 输出目录交给该技能。未指定方向时由信息图技能在生成前询问，已指定时不重复询问。由技能执行者调用 ImageGen 生成图片，`article_workflow.py` 不内置此能力，也没有信息图命令行开关。图片独立保存到 workflow 的 `infographic/`，保留原 manifest 字段并补充实际产物与检查状态，最终附上图片链接；不自动插回正文或发布。
+
 PowerShell：
 
 以下命令以用户已选择“专业文章”为例；选择“科普文章”时改为 `--polish-style popular-science`，不得把示例值当作默认值。

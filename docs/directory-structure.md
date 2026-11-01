@@ -7,6 +7,7 @@ The repository groups reusable skills by the business outcome they support, rath
 ```text
 skills/
   content-operations/
+    article-infographic/
     technical-article-visual-director/
     technical-article-polisher/
     technical-source-to-public-article/
