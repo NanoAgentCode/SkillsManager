@@ -2,6 +2,8 @@
 
 This is the canonical repository skill catalog. It summarizes the reusable skills in this repository; treat each `SKILL.md` as the source of truth for execution details.
 
+For overlapping requests or multi-skill work, consult [skill relationships](skill-relationships.md). Select by deliverable, load only the current stage, and pass existing artifacts instead of repeating completed work.
+
 ## Content Operations
 
 Use this group when the request is about turning media, notes, drafts, or archived material into publishable content.

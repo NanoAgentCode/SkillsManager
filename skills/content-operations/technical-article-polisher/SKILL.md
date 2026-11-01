@@ -11,41 +11,12 @@ Use this skill to improve technical Chinese articles when terminology accuracy m
 
 ## Workflow
 
-1. Read the full article before editing.
-2. Decide whether the article is technical enough to require terminology review. Trigger the terminology pass for AI, software engineering, databases, infrastructure, system architecture, programming, developer tools, product engineering, or similar domains.
-3. Identify the article's domain, intended audience, and likely source style:
-   - original Chinese technical writing
-   - machine-translated draft
-   - rough notes or transcript
-   - publication-ready article needing professional polish
-4. Extract candidate terms and technical expressions from headings, repeated phrases, key claims, diagrams, code-adjacent text, and definitions.
-5. Check each important term in context instead of replacing words mechanically.
-6. Edit the article for terminology, consistency, and logical clarity.
-7. Return the polished article plus a terminology change log.
+1. Read the complete article; identify domain, audience and whether it is translated or rough material. Preserve the author's claims and structure unless structure blocks comprehension.
+2. Check important terms in context, especially literal translations, inconsistent names and ambiguous concepts such as agent, memory, embedding, runtime and grounding. Prefer established Chinese usage; explain ambiguity with the English original on first use. Preserve APIs, product names, protocols, commands and identifiers.
+3. Improve clarity, transitions and consistency without adding claims, promotional language or stronger certainty. Leave unresolved terms unchanged and record questions rather than guessing.
+4. Return usable Markdown and every meaningful terminology change in the contract below. Reuse existing source notes; do not reconstruct a source article or generate visuals during a polishing-only request.
 
-## Terminology Review Rules
-
-When the article may be machine translated, pay special attention to:
-
-- mistranslated English technical terms
-- literal translations that are unnatural in Chinese technical writing
-- terms that are correct in isolation but wrong in the surrounding context
-- inconsistent translations for the same concept
-- ambiguous words such as agent, memory, retrieval, embedding, index, runtime, context, pipeline, orchestration, grounding, alignment, and benchmark
-- generic product language replacing precise technical meaning
-
-Prefer established Chinese technical usage when it is clear. If a Chinese term may be ambiguous, use `Chinese term (English original)` on first mention. Preserve English names for APIs, product names, model names, protocols, package names, commands, code identifiers, and terms that are normally used in English by the target audience.
-
-Do not change the author's technical position, add unsupported claims, or simplify a specialized concept into vague marketing language.
-
-## Editing Rules
-
-- Preserve the article's structure unless the structure blocks comprehension.
-- Improve sentence flow, transitions, and paragraph logic where needed.
-- Keep technical assertions cautious when the source wording is uncertain.
-- Use consistent translations for the same concept throughout the article.
-- Do not over-polish into promotional copy.
-- If a term is uncertain, leave it unchanged or mark it in the notes instead of guessing.
+For requested WeChat rendering, hand the final Markdown to `wechat-format` with `--preserve-content`, so its AI polishing does not run again. For rewriting raw sources into a new argument use `technical-source-to-public-article` instead.
 
 ## Output Format
 

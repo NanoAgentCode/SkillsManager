@@ -2,7 +2,9 @@
 
 按业务场景组织的可复用 AI agent skills 仓库，兼容 Codex、Claude、Gemini 和 GLM。技能执行流程以各自的 `SKILL.md` 为准，根目录只保留项目入口，详细说明统一维护在 `docs/`。
 
-![Skills 业务场景地图](images/skills-map.png)
+![Skills 业务场景地图](images/skills-map.svg)
+
+[技能路由与交接关系](docs/skill-relationships.md) · SVG 为当前地图，按交付目标选择技能，连线不代表强制流水线。
 
 ## 快速开始
 
