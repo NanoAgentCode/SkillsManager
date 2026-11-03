@@ -1,6 +1,6 @@
 ---
 name: backend-log-contract-trace
-description: Use when tracing backend failures from logs through routes, DTO/VO fields, services, MyBatis/SQL, database constraints, and downstream contracts, or verifying that a related fix remains in current files. Returns a concrete trace and verification evidence.
+description: Use when diagnosing backend startup or datasource failures, mismatched build artifacts or runtime configuration, or tracing request failures through routes, DTO/VOs, services, MyBatis/SQL, database constraints, and downstream contracts. Returns an evidence-grounded trace with verification limits.
 ---
 
 # Backend Log Contract Trace
@@ -9,10 +9,13 @@ description: Use when tracing backend failures from logs through routes, DTO/VO 
 
 Use this skill to turn backend logs into a verified code-and-contract trace. The goal is to answer from the current repository, not memory: identify the real endpoint, method, DTO/VO, entity, mapper XML, SQL, downstream call, and database constraint involved.
 
+For startup, database authentication, configuration, or wrong-JAR/output-path failures, first follow [Runtime and build configuration trace](references/runtime-config-trace.md). Establish which source tree, artifact, and configuration the failing process actually uses before inspecting credentials or changing code. Skip request/controller tracing when startup failed before any request could run.
+
 ## Workflow
 
 1. Capture the exact failure signal.
-   - Preserve the log timestamp, request path, HTTP method, exception class, stack frames, SQL error code, parameter values, trace ID, and response body when present.
+   - Preserve the log timestamp, request path, HTTP method, exception class, stack frames, SQL error code, relevant non-secret parameter values, trace ID, and response body when present.
+   - Identify the failing service, host, launch command or IDE configuration, and artifact path when available. If logs point to a release copy or another checkout, inspect that tree rather than assuming the open workspace was used.
    - If the user asks whether a fix was rolled back, treat that as a live-file verification task.
 2. Re-open current files before making claims.
    - Inspect the controller/router, service, mapper interface, mapper XML, DTO/VO, entity, enum, and config files currently on disk.
@@ -35,8 +38,9 @@ Use this skill to turn backend logs into a verified code-and-contract trace. The
    - After editing, reopen the changed files from disk and re-check the exact contract points fixed.
    - When available, run focused tests or a compile/lint command. If not available, explain the static verification performed.
 7. Report the trace, not just the fix.
-   - Name the concrete path: route -> controller -> service -> mapper -> XML/SQL -> table/column/constraint -> downstream service.
+   - Name the relevant path: request -> code -> data contract, or launch -> artifact -> configuration sources -> effective datasource -> database.
    - State the contract mismatch, the evidence, the change made or recommended, and remaining uncertainty.
+   - Separate build success, packaged-config verification, and runtime recovery. A corrected artifact does not prove that the original authentication failure is resolved.
 
 ## Search Hints
 
