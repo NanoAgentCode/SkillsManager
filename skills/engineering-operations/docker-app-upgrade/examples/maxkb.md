@@ -1,13 +1,6 @@
----
-name: maxkb-docker-upgrade
-description: Use when upgrading an existing Docker-deployed MaxKB instance, including deployment discovery, release compatibility checks, backups, container replacement, migration verification, and rollback planning. Excludes fresh installations and unrelated Docker maintenance.
----
+# 示例：MaxKB Docker 升级
 
-# MaxKB Docker 升级
-
-通用流程见 [Docker 应用升级](../docker-app-upgrade/SKILL.md)。本入口提供 MaxKB 的版本、数据和验收细节。
-
-将现有实例升级到用户指定版本或执行时核实的官方最新稳定版，保留数据和部署配置，明确技术验收与业务验收的范围。适用于 Docker run 和 Compose；不假设目标一定在本机。
+配合[通用升级流程](../SKILL.md)使用。
 
 ## MaxKB 专用检查
 
@@ -20,7 +13,7 @@ description: Use when upgrading an existing Docker-deployed MaxKB instance, incl
 
 ## 已验证经验与来源
 
-本技能由用户确认的 2026-11-04 MaxKB 升级会话整理，不依赖 Beacon 服务或记忆 ID。
+以下记录来自 2026-11-04 的 MaxKB 社区版升级。
 
 - 案例是 V2 社区版从 `v2.10.1-lts` 升至 `v2.10.8-lts`，复用了匿名数据卷和原端口；迁移日志成功、版本接口确认、管理页面 HTTP 200，用户/智能体/知识库数量前后一致。
 - 当时未验证登录后的模型调用或智能体执行，也未做备份恢复演练；不得将这些项目写成已经验证。

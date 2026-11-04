@@ -32,7 +32,6 @@ skills/
     quick_validate.py
   engineering-operations/
     docker-app-upgrade/
-    maxkb-docker-upgrade/
     backend-log-contract-trace/
     python-offline-dependency-packager/
     python-db-query/
