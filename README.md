@@ -41,6 +41,10 @@
 
 ## 常用入口
 
+- [Docker 应用升级](skills/engineering-operations/docker-app-upgrade/SKILL.md)
+
+- MaxKB Docker 升级：[`skills/engineering-operations/maxkb-docker-upgrade`](skills/engineering-operations/maxkb-docker-upgrade/SKILL.md)，支持部署核查、数据备份、镜像升级、迁移验收与回退规划
+
 - 技术来源转公众文章：[`skills/content-operations/technical-source-to-public-article`](skills/content-operations/technical-source-to-public-article/SKILL.md)
 - 技术文章视觉策划：[`skills/content-operations/technical-article-visual-director`](skills/content-operations/technical-article-visual-director/SKILL.md)
 - 微信公众号排版：[`skills/content-operations/wechat-format`](skills/content-operations/wechat-format/SKILL.md)

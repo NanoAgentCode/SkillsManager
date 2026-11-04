@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docker 应用升级"
+  short_description: "核实镜像与持久化配置，备份、重建并验证 Docker 应用升级"
+  default_prompt: "使用 $docker-app-upgrade 升级指定 Docker 应用并验证数据和运行状态。"

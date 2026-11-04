@@ -1,0 +1,4 @@
+interface:
+  display_name: "MaxKB Docker 升级"
+  short_description: "检查 MaxKB 部署、备份数据并升级 Docker 实例，核对迁移与回退条件"
+  default_prompt: "使用 $maxkb-docker-upgrade 检查现有部署与官方版本要求，备份后升级 MaxKB，并验证数据和服务状态。"

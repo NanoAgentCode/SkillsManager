@@ -40,7 +40,11 @@ Use this group when the request is about Dify apps, DSL import/export, platform 
 
 ## Engineering Operations
 
+- `skills/engineering-operations/docker-app-upgrade/SKILL.md`: Docker run and Compose application upgrades and isolated rehearsals.
+
 Use this group when the request is about evidence-driven website reconstruction, dependency packaging, database-backed lookup, or diagnosing backend code and contract paths.
+
+- `skills/engineering-operations/maxkb-docker-upgrade/SKILL.md`: existing MaxKB Docker instance upgrades with release compatibility checks, deployment discovery, database and persistent-data backups, explicit volume reuse, migration verification, and data-aware rollback.
 
 - `skills/engineering-operations/website-rebuild/SKILL.md`: authorized public-website reconstruction through scope classification, immutable offline mirroring, client-bundle forensics, source-traceable porting, WebGL or scroll-animation recovery, quantitative parity gates, and optional readable-source delivery; excludes access-control bypass and ordinary greenfield frontend design.
 - `skills/engineering-operations/python-offline-dependency-packager/SKILL.md`: interactive dependency-name collection and configured-index version discovery without package downloads when the exact version or target Python is missing; complete requests produce an exact-version bundle with the full transitive dependency closure, target interpreter/platform selectors, file hashes, and one-click offline installers for PowerShell and POSIX shells.
