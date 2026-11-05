@@ -40,6 +40,8 @@ Use this group when the request is about Dify apps, DSL import/export, platform 
 
 ## Engineering Operations
 
+- `skills/engineering-operations/casic-course-autoplay/SKILL.md`: user-requested Casic Cloud Classroom course playback, progress inspection and recovery, with browser scripts and an optional Playwright runner.
+
 - `skills/engineering-operations/docker-app-upgrade/SKILL.md`: Docker run and Compose application upgrades and isolated rehearsals, including a [MaxKB example](../skills/engineering-operations/docker-app-upgrade/examples/maxkb.md).
 
 Use this group when the request is about evidence-driven website reconstruction, dependency packaging, database-backed lookup, or diagnosing backend code and contract paths.

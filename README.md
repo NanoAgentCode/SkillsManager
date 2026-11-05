@@ -41,6 +41,8 @@
 
 ## 常用入口
 
+- 航天云课堂课程连播：[技能说明](skills/engineering-operations/casic-course-autoplay/SKILL.md)，含进度检查与异常恢复；Windows 上的 Bash 脚本需要 Git Bash / WSL。
+
 - [Docker 应用升级](skills/engineering-operations/docker-app-upgrade/SKILL.md)，含 [MaxKB 升级示例](skills/engineering-operations/docker-app-upgrade/examples/maxkb.md)
 
 

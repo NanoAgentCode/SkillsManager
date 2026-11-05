@@ -1,0 +1,4 @@
+config.env
+scripts/state.json
+scripts/*.log
+node_modules/

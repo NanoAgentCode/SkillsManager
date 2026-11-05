@@ -1,0 +1,4 @@
+interface:
+  display_name: "航天云课堂课程连播"
+  short_description: "按用户要求播放专题课程，检查进度并恢复播放异常"
+  default_prompt: "使用 $casic-course-autoplay 检查指定专题的播放状态，并按我的要求执行课程播放操作。"
