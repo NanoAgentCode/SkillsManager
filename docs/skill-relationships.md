@@ -29,6 +29,9 @@
 | Dify 本地 DSL / 远端操作 | dify-dsl-app-builder / dify-console-admin-api；仅远端交付才衔接 |
 | 后端契约诊断 / 数据验证 | backend-log-contract-trace；需要查库时调用 python-db-query |
 | 网站重建 / Python 离线依赖 | website-rebuild / python-offline-dependency-packager，各自独立 |
+| Docker 应用升级或隔离演练 | docker-app-upgrade，保留现有配置与持久化数据 |
+| 直连、SSH 或 VPS 代理排障 | network-troubleshooting，沿实际路径定位并复测 |
+| 航天云课堂连播 | casic-course-autoplay，按用户明确要求播放、检查进度或恢复 |
 | 个股技术分析 / 隔夜板块影响 | stock-analysis-system / us-sector-index-impact-report，两条独立路径 |
 | 技能维护验收 | skill-linter，检查结构与路由，不是普通业务任务的前置步骤 |
 
