@@ -44,13 +44,14 @@ Use this group when the request is about Dify apps, DSL import/export, platform 
 
 - `skills/engineering-operations/docker-app-upgrade/SKILL.md`: Docker run and Compose application upgrades and isolated rehearsals, including a [MaxKB example](../skills/engineering-operations/docker-app-upgrade/examples/maxkb.md).
 
-Use this group when the request is about evidence-driven website reconstruction, dependency packaging, database-backed lookup, or diagnosing backend code and contract paths.
+Use this group when the request is about evidence-driven website reconstruction, dependency packaging, database-backed lookup, network troubleshooting, or diagnosing backend code and contract paths.
 
 
 - `skills/engineering-operations/website-rebuild/SKILL.md`: authorized public-website reconstruction through scope classification, immutable offline mirroring, client-bundle forensics, source-traceable porting, WebGL or scroll-animation recovery, quantitative parity gates, and optional readable-source delivery; excludes access-control bypass and ordinary greenfield frontend design.
 - `skills/engineering-operations/python-offline-dependency-packager/SKILL.md`: interactive dependency-name collection and configured-index version discovery without package downloads when the exact version or target Python is missing; complete requests produce an exact-version bundle with the full transitive dependency closure, target interpreter/platform selectors, file hashes, and one-click offline installers for PowerShell and POSIX shells.
 - `skills/engineering-operations/python-db-query/SKILL.md`: safe Python database querying plus Windows/Linux MinIO `mc` integration for bucket/object inspection and guarded downloads, with ignored local configs, read-only defaults, structured output, and explicit authorization boundaries.
 - `skills/engineering-operations/backend-log-contract-trace/SKILL.md`: backend failure tracing through actual build/run artifacts and effective datasource configuration for startup issues, or routes/controllers, DTO/VOs, services, mapper XML, SQL columns, cross-service parameters, and database constraints for request issues.
+- `skills/engineering-operations/network-troubleshooting/SKILL.md`: diagnose and repair direct and authorized VPS connectivity, including DNS, SSH, IPv4/IPv6, FlClash/Mihomo routing, and Shadowsocks forwarding. Verify the repair with the original request and the observed route.
 
 ## Market Intelligence
 

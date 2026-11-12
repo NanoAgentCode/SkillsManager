@@ -26,7 +26,7 @@
 | 内容运营 | `skills/content-operations/` | 转写、技术来源成文、文章润色、视觉策划、Office 文档处理、公文排版、公众号排版、封面与历史文章归档 |
 | 知识可视化 | `skills/knowledge-visualization/` | 支持检索、候选归档和全量语义清洗的 Obsidian 外部记忆、技术认知框架、draw.io、Excalidraw、离线思维导图与静态发布 |
 | AI 应用交付 | `skills/ai-application-delivery/` | Dify 应用创建、DSL 设计、导入、更新与验证 |
-| 工程运维 | `skills/engineering-operations/` | 授权网站的取证式镜像与高保真重建、Python 依赖版本交互查询与离线打包、数据库安全查询、Windows/Linux MinIO 对象检查、元数据/执行计划检查、后端日志与数据契约追踪 |
+| 工程运维 | `skills/engineering-operations/` | 授权网站的取证式镜像与高保真重建、Python 依赖版本交互查询与离线打包、数据库安全查询、Windows/Linux MinIO 对象检查、元数据/执行计划检查、后端日志与数据契约追踪、直连与 VPS 网络排障 |
 | 市场研究 | `skills/market-intelligence/` | 股票技术分析、美股行业复盘与跨市场影响研究 |
 | 技能治理 | `skills/skill-governance/` | skill 结构、元数据、链接、兼容入口与敏感信息检查 |
 
@@ -44,6 +44,7 @@
 - 航天云课堂课程连播：[技能说明](skills/engineering-operations/casic-course-autoplay/SKILL.md)，含进度检查与异常恢复；Windows 上的 Bash 脚本需要 Git Bash / WSL。
 
 - [Docker 应用升级](skills/engineering-operations/docker-app-upgrade/SKILL.md)，含 [MaxKB 升级示例](skills/engineering-operations/docker-app-upgrade/examples/maxkb.md)
+- [网络故障排查与修复](skills/engineering-operations/network-troubleshooting/SKILL.md)，涵盖直连、SSH、VPS 代理及 FlClash 分流。
 
 
 - 技术来源转公众文章：[`skills/content-operations/technical-source-to-public-article`](skills/content-operations/technical-source-to-public-article/SKILL.md)

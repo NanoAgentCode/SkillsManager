@@ -70,24 +70,28 @@ def validate_skill_frontmatter(v: Validator, relative_path: str, expected_name: 
 
 
 def validate_console_admin_skill(v: Validator) -> None:
+    skill_path = "skills/ai-application-delivery/dify-console-admin-api"
     text = validate_skill_frontmatter(
         v,
-        "skills/ai-application-delivery/dify-console-admin-api/SKILL.md",
+        f"{skill_path}/SKILL.md",
         "dify-console-admin-api",
     )
 
-    required_terms = [
-        "ADMIN_API_KEY",
-        "DIFY_BASE_URL",
-        "WORKSPACE_ID",
-        "Authorization: Bearer",
-        "X-WORKSPACE-ID",
-        "/console/api/apps",
-        "/console/api/apps/imports",
-        "include_secret",
-    ]
-    for term in required_terms:
+    for term in ("ADMIN_API_KEY", "DIFY_BASE_URL", "WORKSPACE_ID", "include_secret"):
         v.check(term in text, f"dify-console-admin-api documents {term}")
+
+    operations_ref = "references/api-operations.md"
+    v.check(f"]({operations_ref})" in text, "dify-console-admin-api links api-operations.md")
+    operations_path = v.require_file(f"{skill_path}/{operations_ref}")
+    if not operations_path.is_file():
+        return
+
+    operations = read_text(operations_path)
+    for header in ("Authorization: Bearer", "X-WORKSPACE-ID"):
+        v.check(header in operations, f"dify-console-admin-api documents {header}")
+    for endpoint in ("/console/api/apps", "/console/api/apps/imports"):
+        pattern = rf"{re.escape(endpoint)}(?![\w/.-])"
+        v.check(bool(re.search(pattern, operations)), f"dify-console-admin-api documents {endpoint}")
 
 
 def validate_dsl_app_builder_skill(v: Validator) -> None:

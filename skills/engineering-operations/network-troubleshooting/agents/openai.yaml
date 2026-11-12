@@ -1,0 +1,4 @@
+interface:
+  display_name: "网络故障排查与修复"
+  short_description: "定位直连、SSH 和 VPS 代理故障，修复后用实际请求验收"
+  default_prompt: "使用 $network-troubleshooting 排查这个网络故障，确认流量实际走直连还是 VPS，定位最先失败的一层，并用原请求验证修复。"

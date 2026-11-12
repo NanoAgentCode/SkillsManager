@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -381,12 +382,28 @@ def check_repository_entrypoints(repo_root: Path, base: Path) -> list[Finding]:
     return findings
 
 
+def git_ignores(path: Path) -> bool:
+    try:
+        result = subprocess.run(
+            ["git", "check-ignore", "--quiet", "--", path.name],
+            cwd=path.parent,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+    except OSError:
+        return False
+    return result.returncode == 0
+
+
 def check_secret_hygiene(skill_dir: Path, base: Path) -> list[Finding]:
     findings: list[Finding] = []
     for path in walk_files(skill_dir):
         relative_name = path.name
         rel_path = rel(path, base)
         if relative_name == "config.json":
+            if git_ignores(path):
+                continue
             findings.append(
                 Finding("warning", "local-config-file", "Local config.json appears inside the skill folder", rel_path)
             )

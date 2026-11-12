@@ -5,6 +5,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 SCRIPT = Path(__file__).resolve().parents[1] / "quick_validate.py"
@@ -36,6 +37,31 @@ def workflow() -> dict:
             }
         }
     }
+
+
+class ConsoleAdminValidationTests(unittest.TestCase):
+    def test_linked_operation_reference_satisfies_console_contract(self) -> None:
+        validator = quick_validate.Validator()
+        quick_validate.validate_console_admin_skill(validator)
+        self.assertEqual(validator.errors, [])
+
+    def test_import_route_does_not_satisfy_create_route(self) -> None:
+        skill_path = Path("skills/ai-application-delivery/dify-console-admin-api")
+        source = quick_validate.ROOT / skill_path
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            skill = root / skill_path
+            (skill / "references").mkdir(parents=True)
+            (skill / "SKILL.md").write_text((source / "SKILL.md").read_text(encoding="utf-8"), encoding="utf-8")
+            reference = Path("references/api-operations.md")
+            operations = (source / reference).read_text(encoding="utf-8")
+            (skill / reference).write_text(operations.replace('/console/api/apps"', '/other"'), encoding="utf-8")
+
+            validator = quick_validate.Validator()
+            with patch.object(quick_validate, "ROOT", root):
+                quick_validate.validate_console_admin_skill(validator)
+
+        self.assertEqual(validator.errors, ["dify-console-admin-api documents /console/api/apps"])
 
 
 class GeneratedDslValidationTests(unittest.TestCase):

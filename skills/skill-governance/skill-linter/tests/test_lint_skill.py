@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -48,6 +49,35 @@ to avoid thin-body warnings while keeping the fixture easy to understand and mai
 """,
         encoding="utf-8",
     )
+
+
+class SecretHygieneTests(unittest.TestCase):
+    @unittest.skipUnless(shutil.which("git"), "requires Git ignore and index checks")
+    def test_local_config_is_skipped_only_when_git_ignores_it(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            skill_dir = root / "demo-skill"
+            skill_dir.mkdir()
+            value = "fixture-" + "secret-123456789"
+            config = skill_dir / "config.json"
+            config.write_text(json.dumps({"example": f"api_key = {value}"}), encoding="utf-8")
+            ignore_file = skill_dir / ".gitignore"
+            ignore_file.write_text("!config.json\n", encoding="utf-8")
+            expected_codes = {"local-config-file", "possible-secret"}
+            self.assertEqual(
+                {item.code for item in lint_skill.check_secret_hygiene(skill_dir, root)},
+                expected_codes,
+            )
+
+            ignore_file.write_text("config.json\n", encoding="utf-8")
+            self.assertEqual(lint_skill.check_secret_hygiene(skill_dir, root), [])
+
+            subprocess.run(["git", "add", "-f", "--", str(config)], cwd=root, check=True)
+            self.assertEqual(
+                {item.code for item in lint_skill.check_secret_hygiene(skill_dir, root)},
+                expected_codes,
+            )
 
 
 class RepositoryEntrypointTests(unittest.TestCase):

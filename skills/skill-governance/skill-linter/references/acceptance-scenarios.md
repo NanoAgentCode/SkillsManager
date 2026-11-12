@@ -14,6 +14,18 @@ Use these scenarios after changes that affect a skill's trigger, handoff, or fin
 
 Record failures as one of: incorrect routing, missing input contract, missing output artifact, unsafe default, or unverifiable completion. Keep individual scenario fixtures small and free of credentials or user data.
 
+## Network troubleshooting cases
+
+Use the observed evidence in each request as an offline fixture for `network-troubleshooting`.
+
+| User request and evidence | Observable result |
+|---|---|
+| “我想直连这个站。系统解析到了旧地址，用正确 IP 的 `--resolve` 后原域名返回 200。” | Follow the direct route, confirm the original application uses the stale resolver or cache, then retest with normal DNS and TLS validation. |
+| “我选了 `DIRECT`，但 TUN 开着，怎么确认？” The application log shows the full chain ending in `DIRECT`. | Report the observed application policy. For a physical-network test, verify the actual interface and route before claiming the result. |
+| “VPS 的 IPv4 SSH 超时，IPv6 已登录。” A paired capture shows outgoing SYN-ACK at the VPS and no matching packet at the client. | Report a missing return packet in the tested flow. Preserve IPv6 access and prepare the evidence for escalation. The responsible network remains undetermined. |
+| “节点 TCP 通了，但 FlClash 还是超时。” The active profile lacks the named node. After applying the correct profile, HTTPS returns 200 through the expected VPS. | Identify the runtime configuration issue, verify the complete proxy chain and actual exit, and record whether the original application action succeeded. |
+| “代理已经能用，帮我验收。” A real HTTPS request uses the expected exit. The node has UDP disabled and the VPS has not rebooted. | Mark HTTPS forwarding verified. Record UDP and reboot recovery as untested and leave the running host up. |
+
 ## Boundary checks
 
 These are routing/contract checks, not substitutes for executing a real media, model, API, or rendering task.
