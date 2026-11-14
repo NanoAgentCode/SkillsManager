@@ -55,8 +55,8 @@ CALLOUT_TYPE_COLORS = {
 GALLERY_THEMES = [
     # 深度阅读（3）
     "newspaper", "magazine", "coffee-house",
-    # 技术产品（4）
-    "apple-code", "github", "bytedance", "sspai",
+    # 技术产品（5）
+    "apple-code", "github", "bytedance", "sspai", "science-blue",
     # 生活灵感（5）
     "terracotta", "mint-fresh", "sunset-amber", "lavender-dream", "chinese",
     # 活力通用（2）
@@ -1183,6 +1183,18 @@ def inject_inline_styles(html: str, theme: dict, skip_wrapper: bool = False) -> 
     for tag_key, props in styles.items():
         style_map[tag_key] = build_style_string(props)
 
+    # 共用段落缩进规则，覆盖主题各自的默认值。
+    for tag_key in ("p", "blockquote", "blockquote_p", "callout_title", "callout_content",
+                    "h1", "h2", "h3", "h4", "h5", "h6"):
+        props = styles.get(tag_key, {})
+        if tag_key == "blockquote_p":
+            props = styles.get(tag_key, styles.get("p", {}))
+        indent = "2em" if tag_key in ("p", "callout_content") else "0"
+        props = {**props, "text_indent": indent}
+        if tag_key != "p":
+            props["text_align"] = "left"
+        style_map[tag_key] = build_style_string(props)
+
     # === 1. 处理列表（微信特殊处理：ul/ol → section 模拟，支持嵌套）===
     html = convert_lists_to_sections(html, style_map)
 
@@ -1547,7 +1559,7 @@ def generate_gallery(rendered_map: dict, theme_map: dict,
     # 生成 THEME_BUTTONS（带分组标签）
     GROUPS = [
         ("深度阅读", ["newspaper", "magazine", "coffee-house"]),
-        ("技术产品", ["apple-code", "github", "bytedance", "sspai"]),
+        ("技术产品", ["apple-code", "github", "bytedance", "sspai", "science-blue"]),
         ("生活灵感", ["terracotta", "mint-fresh", "sunset-amber", "lavender-dream", "chinese"]),
         ("活力通用", ["sports", "wechat-native"]),
         ("极简商务", ["minimal-blue", "minimal-navy", "minimal-red"]),

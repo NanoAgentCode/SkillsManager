@@ -1,4 +1,4 @@
 interface:
   display_name: "WeChat Format"
-  short_description: "Package WeChat articles with 26 themes and the repo-local workflow"
-  default_prompt: "Use $wechat-format to package this article with scripts/article_workflow.py by default, producing terminology-polished Markdown, structured/enhanced drafts, a 26-theme gallery, WeChat official-account compatible HTML, an optional ImageGen single-page infographic via article-infographic when requested, optional cover artifacts, and publish-ready outputs."
+  short_description: "Package WeChat articles with 27 themes and the repo-local workflow"
+  default_prompt: "Use $wechat-format to package this article with scripts/article_workflow.py by default, producing terminology-polished Markdown, structured/enhanced drafts, a 27-theme gallery, WeChat official-account compatible HTML, an optional ImageGen single-page infographic via article-infographic when requested, optional cover artifacts, and publish-ready outputs."

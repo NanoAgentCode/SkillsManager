@@ -109,7 +109,7 @@ python3 {baseDir}/scripts/format.py \
   --recommend newspaper magazine coffee-house
 ```
 
-这会用用户的**真实文章**渲染 26 个全量主题，在浏览器打开画廊页面。用户点按钮切换主题预览，选中后点「用这个风格排版」一键复制到剪贴板。若 `--recommend` 传入了不存在的主题，脚本会提示并跳过。
+这会用用户的**真实文章**渲染 27 个全量主题，在浏览器打开画廊页面。用户点按钮切换主题预览，选中后点「用这个风格排版」一键复制到剪贴板。若 `--recommend` 传入了不存在的主题，脚本会提示并跳过。
 
 手动画廊路径适用于用户只想预览主题、已经手工准备 enhanced Markdown，或需要逐步调试 `format.py` 输出的情况。重复文章包装任务仍优先使用第 1.1 步的一命令流程。
 
@@ -275,7 +275,7 @@ python3 {baseDir}/scripts/publish.py \
 - 无参数：检测 Python 版本、`markdown`、`requests`
 - `--install`：用当前 Python 解释器执行 `pip install` 安装缺失包
 
-### 可用主题（26 个）
+### 可用主题（27 个）
 
 #### 深度阅读（3 个）
 
@@ -285,7 +285,7 @@ python3 {baseDir}/scripts/publish.py \
 | 杂志 | magazine | 超大留白，品质长文 |
 | 咖啡 | coffee-house | 棕色暖调，稳重温馨 |
 
-#### 技术产品（4 个）
+#### 技术产品（5 个）
 
 | 主题 | 命令值 | 风格 |
 |------|--------|------|
@@ -293,6 +293,7 @@ python3 {baseDir}/scripts/publish.py \
 | GitHub | github | 开发者风，浅色代码块 |
 | 字节蓝 | bytedance | 蓝青渐变，科技现代 |
 | 少数派 | sspai | 中文科技媒体红 |
+| 科普蓝 | science-blue | 深蓝标题、蓝色左边线、浅蓝引用框，适合技术科普长文 |
 
 #### 生活灵感（5 个）
 
@@ -368,4 +369,4 @@ Expected linked outputs:
 - 依赖可用 `scripts/check_dependencies.py` 检测；缺失时，经用户确认后用 `scripts/check_dependencies.py --install` 安装
 - 图片在预览中可见，但粘贴到微信后需要手动上传（或用推送功能自动上传）
 - 如果用户对排版不满意，可以切换主题重新生成
-- 画廊模式渲染 26 个全量主题，用的是用户的真实文章
+- 画廊模式渲染 27 个全量主题，用的是用户的真实文章

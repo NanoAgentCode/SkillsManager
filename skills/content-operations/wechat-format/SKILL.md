@@ -163,7 +163,7 @@ python3 {baseDir}/scripts/check_dependencies.py --install
 3. 生成术语润色稿和术语修改表，或保留已审核最终稿
 4. 生成 structured / enhanced Markdown，或保留已审核结构
 5. 搬运 Markdown 引用的本地图片并重写为稳定的 `render/images/` 路径
-6. 打开 26 主题 gallery，或用 `--theme` 直接指定主题
+6. 打开 27 主题 gallery，或用 `--theme` 直接指定主题
 7. 保存最终主题输出、manifest，可选生成 ByteDance 预览和封面
 
 #### 可选：成稿单页信息图
@@ -224,7 +224,7 @@ PYTHONIOENCODING=utf-8 python3 {baseDir}/scripts/article_workflow.py --input "�
 仅在执行对应操作时读取 [workflow-details.md](references/workflow-details.md) 的相关章节：
 
 - 手动润色、结构化、容器增强或单步排版：第 1.2–4 步。技术稿须保留术语修改记录与不确定项；仅排版时跳过润色。
-- 选主题或调整参数：参数说明、可用主题、内置排版增强。
+- 选主题或调整参数：参数说明、可用主题、内置排版增强。技术科普长文可选 `--theme science-blue`（科普蓝）。所有主题的正文段落和提示框正文首行缩进两字，文章标题、引用和提示框标题顶格。
 - 用户要求封面或推送：封面图生成、推送到公众号草稿箱。`publish.py --dry-run` 仍会上传图片，不是离线预演。
 - 历史归档文章：Archived Article Handoff，优先通过归档技能的桥接脚本暂存图片与元数据。
 
