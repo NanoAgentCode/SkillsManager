@@ -1,6 +1,6 @@
 ---
 name: network-troubleshooting
-description: Use when diagnosing or repairing network connectivity failures over a direct connection or an authorized VPS proxy. Covers DNS, TCP/TLS, SSH timeouts, IPv4/IPv6, FlClash/Mihomo routing, and Shadowsocks service failures. 用于直连、VPS 代理、SSH 超时和 FlClash 分流排障及修复验证。
+description: Use when diagnosing or repairing network connectivity failures over a direct connection or an authorized VPS proxy. Covers DNS, TCP/TLS, SSH timeouts, IPv4/IPv6, FlClash/Mihomo routing, and Shadowsocks or VLESS/REALITY service failures. 用于直连、VPS 代理、SSH 超时和 FlClash 分流排障及修复验证。
 ---
 
 # 网络故障排查与修复

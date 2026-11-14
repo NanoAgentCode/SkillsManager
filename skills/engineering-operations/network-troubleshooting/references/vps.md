@@ -39,6 +39,13 @@ sudo timeout 20s tcpdump -nn -i any -s 96 -c 40 'tcp port 18444 and host 192.0.2
 
 ## 修复服务并验证
 
+### FlClash / Mihomo 的 VLESS + REALITY 握手失败
+
+- 分别验证公网映射、容器内完整 VLESS 请求和 FlClash 实际代理请求。普通 TLS 回落返回 HTTP 200 只能验证回落路径。本地 HTTP 代理的 `CONNECT 200` 只证明本地代理接受了请求。容器访问自身公网入口还可能受 NAT 回环限制。
+- 按同一时间对照 Xray 日志。容器内完整请求成功、Windows 请求到达监听端口、Xray 记录 REALITY 认证或校验失败时，先核对活动节点的 UUID、公钥、Short ID 和 SNI。敏感值用本地校验摘要比较。需要临时提高日志级别时，验证后恢复。
+- 若凭据一致，核对客户端内核和服务端版本的密钥交换兼容性。已验证的案例中，Xray v26.11.9 拒绝了 FlClash 导入的配置。在活动 YAML 的该节点 `reality-opts` 下加入 `support-x25519mlkem768: true`，保留支持该密钥交换的 `client-fingerprint: chrome`，重新应用后通过。先备份 profile，再确认该字段进入生效配置。此项按实际版本和日志判断。 [Mihomo TLS 配置](https://wiki.metacubex.one/config/proxies/tls/)
+- 验收时先跑节点延迟测试，再通过同一节点重做原 HTTPS 请求，并用 Xray 的 `accepted tcp:` 日志核对实际转发。恢复临时选择的测试分组。
+
 - **监听或服务失败**：先查当前生效的 unit、进程用户和日志。若 systemd 服务因权限无法读取受限配置，确认系统版本和现有 `ExecStart` 参数后，可用 `LoadCredential=` 给服务交付配置，并让进程读取 `${CREDENTIALS_DIRECTORY}` 中的对应文件。备份 unit 或 drop-in，保留原文件权限和所需启动参数。执行授权的服务重载或重启后，从服务状态、实际监听、外部转发三个层面验收。脚本输出和开机自启设置分别只证明对应阶段。
 - **部分路径可用**：经用户选定的可用地址族或备用节点恢复业务，分别验证管理登录、代理入口、VPS 出站和原应用。原路径的故障保留为待查项。已验证的服务重启和整机重启恢复分别记录；只有需要验收开机恢复且有维护窗口时，才安排整机重启测试。
 - **选组或分流失败**：备份活动 profile，校验实际加载的节点与规则引用，修改最小范围，重新应用后用目标请求确认完整链路。逐组记录预期链路与 HTTP/业务结果。配置和日志只输出脱敏摘要，密码在本地或服务端受限存储中更新。
