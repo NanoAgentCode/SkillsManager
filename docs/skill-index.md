@@ -9,24 +9,26 @@ For overlapping requests or multi-skill work, consult [skill relationships](skil
 Use this group when the request is about turning media, notes, drafts, or archived material into publishable content.
 
 - `skills/content-operations/article-infographic/SKILL.md`: standalone ImageGen single-page infographics grounded in finished articles, with content outlines, prompts, visual checks, and optional wechat-format handoff.
-- `skills/content-operations/video-transcriber/SKILL.md`: transcript, subtitle, summary, meeting-note, and article-draft workflows from local media, approved online videos, existing captions, YouTube captions, Bilibili subtitle JSON, or user-authorized WeChat Channels material.
+- `skills/content-operations/video-transcriber/SKILL.md`: transcript, subtitle, summary, meeting-note, and article-draft workflows from local media, approved online videos, existing captions, YouTube captions, Bilibili subtitle JSON, or user-authorized WeChat Channels material. The installable `media-extract-audio` and `media-subtitle-to-md` commands expose the local preprocessing steps.
 - `skills/content-operations/technical-article-polisher/SKILL.md`: Chinese technical article polishing, machine-translation cleanup, terminology checks, and publication-ready Markdown.
 - `skills/content-operations/technical-source-to-public-article/SKILL.md`: evidence-grounded transformation of papers, documentation, reports, transcripts, repositories, web pages, or mixed technical sources into readable publication-ready Simplified Chinese public articles with traceable claims.
 - `skills/content-operations/technical-article-visual-director/SKILL.md`: coherent visual direction, production routing, asset generation when supported, inspection, captions, accessibility, and Markdown placement for technical articles.
-- `skills/content-operations/wechat-format/SKILL.md`: WeChat official-account packaging through `scripts/article_workflow.py`, including upstream source-note and visual-plan handoff, local asset staging, terminology/structure processing, a 27-theme gallery, themed outputs, optional post-article ImageGen single-page infographics via article-infographic, optional covers, and draft publishing.
-- `skills/content-operations/wechat-history-article-archive/SKILL.md`: authorized historical WeChat article backup from lawful `mp.weixin.qq.com/s?...` URL sources, with Markdown, metadata, indexes, and local images by default.
+- `skills/content-operations/wechat-format/SKILL.md`: WeChat official-account packaging through `scripts/article_workflow.py`, including upstream source-note and visual-plan handoff, local asset staging, terminology/structure processing, a 27-theme gallery, themed outputs, optional post-article ImageGen single-page infographics via article-infographic, optional covers, and draft publishing. The repository-level `scripts/wechat-tools.py` command exposes rendering and draft upload.
+- `skills/content-operations/wechat-history-article-archive/SKILL.md`: authorized historical WeChat article backup from lawful `mp.weixin.qq.com/s?...` URL sources, with Markdown, metadata, indexes, and local images by default. Also available as the installable `wechat-archive` command.
 - `skills/content-operations/wechat-cover/SKILL.md`: cover-image generation for WeChat articles; installed alongside `wechat-format` and reuses its image-generation script.
 - `skills/content-operations/office-cli-skill/SKILL.md`: structured DOCX, XLSX, and PPTX creation, inspection, validation, proofreading, and editing with an installed `officecli` executable, including template-based PowerPoint reconstruction guidance.
-- `skills/content-operations/official-format-pro/SKILL.md`: Markdown, TXT, or DOCX conversion into Chinese party-and-government official-document Word layouts based on the bundled GB/T 9704-2012 formatting summary.
+- `skills/content-operations/official-format-pro/SKILL.md`: Markdown, TXT, or DOCX conversion into Chinese party-and-government official-document Word layouts based on the bundled GB/T 9704-2012 formatting summary. Also available as the installable `official-format` command.
 
 ## Knowledge Structuring And Visualization
+
+The shared [knowledge tools command](repository-operations.md#standalone-commands) exposes mindmap rendering and publishing, plus Vault search, reindexing, and structural auditing.
 
 Use this group when the request is about systematic technical understanding, knowledge frameworks, diagrams, mindmaps, visual explanation, or offline knowledge views.
 
 - `skills/knowledge-visualization/obsidian-memory/SKILL.md`: local Obsidian Vault workflow with ranked single- or multi-keyword retrieval, All/Any matching, reviewable candidate memories, stale or superseded record handling, and a visual bidirectional-link index.
 - `skills/knowledge-visualization/obsidian-memory-cleanup/SKILL.md`: full or scoped semantic cleanup for Obsidian long-term memory vaults, including deduplication, fragment consolidation, current-source fact verification, reclassification, lifecycle conflict handling, and deterministic structural audits.
 - `skills/knowledge-visualization/technical-cognition-framework/SKILL.md`: evidence-based frameworks for systematically understanding a technology through its definition, concept relationships, motivation, construction methods, scenarios, boundaries, common confusions, and relationship with LLMs and agents; includes Ontology as a worked reference.
-- `skills/knowledge-visualization/drawio-skill/SKILL.md`: code dependency analysis and editable `.drawio` import/module/package dependency graphs for Python, JavaScript/TypeScript, Go, and Rust codebases, with local draw.io CLI export when available; do not select it for general visualization requests.
+- `skills/knowledge-visualization/drawio-skill/SKILL.md`: code dependency analysis and editable `.drawio` import/module/package dependency graphs for Python, JavaScript/TypeScript, Go, and Rust codebases, with local draw.io CLI export when available; do not select it for general visualization requests. Also available as the installable `depgraph` command.
 - `skills/knowledge-visualization/excalidraw/SKILL.md`: clean `.excalidraw` flowcharts, architecture sketches, process diagrams, relationship maps, and whiteboard-style visual explanations with Kroki SVG or local PNG/SVG export.
 - `skills/knowledge-visualization/mindmap-builder/SKILL.md`: single-file offline markmap HTML generation from PDFs, notes, outlines, reports, papers, books, or other documents; supports overview-first long document mode.
 - `skills/knowledge-visualization/mindmap-publisher/SKILL.md`: static publishing for already generated offline mindmap HTML folders when the user explicitly asks to publish or host.
@@ -35,7 +37,7 @@ Use this group when the request is about systematic technical understanding, kno
 
 Use this group when the request is about Dify apps, DSL import/export, platform configuration, or delivery verification.
 
-- `skills/ai-application-delivery/dify-console-admin-api/SKILL.md`: Dify Console Admin API automation for app creation, DSL export/import, overwrite import, and pending import confirmation.
+- `skills/ai-application-delivery/dify-console-admin-api/SKILL.md`: Dify Console Admin API automation for app creation, DSL export/import, overwrite import, and pending import confirmation through the installable `dify-console` command.
 - `skills/ai-application-delivery/dify-dsl-app-builder/SKILL.md`: Dify workflow or advanced-chat DSL design, generation, update, import, and verification.
 
 ## Engineering Operations
@@ -48,7 +50,7 @@ Use this group when the request is about evidence-driven website reconstruction,
 
 
 - `skills/engineering-operations/website-rebuild/SKILL.md`: authorized public-website reconstruction through scope classification, immutable offline mirroring, client-bundle forensics, source-traceable porting, WebGL or scroll-animation recovery, quantitative parity gates, and optional readable-source delivery; excludes access-control bypass and ordinary greenfield frontend design.
-- `skills/engineering-operations/python-offline-dependency-packager/SKILL.md`: interactive dependency-name collection and configured-index version discovery without package downloads when the exact version or target Python is missing; complete requests produce an exact-version bundle with the full transitive dependency closure, target interpreter/platform selectors, file hashes, and one-click offline installers for PowerShell and POSIX shells.
+- `skills/engineering-operations/python-offline-dependency-packager/SKILL.md`: interactive dependency-name collection and configured-index version discovery without package downloads when the exact version or target Python is missing; complete requests produce an exact-version bundle with the full transitive dependency closure, target interpreter/platform selectors, file hashes, and one-click offline installers for PowerShell and POSIX shells. Also available as the installable `offline-deps` command.
 - `skills/engineering-operations/python-db-query/SKILL.md`: safe Python database querying plus Windows/Linux MinIO `mc` integration for bucket/object inspection and guarded downloads, with ignored local configs, read-only defaults, structured output, and explicit authorization boundaries.
 - `skills/engineering-operations/backend-log-contract-trace/SKILL.md`: backend failure tracing through actual build/run artifacts and effective datasource configuration for startup issues, or routes/controllers, DTO/VOs, services, mapper XML, SQL columns, cross-service parameters, and database constraints for request issues.
 - `skills/engineering-operations/network-troubleshooting/SKILL.md`: diagnose and repair direct and authorized VPS connectivity, including DNS, SSH, IPv4/IPv6, FlClash/Mihomo routing, and Shadowsocks forwarding. Verify the repair with the original request and the observed route.
@@ -58,13 +60,13 @@ Use this group when the request is about evidence-driven website reconstruction,
 Use this group when the request is about market research, public-market impact analysis, or investment-bank style output.
 
 - `skills/market-intelligence/stock-analysis-system/SKILL.md`: local Python FastAPI stock-analysis service for A-share, Hong Kong, U.S. stock, ETF, and LOF technical analysis, including AKShare data retrieval, technical indicators, scoring, and API smoke tests.
-- `skills/market-intelligence/us-sector-index-impact-report/SKILL.md`: most recent completed U.S. trading session analysis, Nasdaq/Nasdaq 100 and sector moves, core drivers, U.S. AI capex fundamentals, and Hong Kong/A-share sector implications rendered as standalone HTML. Includes a stable checked-in renderer fixture at `fixtures/sample-report.json`.
+- `skills/market-intelligence/us-sector-index-impact-report/SKILL.md`: most recent completed U.S. trading session analysis, Nasdaq/Nasdaq 100 and sector moves, core drivers, U.S. AI capex fundamentals, and Hong Kong/A-share sector implications rendered as standalone HTML. Includes a stable checked-in renderer fixture at `fixtures/sample-report.json` and the installable `sector-report-render` command.
 
 ## Skill Governance
 
 Use this group when the request is about validating, reviewing, or preparing skills for release.
 
-- `skills/skill-governance/skill-linter/SKILL.md`: skill structure, trigger metadata, resource links, UI metadata, repository catalog sync, platform compatibility entrypoints, and secret hygiene checks.
+- `skills/skill-governance/skill-linter/SKILL.md`: skill structure, trigger metadata, resource links, UI metadata, repository catalog sync, platform compatibility entrypoints, and secret hygiene checks. Also available as the installable `skill-lint` command.
 
 Primary command:
 

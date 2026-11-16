@@ -31,11 +31,11 @@ def extract_urls(text: str) -> list[str]:
     return ordered
 
 
-def main() -> int:
+def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Extract WeChat mp.weixin article URLs from text.")
     parser.add_argument("--input", "-i", required=True, help="Input text/HTML/source file path")
     parser.add_argument("--output", "-o", required=True, help="Output .txt or .json path")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     input_path = Path(args.input)
     output_path = Path(args.output)

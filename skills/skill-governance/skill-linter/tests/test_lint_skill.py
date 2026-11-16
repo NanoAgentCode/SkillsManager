@@ -6,6 +6,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -163,6 +164,26 @@ class RepositoryEntrypointTests(unittest.TestCase):
     def test_current_repository_entrypoints_are_fresh(self) -> None:
         findings = lint_skill.check_repository_entrypoints(REPO_ROOT, REPO_ROOT)
         self.assertEqual(findings, [])
+
+
+class InstalledCommandTests(unittest.TestCase):
+    def test_check_returns_json_and_strict_exit_status(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            write_skill(root)
+            (root / "demo-skill" / "agents" / "openai.yaml").unlink()
+            args = ["skill-lint", "check", temp, "--json"]
+            for options, expected in (([], 0), (["--strict"], 1)):
+                with self.subTest(options=options):
+                    with patch.object(sys, "argv", args + options), patch("builtins.print") as output:
+                        self.assertEqual(lint_skill.cli_main(), expected)
+                    findings = json.loads(output.call_args.args[0])["demo-skill"]
+                    self.assertTrue(any(item["severity"] == "warning" for item in findings))
+
+    def test_missing_target_returns_usage_status(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            with patch.object(sys, "argv", ["skill-lint", "check", temp]), patch("builtins.print"):
+                self.assertEqual(lint_skill.cli_main(), 2)
 
 
 if __name__ == "__main__":

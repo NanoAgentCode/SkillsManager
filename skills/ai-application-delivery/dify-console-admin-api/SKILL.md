@@ -37,6 +37,18 @@ ADMIN_API_KEY=<admin-key>
 
 ## 执行操作
 
+从仓库根目录安装 CLI 后，在环境变量中设置 `DIFY_BASE_URL`、`ADMIN_API_KEY` 和 `WORKSPACE_ID`：
+
+```text
+python -m pip install ./skills/ai-application-delivery/dify-console-admin-api
+dify-console create --name demo
+dify-console export APP_ID --output app.yml
+dify-console import --file app.yml
+dify-console confirm IMPORT_ID
+```
+
+`import --url` 接受 DSL URL，`import --app-id` 指定覆盖目标。退出码 `3` 表示等待确认。确认命令需单独调用，具体 ID 见 JSON 响应。
+
 调用接口前读取 [api-operations.md](references/api-operations.md) 中的变量模板、请求头规则和所选操作（创建、导出、导入、覆盖或确认）章节；返回异常时查看排查部分。所有请求携带 Bearer admin key 和 `X-WORKSPACE-ID`。
 
 导出默认 `include_secret=false`。报告真实 HTTP 状态与应用/导入 ID；`202 pending` 不是完成，须按返回状态处理确认导入。

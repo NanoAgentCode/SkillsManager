@@ -13,6 +13,13 @@ The script requires Python 3 and `python-docx`. From this repository on Windows,
 
 Read [references/gb9704-2012.md](references/gb9704-2012.md) when choosing page, font, header, addressee, signature, attachment, page-number, or colophon options.
 
+With Python 3.10 or later, the standalone command can be installed from the repository root:
+
+```text
+python -m pip install ./skills/content-operations/official-format-pro
+official-format convert --title "公文标题" --input content.md --output result.docx
+```
+
 ## Workflow
 
 1. Confirm the title, source content, requested output format, and any official-document elements the user supplied. Do not invent an issuing body, document number, classification, urgency, signatory, addressee, dates, distribution list, or disclosure note.

@@ -372,7 +372,7 @@ def route_score(graph, height, pos, edge_pts):
     return 20 * through + 10 * cross + length / 100000
 
 
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser(description="Auto-layout a graph JSON into draw.io XML.")
     ap.add_argument("input", help="graph JSON file")
     ap.add_argument("-o", "--output", help="output .drawio path (default: stdout)")
@@ -381,7 +381,7 @@ def main():
     ap.add_argument("--tune", action="store_true",
                     help="lay out in both directions (TB and LR), keep the more "
                          "readable one (fewer crossings / through-vertex routes)")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
     with open(args.input, encoding="utf-8") as f:
         graph = json.load(f)
     if args.tune:

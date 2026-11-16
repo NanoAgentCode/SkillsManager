@@ -11,6 +11,16 @@ Generate editable code import/module/package dependency graphs. Other bundled ge
 
 ## Inputs and tools
 
+Install the standalone command from the repository root with Python 3.10 or newer:
+
+```text
+python -m pip install ./skills/knowledge-visualization/drawio-skill
+depgraph generate ./src --language python --no-reduce -o dependencies.drawio
+depgraph validate dependencies.drawio
+```
+
+Generation requires Graphviz on PATH. Pass the source directory for Python or JavaScript/TypeScript, the module root for Go, or the crate root for Rust. Validation does not require Graphviz.
+
 Identify the repository/package boundary, language, dependency direction, and requested formats. Ask only for missing choices that change the graph. Default to `output/drawio-skill/` and PNG plus editable `.drawio`; honor an explicit output path.
 
 - Use the matching `scripts/pyimports.py`, `scripts/jsimports.py`, `scripts/goimports.py`, or `scripts/rustimports.py` importer. Check its `--help` for input and filtering options.

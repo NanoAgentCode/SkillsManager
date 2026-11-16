@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skills-manager-official-format"
+version = "0.1.0"
+description = "Format Chinese official documents as Word files"
+requires-python = ">=3.10"
+dependencies = ["python-docx>=1.1"]
+
+[project.scripts]
+official-format = "official_format:cli_main"
+
+[tool.setuptools]
+package-dir = {"" = "scripts"}
+py-modules = ["official_format"]

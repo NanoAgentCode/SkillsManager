@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skills-manager-depgraph"
+version = "0.1.0"
+description = "Generate editable draw.io dependency diagrams"
+requires-python = ">=3.10"
+
+[project.scripts]
+depgraph = "skills_manager_depgraph.scripts.depgraph_cli:main"
+
+[tool.setuptools]
+packages = ["skills_manager_depgraph", "skills_manager_depgraph.scripts"]
+package-dir = {skills_manager_depgraph = "."}
+
+[tool.setuptools.package-data]
+skills_manager_depgraph = ["styles/built-in/default.json"]

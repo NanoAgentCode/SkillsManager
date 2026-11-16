@@ -68,6 +68,21 @@
 
 ## 校验
 
+导图渲染与发布、Obsidian 检索、重建索引和审计可使用 `pwsh -File scripts/knowledge-tools.ps1 --help` 查看参数。
+
+公众号文章排版与草稿上传入口为 `python scripts/wechat-tools.py --help`。
+
+Dify 应用管理可安装 `dify-console`，用法见 [仓库操作指南](docs/repository-operations.md#standalone-commands)。
+
+离线依赖打包、公文排版、依赖图生成、公众号文章归档、音视频预处理和市场报告渲染均提供可安装的命令。安装和调用示例见 [仓库操作指南](docs/repository-operations.md#standalone-commands)。
+
+使用 Python 3.10 或更高版本时，可安装独立的 Skill 校验命令：
+
+```text
+python -m pip install ./skills/skill-governance/skill-linter
+skill-lint check . --repo-root . --strict --json
+```
+
 ```powershell
 .\scripts\run-python.ps1 .\skills\skill-governance\skill-linter\scripts\lint_skill.py . --repo-root .
 .\scripts\run-python.ps1 .\skills\ai-application-delivery\quick_validate.py

@@ -84,22 +84,37 @@ fi
 '''
 
 
-def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
+def parse_args(argv: Sequence[str] | None = None, *, installed: bool = False) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
             "Interactively inspect versions or download an exact Python package "
             "version and all dependencies."
         )
     )
+    if installed:
+        commands = parser.add_subparsers(dest="command", required=True)
+        versions = commands.add_parser("versions", help="List versions from the configured index")
+        versions.add_argument("--package", required=True, help="Distribution name")
+        versions.set_defaults(version=None, python_version=None)
+        bundle = commands.add_parser("bundle", help="Download wheels and produce offline installers")
+        add_bundle_arguments(bundle, required=True)
+    else:
+        add_bundle_arguments(parser, required=False)
+    return parser.parse_args(argv)
+
+
+def add_bundle_arguments(parser: argparse.ArgumentParser, *, required: bool) -> None:
     parser.add_argument(
         "--package",
-        help="Distribution name, optionally with extras; prompted for when omitted",
+        required=required,
+        help="Distribution name, optionally with extras" + ("" if required else "; prompted for when omitted"),
     )
-    parser.add_argument("--version", help="Exact distribution version, not a range")
+    parser.add_argument("--version", required=required, help="Exact distribution version, not a range")
     parser.add_argument("--output", type=Path, help="Bundle directory")
     parser.add_argument("--platform", help="Target platform tag accepted by pip")
     parser.add_argument(
         "--python-version",
+        required=required,
         help="Target Python line in X.Y or X.Y.x form, for example 3.11.x",
     )
     parser.add_argument("--implementation", default="cp", help="Target implementation tag (default: cp)")
@@ -109,7 +124,6 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Deprecated: rejected for reproducible cross-target bundles; build wheels in the target environment first",
     )
-    return parser.parse_args(argv)
 
 
 def validate_package(package: str) -> str:
@@ -284,7 +298,18 @@ def create_bundle(args: argparse.Namespace) -> Path:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    args = parse_args(argv)
+    return run(parse_args(argv))
+
+
+def cli_main() -> int:
+    return run(parse_args(installed=True))
+
+
+def run(args: argparse.Namespace) -> int:
+    command = getattr(args, "command", None)
+    if command == "bundle" and not all((args.package, args.version, args.python_version)):
+        print("error: package, version and target Python version must be non-empty", file=sys.stderr)
+        return 2
     if not args.package:
         try:
             args.package = input("Dependency name: ").strip()
@@ -303,6 +328,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 versions = list_available_versions(args.package)
                 print(f"Available versions for {version_query_package(args.package)}:")
                 print(versions)
+                if command == "versions":
+                    return 0
             if not args.python_version:
                 print(
                     "Target Python version is missing. Specify --python-version "

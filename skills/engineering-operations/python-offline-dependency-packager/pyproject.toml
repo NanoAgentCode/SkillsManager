@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skills-manager-offline-deps"
+version = "0.1.0"
+description = "Package pinned Python dependencies for offline installation"
+requires-python = ">=3.10"
+
+[project.scripts]
+offline-deps = "download_package:cli_main"
+
+[tool.setuptools]
+package-dir = {"" = "scripts"}
+py-modules = ["download_package"]

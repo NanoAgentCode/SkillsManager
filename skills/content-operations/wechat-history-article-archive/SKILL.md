@@ -17,6 +17,17 @@ Back up historical mass-send articles for a self-owned or explicitly authorized 
 
 ## Bundled Scripts
 
+With Python 3.10 or newer, install and run the standalone command from the repository root:
+
+```text
+python -m pip install ./skills/content-operations/wechat-history-article-archive
+wechat-archive extract --input history-source.txt --output history-urls.txt
+wechat-archive fetch --input history-urls.txt --output-dir archive
+wechat-archive export --archive-dir archive
+```
+
+`fetch` already writes Markdown. Use `export` to regenerate Markdown from HTML retained with `--keep-html` or from an older archive.
+
 - `scripts/extract_mp_urls.py`
   - Extract and deduplicate `mp.weixin.qq.com/s?...` article URLs from text, HTML, CSV fragments, clipboard dumps, or notes.
   - Output a clean one-URL-per-line list.

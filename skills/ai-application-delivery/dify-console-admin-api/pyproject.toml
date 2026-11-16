@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skills-manager-dify-console"
+version = "0.1.0"
+description = "Dify Console Admin API command line client"
+requires-python = ">=3.10"
+
+[project.scripts]
+dify-console = "dify_console:main"
+
+[tool.setuptools]
+package-dir = {"" = "scripts"}
+py-modules = ["dify_console"]

@@ -88,7 +88,7 @@ def transitive_reduce(nodes, edges):
     return [(rev[int(a)], rev[int(b)]) for a, b in re.findall(r"(\d+)\s*->\s*(\d+)", out)]
 
 
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser(description="Go import graph -> autolayout graph JSON.")
     ap.add_argument("module", help="module directory (contains go.mod)")
     ap.add_argument("-o", "--output", help="output JSON path (default: stdout)")
@@ -97,7 +97,7 @@ def main():
                     help="group nodes into containers by top-level package dir")
     ap.add_argument("--no-reduce", action="store_true",
                     help="keep every edge (skip transitive reduction)")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
 
     modpath = module_path(args.module)
     if not modpath:

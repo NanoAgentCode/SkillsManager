@@ -33,7 +33,7 @@ def update_index_csv(archive_dir: Path, records: list[dict]) -> None:
             writer.writerow({key: record.get(key, "") for key in fieldnames})
 
 
-def main() -> int:
+def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Convert archived WeChat article HTML files into Markdown and local images.")
     parser.add_argument("--archive-dir", required=True, help="Archive directory containing index.json and articles/")
     parser.add_argument("--timeout", type=int, default=20, help="Image download timeout in seconds")
@@ -43,7 +43,7 @@ def main() -> int:
         default="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36",
         help="User-Agent header",
     )
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     archive_dir = Path(args.archive_dir)
     records = json.loads((archive_dir / "index.json").read_text(encoding="utf-8"))

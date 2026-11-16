@@ -156,6 +156,15 @@ python3 {baseDir}/scripts/check_dependencies.py --install
 
 对重复性的文章包装任务，默认使用 `scripts/article_workflow.py`。除非用户明确要求手动控制结构化、主题渲染或只运行单步排版，不要把 `format.py --gallery` 当作首选入口。
 
+也可从仓库根目录使用统一入口。排版需要 `markdown`，草稿上传需要 `requests` 及本地公众号配置。
+
+```text
+python scripts/wechat-tools.py render --input article.md --theme apple-code --preserve-content --no-open --non-interactive
+python scripts/wechat-tools.py draft --dir ./rendered-article --cover ./cover.png
+```
+
+将 `--dir` 指向排版产物中含 `article.html` 的目录。运行 `render --help` 或 `draft --help` 查看各自参数。草稿上传会调用微信接口，`--dry-run` 仍会上传图片。
+
 `article_workflow.py` 会执行本技能的 repo-local 标准流程：
 
 1. 检测依赖

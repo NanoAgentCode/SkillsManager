@@ -113,7 +113,7 @@ def common_dir(ids):
     return "/".join(common) + "/" if common else ""
 
 
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser(description="JS/TS import graph -> autolayout graph JSON.")
     ap.add_argument("src", help="source directory")
     ap.add_argument("-o", "--output", help="output JSON path (default: stdout)")
@@ -122,7 +122,7 @@ def main():
                     help="group nodes into containers by top-level directory")
     ap.add_argument("--no-reduce", action="store_true",
                     help="keep every edge (skip transitive reduction)")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
 
     modules, root = discover(args.src)
     if not modules:

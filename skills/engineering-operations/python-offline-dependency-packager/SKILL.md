@@ -7,6 +7,14 @@ description: Use when preparing Python dependencies for an offline machine. Disc
 
 Use `scripts/download_package.py` to resolve one pinned package, download its full dependency closure, and create a portable offline bundle.
 
+With Python 3.10 or later, install and run the standalone command from the repository root:
+
+```text
+python -m pip install ./skills/engineering-operations/python-offline-dependency-packager
+offline-deps versions --package requests
+offline-deps bundle --package requests --version 2.32.5 --python-version 3.11
+```
+
 ## Workflow
 
 1. Collect the package name interactively. If it was not supplied in the request, run the script without `--package` and let it prompt with `Dependency name:`.

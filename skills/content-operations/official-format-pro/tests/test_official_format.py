@@ -51,6 +51,25 @@ class PureHelperTests(unittest.TestCase):
 
 @unittest.skipUnless(importlib.util.find_spec("docx"), "python-docx is not installed")
 class DocumentGenerationTests(unittest.TestCase):
+    def test_installed_convert_accepts_text_and_writes_docx(self):
+        from docx import Document
+
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            source = folder / "source.txt"
+            output = folder / "result.docx"
+            source.write_text("会议安排如下。", encoding="utf-8")
+            result = subprocess.run(
+                [sys.executable, "-c", "import official_format; raise SystemExit(official_format.cli_main())",
+                 "convert", "--title", "会议通知", "--input", str(source), "--output", str(output)],
+                cwd=SCRIPT.parent,
+                capture_output=True,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            paragraphs = [paragraph.text for paragraph in Document(output).paragraphs]
+            self.assertIn("会议通知", paragraphs)
+            self.assertIn("会议安排如下。", paragraphs)
+
     def test_docx_input_preserves_table_cells_in_document_order(self):
         from docx import Document
 

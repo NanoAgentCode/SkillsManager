@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skills-manager-media"
+version = "0.1.0"
+description = "Run audio extraction and subtitle conversion"
+requires-python = ">=3.10"
+
+[project.scripts]
+media-extract-audio = "extract_audio:main"
+media-subtitle-to-md = "subtitle_to_markdown:main"
+
+[tool.setuptools]
+package-dir = {"" = "scripts"}
+py-modules = ["extract_audio","subtitle_to_markdown"]

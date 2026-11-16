@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skills-manager-linter"
+version = "0.1.0"
+description = "Check repository skills for structural and quality issues"
+requires-python = ">=3.10"
+
+[project.scripts]
+skill-lint = "lint_skill:cli_main"
+
+[tool.setuptools]
+package-dir = {"" = "scripts"}
+py-modules = ["lint_skill"]

@@ -645,8 +645,10 @@ def parse_and_add_content(doc, content):
         i += 1
 
 
-def main():
+def main(*, installed=False):
     parser = argparse.ArgumentParser(description='党政机关公文标准排版')
+    if installed:
+        parser.add_argument('command', choices=['convert'], help='生成排版后的公文')
     parser.add_argument('--title', required=True, help='公文标题')
     parser.add_argument('--input', required=True, help='输入文件（.md / .txt / .docx）')
     parser.add_argument('--output', required=True, help='输出Word文件路径')
@@ -795,6 +797,10 @@ def main():
             print("   请安装: sudo apt install libreoffice-writer")
         except subprocess.TimeoutExpired:
             print("PDF转换超时（30秒），文件可能过大")
+
+
+def cli_main():
+    return main(installed=True)
 
 
 if __name__ == '__main__':

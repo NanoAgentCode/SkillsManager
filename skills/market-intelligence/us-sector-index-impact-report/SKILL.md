@@ -74,6 +74,13 @@ Produce a current, citation-backed Chinese investment research report from overn
 
 ## HTML Rendering
 
+Install the renderer with Python 3.10 or newer from the repository root:
+
+```text
+python -m pip install ./skills/market-intelligence/us-sector-index-impact-report
+sector-report-render --input report-data.json --output report.html
+```
+
 Use the bundled renderer:
 
 ```powershell

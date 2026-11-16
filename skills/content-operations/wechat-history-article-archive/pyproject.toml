@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skills-manager-wechat-archive"
+version = "0.1.0"
+description = "Archive authorized public WeChat articles"
+requires-python = ">=3.10"
+
+[project.scripts]
+wechat-archive = "wechat_archive_cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "scripts"}
+py-modules = ["wechat_archive_cli", "extract_mp_urls", "archive_article_urls", "convert_archive_to_markdown", "markdown_export"]

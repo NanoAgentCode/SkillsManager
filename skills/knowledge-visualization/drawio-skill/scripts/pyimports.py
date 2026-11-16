@@ -103,7 +103,7 @@ def transitive_reduce(nodes, edges):
     return [(rev[int(a)], rev[int(b)]) for a, b in re.findall(r"(\d+)\s*->\s*(\d+)", out)]
 
 
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser(description="Python import graph -> autolayout graph JSON.")
     ap.add_argument("project", help="package or project directory")
     ap.add_argument("-o", "--output", help="output JSON path (default: stdout)")
@@ -112,7 +112,7 @@ def main():
                     help="group nodes into containers by sub-package")
     ap.add_argument("--no-reduce", action="store_true",
                     help="keep every edge (skip transitive reduction)")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
 
     modules, base = discover(args.project)
     if not modules:

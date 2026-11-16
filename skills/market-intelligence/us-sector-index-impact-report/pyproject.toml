@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skills-manager-sector-report"
+version = "0.1.0"
+description = "Render sector report JSON as standalone HTML"
+requires-python = ">=3.10"
+
+[project.scripts]
+sector-report-render = "render_investment_bank_html:main"
+
+[tool.setuptools]
+package-dir = {"" = "scripts"}
+py-modules = ["render_investment_bank_html"]

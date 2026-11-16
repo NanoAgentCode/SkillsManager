@@ -11,6 +11,15 @@ Use this skill to inspect one skill folder or a repository of skills before call
 
 ## Quick Start
 
+To install the standalone command into your active Python environment, run these commands from the repository root:
+
+```text
+python -m pip install ./skills/skill-governance/skill-linter
+skill-lint check . --repo-root . --strict --json
+```
+
+The installed command requires Python 3.10 or newer. Exit status is 0 for a passing check, 1 for findings that fail the check, and 2 for invalid usage or a target without skills.
+
 On Windows, do not assume `python` is on `PATH`. Use the repository launcher:
 
 ```powershell

@@ -19,6 +19,24 @@ SPEC.loader.exec_module(download_package)
 
 
 class DownloadPackageTests(unittest.TestCase):
+    def test_installed_versions_lists_without_creating_bundle(self) -> None:
+        args = download_package.parse_args(["versions", "--package", "requests"], installed=True)
+        output = io.StringIO()
+        with (
+            mock.patch.object(download_package, "list_available_versions", return_value="2.32.5") as versions,
+            mock.patch.object(download_package, "create_bundle") as bundle,
+            redirect_stdout(output),
+        ):
+            self.assertEqual(download_package.run(args), 0)
+        versions.assert_called_once_with("requests")
+        bundle.assert_not_called()
+        self.assertIn("2.32.5", output.getvalue())
+
+    def test_installed_bundle_requires_target_python(self) -> None:
+        with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as failure:
+            download_package.parse_args(["bundle", "--package", "requests", "--version", "2.32.5"], installed=True)
+        self.assertEqual(failure.exception.code, 2)
+
     def test_creates_bundle_with_transitive_download_command_and_installers(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             output = Path(temp) / "bundle"

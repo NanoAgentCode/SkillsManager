@@ -301,14 +301,14 @@ def check_page(diagram):
     return errors, warns
 
 
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser(description="Lint a .drawio file for structural errors.")
     ap.add_argument("file")
     ap.add_argument("--strict", action="store_true", help="treat warnings as failure too")
     ap.add_argument("--score", action="store_true",
                     help="also print a readability score (lower is better) — "
                          "useful for comparing layout variants of the same graph")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
     try:
         tree = ET.parse(args.file)
     except (ET.ParseError, OSError) as exc:

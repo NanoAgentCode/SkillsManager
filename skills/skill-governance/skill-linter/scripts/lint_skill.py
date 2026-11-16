@@ -477,8 +477,10 @@ def print_text_report(results: dict[str, list[Finding]]) -> None:
             print(f"    {finding.path}")
 
 
-def main() -> int:
+def main(*, installed: bool = False) -> int:
     parser = argparse.ArgumentParser(description="Lint one skill folder or all skills under a target directory.")
+    if installed:
+        parser.add_argument("command", choices=["check"], help="Run structural checks")
     parser.add_argument("target", help="Skill folder, SKILL.md file, or repository root to scan")
     parser.add_argument("--repo-root", help="Repository root used for catalog and compatibility entrypoint checks")
     parser.add_argument("--json", action="store_true", help="Output JSON")
@@ -515,6 +517,10 @@ def main() -> int:
     if has_errors or (args.strict and has_warnings):
         return 1
     return 0
+
+
+def cli_main() -> int:
+    return main(installed=True)
 
 
 if __name__ == "__main__":

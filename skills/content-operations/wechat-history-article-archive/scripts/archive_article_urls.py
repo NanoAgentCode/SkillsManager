@@ -81,7 +81,7 @@ def write_index_csv(records: list[dict], output_dir: Path) -> None:
             writer.writerow({key: record.get(key, "") for key in fieldnames})
 
 
-def main() -> int:
+def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Archive WeChat article URLs into local HTML and metadata files.")
     parser.add_argument("--input", "-i", required=True, help="Input URL list (.txt or .json)")
     parser.add_argument("--output-dir", "-o", required=True, help="Archive output directory")
@@ -93,7 +93,7 @@ def main() -> int:
         default="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36",
         help="User-Agent header",
     )
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     input_path = Path(args.input)
     output_dir = Path(args.output_dir)

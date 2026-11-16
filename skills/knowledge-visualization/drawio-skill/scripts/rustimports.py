@@ -156,7 +156,7 @@ def transitive_reduce(nodes, edges):
     return [(rev[int(a)], rev[int(b)]) for a, b in re.findall(r"(\d+)\s*->\s*(\d+)", out)]
 
 
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser(description="Rust module-use graph -> autolayout graph JSON.")
     ap.add_argument("crate", help="crate directory (contains Cargo.toml and/or src/)")
     ap.add_argument("-o", "--output", help="output JSON path (default: stdout)")
@@ -165,7 +165,7 @@ def main():
                     help="box modules by their parent module path (nested)")
     ap.add_argument("--no-reduce", action="store_true",
                     help="keep every edge (skip transitive reduction)")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
 
     modules, _ = discover(args.crate)
     if not modules:

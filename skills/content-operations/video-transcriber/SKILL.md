@@ -11,6 +11,16 @@ Use this skill to turn subtitles, local media, or user-authorized online media i
 
 ## Workflow
 
+Install the two media commands with Python 3.10 or newer from the repository root:
+
+```text
+python -m pip install ./skills/content-operations/video-transcriber
+media-subtitle-to-md captions.srt --output transcript.md
+media-extract-audio video.mp4 --output-dir output/video-transcriber
+```
+
+Audio extraction requires FFmpeg on PATH or an executable supplied through `--ffmpeg`. Subtitle conversion runs locally with Python alone.
+
 1. Confirm the input source and desired output shape:
    - existing `.srt`, `.vtt`, `.ass`, `.ssa`, `.ttml`, `.json3`, or Bilibili AI subtitle `.json` file
    - local media path
