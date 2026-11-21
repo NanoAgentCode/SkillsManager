@@ -1,6 +1,6 @@
 ---
 name: network-troubleshooting
-description: Use when diagnosing or repairing network connectivity failures over a direct connection or an authorized VPS proxy. Covers DNS, TCP/TLS, SSH timeouts, IPv4/IPv6, FlClash/Mihomo routing, and Shadowsocks or VLESS/REALITY service failures. 用于直连、VPS 代理、SSH 超时和 FlClash 分流排障及修复验证。
+description: Use when diagnosing direct or authorized proxy connectivity, including DNS, TCP/TLS, SSH and IPv4/IPv6, or editing FlClash/Mihomo profiles. Covers slow first import, Provider downloads, TUN, routing, Shadowsocks and VLESS/REALITY. 用于 FlClash 配置编辑、订阅初始化慢、分流和直连或 VPS 连接排障。
 ---
 
 # 网络故障排查与修复
@@ -12,6 +12,7 @@ description: Use when diagnosing or repairing network connectivity failures over
 | 要验证的路径 | 读取 |
 | --- | --- |
 | 应用 → 本机网络 → 目标。也用于单独检查本机到 VPS 入口的物理网络。 | [直连排查](references/direct.md) |
+| FlClash/Mihomo 首次导入慢、Provider 为空、控制器、TUN、分流、编辑或创建 profile。 | [FlClash 排查与配置](references/flclash.md) |
 | 应用 → FlClash/Mihomo → VPS → 目标，或 SSH 登录 VPS。 | [VPS 排查](references/vps.md) |
 | 比较直连和 VPS。 | 读取两份参考。固定设备、网络、目标、端口和测试时段，分别记录两条路径及其 IP 协议族。 |
 

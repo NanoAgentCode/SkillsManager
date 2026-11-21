@@ -1,0 +1,117 @@
+# 复制后填写订阅 URL 和对应 DNS 策略，再作为本地 profile 导入 FlClash。
+mixed-port: 7890
+allow-lan: false
+bind-address: 127.0.0.1
+mode: rule
+log-level: info
+
+# 需要控制器时，在 FlClash 中启用环回监听并设置本机密钥。
+# 独立运行 Mihomo 时，可在私有副本中添加 external-controller 和 secret。
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+dns:
+  enable: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - 'localhost'
+    - '*.lan'
+    - '*.local'
+  respect-rules: false
+  # 示例上游。使用前测试当前网络的 TCP/TLS 和实际 DNS 应答。
+  default-nameserver:
+    - 223.5.5.5
+  nameserver:
+    - 'https://223.5.5.5/dns-query'
+  proxy-server-nameserver:
+    - 'https://223.5.5.5/dns-query'
+  nameserver-policy:
+    'sub-a.example.invalid': 'https://223.5.5.5/dns-query'
+    'sub-b.example.invalid': 'https://223.5.5.5/dns-query'
+    'sub-c.example.invalid': 'https://223.5.5.5/dns-query'
+    'sub-d.example.invalid': 'https://223.5.5.5/dns-query'
+
+proxy-providers:
+  source-a:
+    type: http
+    url: 'https://sub-a.example.invalid/clash.yaml'
+    path: ./providers/source-a.yaml
+    interval: 86400
+    proxy: DIRECT
+  source-b:
+    type: http
+    url: 'https://sub-b.example.invalid/clash.yaml'
+    path: ./providers/source-b.yaml
+    interval: 86400
+    proxy: DIRECT
+  source-c:
+    type: http
+    url: 'https://sub-c.example.invalid/clash.yaml'
+    path: ./providers/source-c.yaml
+    interval: 86400
+    proxy: DIRECT
+  source-d:
+    type: http
+    url: 'https://sub-d.example.invalid/clash.yaml'
+    path: ./providers/source-d.yaml
+    interval: 86400
+    proxy: DIRECT
+
+proxy-groups:
+  - name: '出站'
+    type: select
+    proxies: ['订阅节点', DIRECT]
+  - name: '订阅节点'
+    type: select
+    empty-fallback: REJECT
+    use: [source-a, source-b, source-c, source-d]
+  - name: AI
+    type: select
+    proxies: ['订阅节点', DIRECT]
+    use: [source-a, source-b, source-c, source-d]
+
+rules:
+  - DOMAIN,localhost,DIRECT
+  - DOMAIN-SUFFIX,lan,DIRECT
+  - DOMAIN-SUFFIX,local,DIRECT
+  - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+  - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+  - IP-CIDR6,::1/128,DIRECT,no-resolve
+  - IP-CIDR6,fc00::/7,DIRECT,no-resolve
+  - IP-CIDR6,fe80::/10,DIRECT,no-resolve
+  # AI 服务、Google 搜索和 Google Play 共用 AI 分组。
+  - DOMAIN-SUFFIX,chatgpt.com,AI
+  - DOMAIN-SUFFIX,openai.com,AI
+  - DOMAIN-SUFFIX,oaistatic.com,AI
+  - DOMAIN-SUFFIX,oaiusercontent.com,AI
+  - DOMAIN-SUFFIX,oaistatsig.com,AI
+  - DOMAIN-SUFFIX,claude.ai,AI
+  - DOMAIN-SUFFIX,claude.com,AI
+  - DOMAIN-SUFFIX,anthropic.com,AI
+  - DOMAIN-SUFFIX,claudeusercontent.com,AI
+  - DOMAIN-SUFFIX,grok.com,AI
+  - DOMAIN-SUFFIX,x.ai,AI
+  - DOMAIN-SUFFIX,meta.ai,AI
+  - DOMAIN,gemini.google.com,AI
+  - DOMAIN,aistudio.google.com,AI
+  - DOMAIN,generativelanguage.googleapis.com,AI
+  # 普通搜索与 Google 搜索的 AI 模式共用 google.com。
+  - DOMAIN-SUFFIX,google.com,AI
+  - DOMAIN-SUFFIX,google.com.hk,AI
+  - DOMAIN-SUFFIX,googleapis.com,AI
+  - DOMAIN-SUFFIX,gstatic.com,AI
+  - DOMAIN-SUFFIX,googleusercontent.com,AI
+  # Google Play 的下载、更新与连通性检查。
+  - DOMAIN,services.googleapis.cn,AI
+  - DOMAIN,android.com,AI
+  - DOMAIN,connectivitycheck.android.com,AI
+  - DOMAIN-SUFFIX,gvt1.com,AI
+  - DOMAIN-SUFFIX,ggpht.com,AI
+  - DOMAIN-SUFFIX,gvt2.com,AI
+  - DOMAIN-SUFFIX,gvt3.com,AI
+  - 'MATCH,出站'
