@@ -1,18 +1,19 @@
 ---
 name: network-troubleshooting
-description: Use when diagnosing direct or authorized proxy connectivity, including DNS, TCP/TLS, SSH and IPv4/IPv6, or editing FlClash/Mihomo profiles. Covers slow first import, Provider downloads, TUN, routing, Shadowsocks and VLESS/REALITY. 用于 FlClash 配置编辑、订阅初始化慢、分流和直连或 VPS 连接排障。
+description: Use when diagnosing direct or authorized proxy connectivity, including DNS, TCP/TLS, SSH and IPv4/IPv6, or editing FlClash/Mihomo profiles. Covers slow first import, Provider downloads, subscription failover, TUN, routing, Shadowsocks and VLESS/REALITY. 用于 FlClash 配置编辑、订阅初始化慢、地区出口与自动转移优化，以及直连或 VPS 连接排障。
 ---
 
 # 网络故障排查与修复
 
 ## 确定要恢复的路径
 
-确认设备和当前网络、失败应用或目标地址与端口、错误与时间，以及用户期望走直连还是 VPS。优先从生效配置和日志提取这些信息；缺少会改变排查路线的信息时，再向用户确认。限定在用户有权管理的设备、VPS 和指定目标上测试。
+确认设备和当前网络、失败应用或目标地址与端口、错误与时间，以及用户期望走直连、VPS 还是订阅代理。优先从生效配置和日志提取这些信息；缺少会改变排查路线的信息时，再向用户确认。限定在用户有权管理的设备、VPS 和指定目标上测试。
 
 | 要验证的路径 | 读取 |
 | --- | --- |
 | 应用 → 本机网络 → 目标。也用于单独检查本机到 VPS 入口的物理网络。 | [直连排查](references/direct.md) |
 | FlClash/Mihomo 首次导入慢、Provider 为空、控制器、TUN、分流、编辑或创建 profile。 | [FlClash 排查与配置](references/flclash.md) |
+| FlClash/Mihomo 中单一机场的多个节点或地区组同时失败，或需要精简订阅、核对地区出口和自动转移测速。 | [机场订阅与自动转移](references/flclash-subscription.md) |
 | 应用 → FlClash/Mihomo → VPS → 目标，或 SSH 登录 VPS。 | [VPS 排查](references/vps.md) |
 | 比较直连和 VPS。 | 读取两份参考。固定设备、网络、目标、端口和测试时段，分别记录两条路径及其 IP 协议族。 |
 

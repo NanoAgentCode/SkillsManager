@@ -44,7 +44,7 @@
 - 航天云课堂课程连播：[技能说明](skills/engineering-operations/casic-course-autoplay/SKILL.md)，含进度检查与异常恢复；Windows 上的 Bash 脚本需要 Git Bash / WSL。
 
 - [Docker 应用升级](skills/engineering-operations/docker-app-upgrade/SKILL.md)，含 [MaxKB 升级示例](skills/engineering-operations/docker-app-upgrade/examples/maxkb.md)
-- [网络故障排查与修复](skills/engineering-operations/network-troubleshooting/SKILL.md)，涵盖直连、SSH、VPS 代理及 FlClash 分流。
+- [网络故障排查与修复](skills/engineering-operations/network-troubleshooting/SKILL.md)，涵盖直连、SSH、VPS 代理及 FlClash 分流和机场自动转移。
 
 
 - 技术来源转公众文章：[`skills/content-operations/technical-source-to-public-article`](skills/content-operations/technical-source-to-public-article/SKILL.md)
