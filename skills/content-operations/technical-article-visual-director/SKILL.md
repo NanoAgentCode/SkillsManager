@@ -40,7 +40,7 @@ For a chat-only Audit or Plan, return:
 
 Write the direction, plan, briefs, captions, and alt text in Simplified Chinese unless the user requests another language.
 
-For file-producing work, use:
+For file-producing work, use this layout under the business project root:
 
 ```text
 output/technical-article-visual-director/<article-slug>/

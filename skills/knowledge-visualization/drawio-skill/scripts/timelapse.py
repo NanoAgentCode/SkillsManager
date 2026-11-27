@@ -198,7 +198,7 @@ def main():
                     help="extra args passed to the importer, e.g. \"--group\"")
     ap.add_argument("--max-frames", type=int, default=10, help="sample down to N commits")
     ap.add_argument("--direction", default="TB", choices=["TB", "LR"])
-    ap.add_argument("-o", "--output", default="architecture-evolution.html")
+    ap.add_argument("-o", "--output", default=os.path.join("output", "drawio-skill", "architecture-evolution.html"))
     ap.add_argument("--keep-frames", action="store_true",
                     help="also write the PNG frames next to the HTML")
     args = ap.parse_args()
@@ -237,12 +237,14 @@ def main():
             png, nn, ee = frame
             frames.append((png, h, date, subj, nn, ee))
             if args.keep_frames:
+                os.makedirs(os.path.dirname(os.path.abspath(args.output)), exist_ok=True)
                 fp = f"{os.path.splitext(args.output)[0]}-frame{len(frames):02d}.png"
                 open(fp, "wb").write(png)
 
     if not frames:
         sys.exit("error: no frames produced (importer found nothing in any commit)")
     title = f"Architecture evolution — {os.path.basename(os.path.abspath(args.path))}"
+    os.makedirs(os.path.dirname(os.path.abspath(args.output)), exist_ok=True)
     open(args.output, "w", encoding="utf-8").write(build_html(frames, title))
     sys.stderr.write(f"wrote {args.output} ({len(frames)} frames)\n")
 

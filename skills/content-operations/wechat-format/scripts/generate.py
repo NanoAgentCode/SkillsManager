@@ -9,7 +9,7 @@ API 生图脚本
   - aspect_ratio: 必须
   - image_size: 可选（未提供则用 config.settings.image_size）
 - 调用 models/{model}:generateContent（第三方网关兼容 Google 官方 REST 形态）
-- 把返回图片落盘（优先 --out；否则写入 config.output_dir）
+- 把返回图片落盘（优先 --out；默认写入调用方项目的技能产物目录）
 """
 
 from __future__ import annotations
@@ -19,7 +19,6 @@ import base64
 import datetime as _dt
 import json
 import mimetypes
-import os
 import pathlib
 import sys
 import time
@@ -357,14 +356,11 @@ def _load_config(config_path: pathlib.Path) -> dict:
     raise SystemExit(f"未找到配置文件：{config_path}（也不存在 config.example.json）")
 
 
-def _get_cfg(cfg: dict) -> tuple[str, dict, dict]:
-    output_dir = cfg.get("output_dir")
+def _get_cfg(cfg: dict) -> tuple[dict, dict]:
     settings = cfg.get("settings") if isinstance(cfg.get("settings"), dict) else {}
     secrets = cfg.get("secrets") if isinstance(cfg.get("secrets"), dict) else {}
 
-    if not isinstance(output_dir, str) or not output_dir.strip():
-        raise SystemExit("配置缺少 output_dir（字符串）")
-    return output_dir, settings, secrets
+    return settings, secrets
 
 
 def _ensure_parent(p: pathlib.Path):
@@ -431,7 +427,7 @@ def main():
     ap.add_argument("--prompt", default=None, help="提示词文本（调试用）")
     ap.add_argument("--reference", nargs="*", default=[], help="参考图路径（可选，支持多张）")
 
-    ap.add_argument("--out", default=None, help="输出图片路径（可选；未提供则写入 output_dir）")
+    ap.add_argument("--out", default=None, help="输出图片路径（默认写入当前项目的 output/<技能名>/）")
 
     # 调试兜底：一般不要用，优先写到提示词 YAML 头部。
     ap.add_argument("--aspect-ratio", default=None, help="图片比例（调试兜底；优先从提示词文件读取）")
@@ -442,7 +438,7 @@ def main():
     skill_dir = pathlib.Path(__file__).resolve().parent.parent
     config_path = pathlib.Path(args.config).expanduser().resolve() if args.config else (skill_dir / "config.json")
     cfg = _load_config(config_path)
-    output_dir, settings, secrets = _get_cfg(cfg)
+    settings, secrets = _get_cfg(cfg)
 
     base_url = str(settings.get("base_url") or "").strip()
     model = str(settings.get("model") or "").strip()
@@ -585,7 +581,8 @@ def main():
         base_out = pathlib.Path(args.out).expanduser()
         base_has_suffix = bool(base_out.suffix)
     else:
-        out_root = pathlib.Path(os.path.expanduser(output_dir)).resolve()
+        skill_name = "wechat-cover" if config_path.parent.name == "wechat-cover" else "wechat-format"
+        out_root = pathlib.Path.cwd() / "output" / skill_name
         name = prompt_file.stem if prompt_file else ("generated-" + _dt.datetime.now().strftime("%Y%m%d-%H%M%S"))
         base_out = out_root / name  # 不带后缀；后缀由回包 mime 决定
         base_has_suffix = False

@@ -9,6 +9,7 @@ Every model or client uses the same skill implementation: the selected skill's `
 3. Read the selected `SKILL.md` completely.
 4. Load linked scripts, references, assets, or templates only when required.
 5. Preserve the skill workflow and report the verification performed.
+6. For an independently installed skill, run its scripts from the business project root or pass an absolute destination under that project's `output/<skill-name>/`.
 
 Direct invocation pattern:
 

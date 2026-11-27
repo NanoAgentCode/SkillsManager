@@ -18,7 +18,6 @@ from config_loader import load_config
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 SKILL_DIR = SCRIPT_DIR.parent
-REPO_ROOT = SKILL_DIR.parents[2]
 WECHAT_COVER_DIR = SKILL_DIR.parent / "wechat-cover"
 DEFAULT_RECOMMEND = ["apple-code", "github", "bytedance", "sspai"]
 LOCAL_IMAGE_SUFFIXES = {".avif", ".bmp", ".gif", ".jpeg", ".jpg", ".png", ".svg", ".webp"}
@@ -36,8 +35,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-root",
         "-o",
-        default=str(REPO_ROOT / "output" / "wechat-format" / "article-workflows"),
-        help="Root directory for workflow artifacts",
+        default="output/wechat-format/article-workflows",
+        help="Root directory for workflow artifacts, relative to the calling project's working directory",
     )
     parser.add_argument(
         "--theme",

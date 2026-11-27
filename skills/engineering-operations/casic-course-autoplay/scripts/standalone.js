@@ -33,7 +33,8 @@ const TARGET_URL = arg('url', null);
 const RATE = parseFloat(arg('rate', '1.5'));
 const HEADLESS = !has('headed');
 const CHROME = arg('chrome', null);   // 已有 chromium 二进制时直接复用，免下载
-const STATE_FILE = arg('state', path.join(__dirname, 'state.json'));
+const OUTPUT_DIR = path.join(process.cwd(), 'output', 'casic-course-autoplay');
+const STATE_FILE = path.resolve(arg('state', path.join(OUTPUT_DIR, 'state.json')));
 const POLL_MS = parseInt(arg('poll', '3000'), 10);
 const REPORT_MS = parseInt(arg('report', String(30 * 60 * 1000)), 10);
 const SWITCH_COOL = 10000;
@@ -42,7 +43,12 @@ const MAX_SWEEPS = 6;
 let state = { subjectUrl: null, courseIdx: null, cool: 0, done: 0, sweeps: 0, lastReport: 0, courseKey: null };
 try { state = Object.assign(state, JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'))); } catch (e) {}
 
-const saveState = () => { try { fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2)); } catch (e) {} };
+const saveState = () => {
+  try {
+    fs.mkdirSync(path.dirname(STATE_FILE), { recursive: true });
+    fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2));
+  } catch (e) {}
+};
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const log = (...a) => console.log('[' + new Date().toLocaleString('zh-CN', { hour12: false }) + ']', ...a);
 const mmss = (s) => String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(Math.round(s % 60)).padStart(2, '0');
@@ -92,7 +98,8 @@ async function login(page) {
   await page.click('.login-btn');
   await sleep(7000);
   if ((await page.evaluate(() => location.hash)).indexOf('#/login') > -1) {
-    await page.screenshot({ path: path.join(__dirname, 'login-fail.png') }).catch(() => {});
+    fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    await page.screenshot({ path: path.join(OUTPUT_DIR, 'login-fail.png') }).catch(() => {});
     throw new Error('登录失败，仍在 #/login');
   }
   log('登录成功');

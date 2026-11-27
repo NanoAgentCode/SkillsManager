@@ -13,6 +13,8 @@ License: MIT. This local copy is integrated under `skills/knowledge-visualizatio
 
 Generate `.excalidraw` JSON files and export to PNG/SVG.
 
+Save editable files and exports under the business project's `output/excalidraw/` unless the user supplies a destination.
+
 **Two export options:**
 - **Kroki API** (`curl`) — zero install, SVG output only
 - **excalidraw-brute-export-cli** — local Firefox-based, PNG + SVG

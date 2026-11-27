@@ -7,7 +7,7 @@ This guide contains shared installation, invocation, validation, output, and sec
 1. Choose the closest business scenario in `docs/skill-index.md`.
 2. Read the selected `SKILL.md` completely.
 3. Use bundled scripts for repeatable operations.
-4. Keep generated artifacts under `output/<skill-name>/` unless the user supplies another path.
+4. Write generated artifacts under the business project's `output/<skill-name>/`. Use an explicit user-supplied destination when present.
 
 Example:
 
@@ -27,7 +27,7 @@ The launcher checks configured runtimes, repository environments, the Windows re
 
 ## Standalone Commands
 
-Use Python 3.10 or later and install from the repository root:
+Use Python 3.10 or later. Install from the skill checkout and run the installed commands from the business project root. For example:
 
 ```text
 python -m pip install ./skills/engineering-operations/python-offline-dependency-packager
@@ -36,17 +36,17 @@ offline-deps bundle --package requests --version 2.32.5 --python-version 3.11
 python -m pip install ./skills/content-operations/official-format-pro
 official-format convert --title "公文标题" --input content.md --output result.docx
 python -m pip install ./skills/knowledge-visualization/drawio-skill
-depgraph generate ./src --language python --no-reduce -o dependencies.drawio
-depgraph validate dependencies.drawio
+depgraph generate ./src --language python --no-reduce -o output/drawio-skill/dependencies.drawio
+depgraph validate output/drawio-skill/dependencies.drawio
 python -m pip install ./skills/content-operations/wechat-history-article-archive
-wechat-archive extract --input history-source.txt --output history-urls.txt
-wechat-archive fetch --input history-urls.txt --output-dir archive
-wechat-archive export --archive-dir archive
+wechat-archive extract --input history-source.txt --output output/wechat-history-article-archive/history-urls.txt
+wechat-archive fetch --input output/wechat-history-article-archive/history-urls.txt --output-dir output/wechat-history-article-archive/archive
+wechat-archive export --archive-dir output/wechat-history-article-archive/archive
 python -m pip install ./skills/content-operations/video-transcriber
-media-subtitle-to-md captions.srt --output transcript.md
+media-subtitle-to-md captions.srt --output output/video-transcriber/transcript.md
 media-extract-audio video.mp4 --output-dir output/video-transcriber
 python -m pip install ./skills/market-intelligence/us-sector-index-impact-report
-sector-report-render --input report-data.json --output report.html
+sector-report-render --input report-data.json --output output/us-sector-index-impact-report/report.html
 ```
 
 The knowledge tools run from a checkout with PowerShell 7. Rendering also requires `markmap` on PATH.
@@ -111,10 +111,10 @@ Run the dependency-free Dify structure checks:
 
 ## Outputs
 
-- Default generated artifacts belong under the repository-level `output/` directory.
-- Use a skill-specific subdirectory such as `output/wechat-format/` or `output/mindmap-builder/`.
-- Keep temporary files, local configs, downloaded dependencies, and generated previews ignored.
-- Do not create default output directories inside a skill folder.
+- Treat the business project and the skill installation as separate paths. For example, an installed WeChat skill can render into `<business-project>/output/wechat-format/article-workflows/`.
+- Agents set the command's working directory to the business project root or pass absolute output arguments. A standalone CLI with a default uses the caller's working directory. Ask for the project root if it is unclear.
+- Use the producing skill's frontmatter `name` for its output directory. In a handoff, pass input paths explicitly and keep each stage's output in the same business project. A composite workflow keeps its own intermediates and manifest together.
+- Keep configuration and runtime state used for authentication or deduplication in their documented storage. Use the requested destinations for explicit deployments and in-place edits.
 
 ## Security
 

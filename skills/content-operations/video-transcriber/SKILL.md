@@ -52,7 +52,7 @@ Audio extraction requires FFmpeg on PATH or an executable supplied through `--ff
    - split long paragraphs by topic or speaker changes
    - mark uncertain words with `[unclear]` instead of inventing content
    - do not fabricate missing speech when audio is inaudible
-10. Save final artifacts under `output/video-transcriber/<media-stem>/` by default and report the paths.
+10. Save artifacts under the active business project's `output/video-transcriber/<media-stem>/` by default and report the paths. Run the standalone commands from the business project root or pass the absolute output paths.
 
 ## Acquisition routes
 

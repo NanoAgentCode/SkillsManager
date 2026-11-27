@@ -33,7 +33,7 @@ Prefer offline local HTML generation for desktop/client use. The skill bundles m
    - If approved, install with `npm install -g markmap-cli`, then re-check `markmap --version`.
    - If Node/npm are missing, tell the user Node.js must be installed first.
 5. Generate local output:
-   - Save generated Markdown and HTML under the repository root `output/mindmap-builder/` by default, unless the user specifies another path.
+   - Save generated Markdown and HTML under the business project's `output/mindmap-builder/` by default. Use the installed script's absolute path when the skill lives elsewhere, and pass an explicit destination if the user supplied one.
    - Save the Markdown next to the desired output when useful for iteration.
    - Prefer `scripts/render_offline_mindmap.ps1 -InputMarkdown input.md -OutputHtml output/mindmap-builder/output.html`.
    - This script runs `markmap`, embeds the four bundled runtime assets inline, and fails if separate resource dependencies remain. Keep source links as links; do not mistake citations for runtime dependencies. Use text-only nodes by default; embed requested images as data URLs if a single-file result is required. Write formulas as plain Unicode text unless math rendering dependencies can also be embedded; raw LaTeX may trigger extra KaTeX assets that this renderer rejects.

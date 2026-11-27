@@ -1,5 +1,4 @@
 {
-  "output_dir": "../../../output/wechat-cover",
   "settings": {
     "base_url": "https://YOUR_PROVIDER_BASEURL/v1",
     "model": "gemini-3-pro-image-preview"
@@ -9,13 +8,6 @@
   },
   "__ui": {
     "fields": {
-      "output_dir": {
-        "label": "输出目录",
-        "type": "directory",
-        "required": true,
-        "description": "封面图保存到该目录下",
-        "placeholder": "请选择输出目录…"
-      },
       "settings.base_url": {
         "label": "API 基础地址（base_url）",
         "type": "string",
@@ -38,7 +30,6 @@
       }
     },
     "order": [
-      "output_dir",
       "settings.base_url",
       "settings.model",
       "secrets.api_key"

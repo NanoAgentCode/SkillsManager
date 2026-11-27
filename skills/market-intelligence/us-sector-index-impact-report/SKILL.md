@@ -60,7 +60,7 @@ Produce a current, citation-backed Chinese investment research report from overn
 7. Render a standalone HTML file.
    - Build a JSON payload that follows `references/report-schema.md`.
    - Run `scripts/render_investment_bank_html.py` to create the HTML page.
-   - If the user specified an output path, use it. Otherwise write the JSON payload and rendered HTML under the repository root `output/us-sector-index-impact-report/`, for example `output/us-sector-index-impact-report/us-sector-impact-report-YYYY-MM-DD.html`.
+   - If the user specified an output path, use it. Otherwise write the JSON payload and rendered HTML under the business project's `output/us-sector-index-impact-report/`, for example `output/us-sector-index-impact-report/us-sector-impact-report-YYYY-MM-DD.html`.
    - The renderer rejects incomplete reports: title, session date, both Nasdaq indices, every required analysis section, and traceable sources are mandatory. Treat rejected input as an unfinished research draft, not a deliverable.
 
 ## Data Standards
@@ -97,7 +97,7 @@ For a stable local renderer preview, use the checked-in fixture:
 .\skills\market-intelligence\us-sector-index-impact-report\scripts\preview_sample_report.ps1
 ```
 
-The preview script renders [fixtures/sample-report.json](fixtures/sample-report.json) to `output/us-sector-index-impact-report-sample.html` by default. Pass `-Open` to launch the rendered file after generation, or `-Output .\path\report.html` to choose another output path. Keep the fixture aligned with [references/report-schema.md](references/report-schema.md) so renderer changes can be compared against a stable example.
+The preview script renders [fixtures/sample-report.json](fixtures/sample-report.json) to `output/us-sector-index-impact-report/sample-report.html` in the caller's working directory by default. Pass `-Open` to launch the rendered file after generation, or `-Output .\path\report.html` to choose another output path. Keep the fixture aligned with [references/report-schema.md](references/report-schema.md) so renderer changes can be compared against a stable example.
 
 ## Final Response
 

@@ -37,7 +37,7 @@ python3 wechat-format/scripts/check_dependencies.py --install
 
 ## 配置
 
-纯排版无需 `config.json`。如果文件不存在，脚本会使用默认配置，并输出到仓库级 `../../../output/wechat-format/` 目录。
+纯排版无需 `config.json`。默认输出到业务项目的 `output/wechat-format/`。指定其他目标时使用命令行输出参数。
 
 如果要推送草稿箱、评论回复、生成封面，或自定义输出目录，复制并编辑 `config.json`：
 
@@ -47,7 +47,6 @@ cp config.example.json config.json
 
 ```json
 {
-  "output_dir": "../../../output/wechat-format/tmp",
   "vault_root": "/path/to/your/obsidian/vault",
   "image_search_paths": [],
   "settings": {
@@ -60,7 +59,6 @@ cp config.example.json config.json
     "author": "作者名"
   },
   "cover": {
-    "output_dir": "../../../output/wechat-cover",
     "image_generation_script": ""
   },
   "ai": {
@@ -78,6 +76,8 @@ cp config.example.json config.json
 
 ## 使用
 
+从业务项目根执行命令，将示例中的脚本路径替换为已安装技能的绝对路径。
+
 在 Claude Code 里直接说：
 
 ```
@@ -89,7 +89,7 @@ cp config.example.json config.json
 ```powershell
 $Python = Join-Path $env:USERPROFILE ".cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
 $env:PYTHONIOENCODING = 'utf-8'
-& $Python .\scripts\article_workflow.py --input ..\..\..\article.md --bytedance-preview --cover
+& $Python .\scripts\article_workflow.py --input .\article.md --bytedance-preview --cover
 ```
 
 Portable shell：
@@ -104,10 +104,10 @@ PYTHONIOENCODING=utf-8 python3 ./scripts/article_workflow.py --input ../../../ar
 
 ```powershell
 & $Python .\scripts\article_workflow.py `
-  --input ..\..\..\output\technical-article-visual-director\my-article\article-with-visuals.md `
-  --source-notes ..\..\..\output\technical-source-to-public-article\my-article\source-notes.md `
-  --visual-plan ..\..\..\output\technical-article-visual-director\my-article\visual-plan.md `
-  --assets-dir ..\..\..\output\technical-article-visual-director\my-article\images `
+  --input .\output\technical-article-visual-director\my-article\article-with-visuals.md `
+  --source-notes .\output\technical-source-to-public-article\my-article\source-notes.md `
+  --visual-plan .\output\technical-article-visual-director\my-article\visual-plan.md `
+  --assets-dir .\output\technical-article-visual-director\my-article\images `
   --preserve-content --strict-assets --theme apple-code --no-open --non-interactive
 ```
 
@@ -142,17 +142,17 @@ Windows PowerShell：
 ### 推送到公众号
 
 ```bash
-python3 scripts/publish.py --dir ../../../output/wechat-format/tmp/article-name/ --cover cover.jpg
+python3 scripts/publish.py --dir ./output/wechat-format/tmp/article-name/ --cover cover.jpg
 
 # 或从 Markdown 自动排版并推送，仍使用同一个已忽略输出目录
-python3 scripts/publish.py --input article.md --output ../../../output/wechat-format/tmp --theme newspaper --cover cover.jpg
+python3 scripts/publish.py --input article.md --output ./output/wechat-format/tmp --theme newspaper --cover cover.jpg
 ```
 
 Windows PowerShell：
 
 ```powershell
-& $Python .\scripts\publish.py --dir ..\..\..\output\wechat-format\tmp\article-name --cover .\cover.jpg
-& $Python .\scripts\publish.py --input .\article.md --output ..\..\..\output\wechat-format\tmp --theme newspaper --cover .\cover.jpg
+& $Python .\scripts\publish.py --dir .\output\wechat-format\tmp\article-name --cover .\cover.jpg
+& $Python .\scripts\publish.py --input .\article.md --output .\output\wechat-format\tmp --theme newspaper --cover .\cover.jpg
 ```
 
 ## 主题一览
@@ -234,7 +234,6 @@ Windows PowerShell：
 
 ```json
 {
-  "output_dir": "../../../output/wechat-cover",
   "settings": {
     "base_url": "https://你的API地址/v1",
     "model": "gemini-3-pro-image-preview"

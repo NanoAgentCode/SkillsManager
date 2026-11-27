@@ -52,7 +52,7 @@ def export_page(drawio_file, index, out_png, scale):
 def main():
     ap = argparse.ArgumentParser(description="Export a .drawio to a PowerPoint deck (one slide per page).")
     ap.add_argument("file")
-    ap.add_argument("-o", "--output", help="output .pptx (default: alongside input)")
+    ap.add_argument("-o", "--output", help="output .pptx path (default: output/drawio-skill/)")
     ap.add_argument("--scale", type=float, default=2.0, help="PNG export scale (default 2)")
     args = ap.parse_args()
 
@@ -65,7 +65,9 @@ def main():
         sys.exit("error: python-pptx is required (pip install python-pptx)")
 
     names = page_names(args.file)
-    out = args.output or os.path.splitext(args.file)[0] + ".pptx"
+    stem = os.path.splitext(os.path.basename(args.file))[0]
+    out = args.output or os.path.join("output", "drawio-skill", stem + ".pptx")
+    os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
 
     prs = Presentation()
     prs.slide_width = Emu(12192000)                    # 13.333in — 16:9

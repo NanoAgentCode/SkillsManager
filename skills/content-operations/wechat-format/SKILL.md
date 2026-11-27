@@ -33,18 +33,17 @@ $Python = Join-Path $env:USERPROFILE ".cache\codex-runtimes\codex-primary-runtim
 
 ## 配置
 
-纯排版无需创建 `config.json`。如果文件不存在，脚本会使用内置默认配置：
+从业务项目根运行，或显式传入该项目内的绝对输出路径。独立安装时，用技能目录定位脚本。纯排版使用以下默认值：
 
-- 输出目录：`{repoRoot}/output/wechat-format/tmp`
-- 默认 workflow 产物根目录：`{repoRoot}/output/wechat-format/article-workflows`
+- 输出目录：`<项目根>/output/wechat-format/tmp`
+- 默认 workflow 产物根目录：`<项目根>/output/wechat-format/article-workflows`
 - Vault 根目录：当前用户主目录
 - 默认主题：`newspaper`
 
-发布草稿箱、评论回复、封面生成或自定义输出目录时，再创建 `config.json`（参考 `config.example.json`）：
+发布草稿箱、评论回复或封面生成时按需创建 `config.json`。用 `--output` 或 `--output-root` 覆盖本次输出位置。旧配置中的 `output_dir` 字段可保留，输出位置由本次命令决定：
 
 ```json
 {
-  "output_dir": "../../../output/wechat-format/tmp",
   "vault_root": "/path/to/your/obsidian/vault",
   "image_search_paths": [],
   "settings": {
@@ -57,7 +56,6 @@ $Python = Join-Path $env:USERPROFILE ".cache\codex-runtimes\codex-primary-runtim
     "author": "作者名"
   },
   "cover": {
-    "output_dir": "../../../output/wechat-cover",
     "image_generation_script": ""
   },
   "ai": {
@@ -213,7 +211,7 @@ PYTHONIOENCODING=utf-8 python3 {baseDir}/scripts/article_workflow.py --input "�
 默认输出：
 
 ```text
-{repoRoot}/output/wechat-format/article-workflows/<article-slug>/
+<项目根>/output/wechat-format/article-workflows/<article-slug>/
   source/
   upstream/
   markdown/

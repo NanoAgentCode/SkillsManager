@@ -35,7 +35,7 @@ from config_loader import load_config as load_skill_config
 SCRIPT_DIR = Path(__file__).parent
 SKILL_DIR = SCRIPT_DIR.parent
 STATE_PATH = SCRIPT_DIR.parent / "comment_state.json"
-LOG_PATH = SCRIPT_DIR.parent / "comment_reply.log"
+LOG_PATH = Path.cwd() / "output" / "wechat-format" / "comment_reply.log"
 
 # AI 回复的系统提示（请修改为你自己的公众号名称和风格）
 SYSTEM_PROMPT = """你是公众号的作者，回复读者评论。
@@ -100,6 +100,7 @@ def log(msg):
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     line = f"[{ts}] {msg}"
     print(line)
+    LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(LOG_PATH, "a", encoding="utf-8") as f:
         f.write(line + "\n")
 

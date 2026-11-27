@@ -3,207 +3,49 @@ name: wechat-history-article-archive
 description: Use when backing up, migrating, or reformatting historical WeChat articles from an owned or authorized account. Archives lawful article URLs as Markdown, metadata, and local images, with an optional wechat-format handoff; excludes private-API history scraping.
 ---
 
-# wechat-history-article-archive
+# WeChat History Article Archive
 
-Back up historical mass-send articles for a self-owned or explicitly authorized WeChat Official Account. Start from lawful article URLs visible/exportable to the account operator, then archive public article pages as local Markdown, metadata, indexes, and images. When the user wants migration, reformatting, or republishing, hand archived Markdown to `../wechat-format/scripts/article_workflow.py` through the bundled bridge script.
+Archive historical mass-send articles from an account the user owns or is authorized to operate. Use links copied or exported from the official account's sent history, a supplied export, or pasted `mp.weixin.qq.com/s?...` links. The permanent-material API covers a different collection.
 
-## Scope
+Use `<business-project>/output/wechat-history-article-archive/` for the URL list, archive, and staging outputs unless the user provides a destination.
 
-- Only process articles for accounts the user owns or is explicitly authorized to operate.
-- Prefer URL lists copied or exported from the WeChat Official Account admin UI.
-- Do not ask for `AppID` / `AppSecret` for history backup. The normal input is an article URL list, not the permanent-material API.
-- Do not describe permanent material export as a full historical mass-send export.
-- Do not bypass captchas, risk controls, login limits, private APIs, or access restrictions.
+## Choose the operation
 
-## Bundled Scripts
+1. **Archive links.** Use a supplied URL list directly after checking its scope. For mixed text, use `scripts/extract_mp_urls.py` first to normalize and deduplicate the list. If browser collection from the admin UI is needed, use only an available, authorized signed-in session. If account authority or the article range is unclear, ask for the missing scope or an authorized export. Handle login, CAPTCHA, and risk-control blocks by using a user-provided export or URL list.
+2. **Convert an existing archive.** Use `scripts/convert_archive_to_markdown.py` with its existing index and retained HTML. It updates Markdown, metadata and indexes. Keep HTML by default and pass `--delete-html` only when the user explicitly approves deletion after successful conversion.
+3. **Prepare selected archived articles for republishing.** Read [reformatting.md](references/reformatting.md). Reuse the archived Markdown and images through the existing formatter bridge. Apply a confirmed selection and theme or send the relevant choices to the formatter.
 
-With Python 3.10 or newer, install and run the standalone command from the repository root:
+## Archive commands
+
+Use the installed `wechat-archive` command with Python 3.10 or newer. The first command is for an approved installation from the repository root.
 
 ```text
 python -m pip install ./skills/content-operations/wechat-history-article-archive
-wechat-archive extract --input history-source.txt --output history-urls.txt
-wechat-archive fetch --input history-urls.txt --output-dir archive
-wechat-archive export --archive-dir archive
+wechat-archive extract --input history-source.txt --output output/wechat-history-article-archive/history-urls.txt
+wechat-archive fetch --input output/wechat-history-article-archive/history-urls.txt --output-dir output/wechat-history-article-archive/archive
+wechat-archive export --archive-dir output/wechat-history-article-archive/archive
 ```
 
-`fetch` already writes Markdown. Use `export` to regenerate Markdown from HTML retained with `--keep-html` or from an older archive.
-
-- `scripts/extract_mp_urls.py`
-  - Extract and deduplicate `mp.weixin.qq.com/s?...` article URLs from text, HTML, CSV fragments, clipboard dumps, or notes.
-  - Output a clean one-URL-per-line list.
-- `scripts/archive_article_urls.py`
-  - Read a URL list and batch-fetch public article pages.
-  - Save Markdown, metadata JSON, index CSV/JSON, and local images by default.
-  - Keep intermediate `article.html` only when `--keep-html` is passed.
-- `scripts/convert_archive_to_markdown.py`
-  - Convert archived `article.html` files into `article.md`.
-  - Download article images into each article's `images/` folder.
-  - Optionally delete legacy `article.html` with `--delete-html`.
-- `scripts/reformat_archived_articles.py`
-  - Stage archived `articles/<slug>/article.md`, sibling `images/`, and `meta.json` into formatter-ready folders.
-  - Call `../wechat-format/scripts/article_workflow.py` for one or more archived articles.
-  - Write `output/wechat-history-article-archive/reformat-inputs/reformat-manifest.json` with archive paths, staged inputs, formatter commands, and workflow output roots.
-
-## Workflow
-
-### 1. Confirm the Source
-
-Use one of these lawful sources:
-
-1. Article links manually copied from the account's "sent" history in the Official Account admin UI.
-2. A backend export, spreadsheet, page source, or pasted text that contains article links.
-3. Browser automation only when the current environment explicitly provides browser control and the user is already logged in to their own authorized account.
-
-If reliable browser automation is unavailable, ask the user for a URL list or exported text and continue from there.
-
-### 2. Normalize the URL List
-
-PowerShell:
+Run the installed command from the business project root. The bundled-script examples below use the Skills Manager checkout as the current project. From another project, use absolute paths to the scripts and keep output arguments relative to that project or absolute.
 
 ```powershell
-$Python = Join-Path $env:USERPROFILE ".cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
-& $Python `
-  .\skills\content-operations\wechat-history-article-archive\scripts\extract_mp_urls.py `
-  --input .\history-source.txt `
-  --output .\output\wechat-history-article-archive\history-urls.txt
+$archiveSkill = '.\skills\content-operations\wechat-history-article-archive'
+$archiveOutput = '.\output\wechat-history-article-archive'
+.\scripts\run-python.ps1 "$archiveSkill\scripts\extract_mp_urls.py" --input .\history-source.txt --output "$archiveOutput\history-urls.txt"
+.\scripts\run-python.ps1 "$archiveSkill\scripts\archive_article_urls.py" --input "$archiveOutput\history-urls.txt" --output-dir "$archiveOutput\archive"
+.\scripts\run-python.ps1 "$archiveSkill\scripts\convert_archive_to_markdown.py" --archive-dir "$archiveOutput\archive"
 ```
-
-Portable shell:
 
 ```bash
-python3 ./skills/content-operations/wechat-history-article-archive/scripts/extract_mp_urls.py \
-  --input ./history-source.txt \
-  --output ./output/wechat-history-article-archive/history-urls.txt
+archive_skill=./skills/content-operations/wechat-history-article-archive
+archive_output=./output/wechat-history-article-archive
+python3 "$archive_skill/scripts/extract_mp_urls.py" --input ./history-source.txt --output "$archive_output/history-urls.txt"
+python3 "$archive_skill/scripts/archive_article_urls.py" --input "$archive_output/history-urls.txt" --output-dir "$archive_output/archive"
+python3 "$archive_skill/scripts/convert_archive_to_markdown.py" --archive-dir "$archive_output/archive"
 ```
 
-### 3. Archive the Article Pages
+Run conversion only for archives with retained `article.html` files. Fetch already writes Markdown. Use `--keep-html` when intermediate HTML is part of the requested archive. When a fetch output path already contains an archive, choose a fresh path unless the user authorizes reusing it and replacing the indexes. Keep real exports, session credentials, and generated files in local ignored paths.
 
-PowerShell:
+## Verify and report
 
-```powershell
-& $Python `
-  .\skills\content-operations\wechat-history-article-archive\scripts\archive_article_urls.py `
-  --input .\output\wechat-history-article-archive\history-urls.txt `
-  --output-dir .\output\wechat-history-article-archive\archive
-```
-
-Portable shell:
-
-```bash
-python3 ./skills/content-operations/wechat-history-article-archive/scripts/archive_article_urls.py \
-  --input ./output/wechat-history-article-archive/history-urls.txt \
-  --output-dir ./output/wechat-history-article-archive/archive
-```
-
-Default archive output:
-
-```text
-index.json
-index.csv
-articles/<slug>/article.md
-articles/<slug>/meta.json
-articles/<slug>/images/*
-```
-
-If the archive already contains `article.html` files, convert them afterward:
-
-```powershell
-& $Python `
-  .\skills\content-operations\wechat-history-article-archive\scripts\convert_archive_to_markdown.py `
-  --archive-dir .\output\wechat-history-article-archive\archive `
-  --delete-html
-```
-
-### 4. Review Failures
-
-For failed links:
-
-- Check whether the URL is expired, deleted, malformed, or requires login.
-- A response without a valid `#js_content` body or without text/images is recorded as a failure, not an empty successful archive. Keep the URL and error from `index.json` for follow-up.
-- Reduce request speed if there are transient failures.
-- Do not try to bypass verification, risk control, login restrictions, or non-public interfaces.
-
-### 5. Reformat Archived Articles for Republishing
-
-When the user wants reformatting, migration, or republishing preparation, prefer the bridge script instead of manually copying archive files into `wechat-format`.
-
-PowerShell:
-
-```powershell
-$env:PYTHONIOENCODING = 'utf-8'
-& $Python `
-  .\skills\content-operations\wechat-history-article-archive\scripts\reformat_archived_articles.py `
-  --archive-dir .\output\wechat-history-article-archive\archive `
-  --article 1 `
-  --theme apple-code `
-  --skip-ai `
-  --no-open `
-  --non-interactive
-```
-
-Portable shell:
-
-```bash
-PYTHONIOENCODING=utf-8 python3 ./skills/content-operations/wechat-history-article-archive/scripts/reformat_archived_articles.py \
-  --archive-dir ./output/wechat-history-article-archive/archive \
-  --article 1 \
-  --theme apple-code \
-  --skip-ai \
-  --no-open \
-  --non-interactive
-```
-
-Selection rules:
-
-- Omit `--article` to process every successful archived article.
-- Repeat `--article` for multiple items.
-- A selector can match `seq`, title, article directory name, or Markdown filename stem.
-- Use `--dry-run` to validate staging paths and formatter command construction without running the formatter.
-
-Default handoff output:
-
-```text
-output/wechat-history-article-archive/reformat-inputs/
-  <archive-article-slug>/
-    <archive-article-slug>.md
-    images/
-    meta.json
-  reformat-manifest.json
-
-output/wechat-format/article-workflows/<archive-article-slug>/
-  source/
-  markdown/
-  render/
-  gallery/
-  selection/
-  final/<theme>/
-  bytedance/
-  cover/
-  manifest.json
-```
-
-Report `reformat-manifest.json`, formatter `manifest.json`, final `preview.html`, final `article.html`, and optional cover/ByteDance preview paths.
-
-## Configuration
-
-No `config.json` is required for archive-only runs. If fixed local defaults are needed, create a local `config.json` beside this skill and use `config.example.json` as the safe example. Do not commit real local config values.
-
-The reformat bridge delegates to `wechat-format/scripts/article_workflow.py`. Read `../wechat-format/SKILL.md` when the user asks for theme selection, AI polishing, cover generation, or draft publishing details.
-
-## Output Expectations
-
-When finishing an archive task, report:
-
-- Number of URLs recognized.
-- Number of successful and failed archives.
-- Archive directory.
-- Whether the permanent-material API boundary is relevant.
-- If reformatting was requested: staged handoff directory, `reformat-manifest.json`, formatter workflow root, final preview/article HTML, and any cover/ByteDance preview artifacts.
-
-## Safety Rules
-
-- Only archive articles from self-owned or explicitly authorized accounts.
-- Do not scrape unauthorized third-party account history.
-- Do not use private APIs or bypass access controls.
-- Do not commit cookies, tokens, real exports, generated outputs, or local `config.json`.
-- Use browser automation only when the current environment actually exposes that capability and the user is already logged in to their authorized account.
+Check `index.json` and `index.csv`, and verify the `articles/<slug>/article.md`, `meta.json` and any referenced images for successful entries. Report recognized URLs, successes, failures, and the archive directory. Keep failed links and recorded errors for follow-up. A page needs a valid article body with text or images to count as successful. Slow requests for transient failures and use authorized sources for blocked pages.

@@ -11,7 +11,7 @@
 1. 从 [技能索引](docs/skill-index.md) 选择最接近业务目标的 skill。
 2. 完整阅读目标 `SKILL.md`。
 3. 按 skill 要求加载 `scripts/`、`references/`、`assets/` 或模板。
-4. 默认把生成产物写入 `output/<skill-name>/`。
+4. 产物统一写入当前业务项目的 `<项目根>/output/<skill-name>/`。独立调用也使用同一规则，明确指定的目标路径优先。
 
 通用调用方式：
 

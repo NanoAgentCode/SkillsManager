@@ -45,3 +45,19 @@ These are routing/contract checks, not substitutes for executing a real media, m
 | “帮我分析 AAPL 的技术指标。” | `stock-analysis-system`; market/symbol and data freshness, not an overnight sector report. |
 | “复盘昨晚美股板块对 A 股的影响。” | `us-sector-index-impact-report`; exact completed session and cited HTML. |
 | “打离线包，但还没确定 Python 版本。” | `python-offline-dependency-packager`; clarify target version before downloading. |
+
+## Interaction and handoff checks
+
+Review these cases with local fixtures or supplied evidence. For remote actions, check the next decision against the request and any response fixture before sending a live request.
+
+| User request and evidence | Expected decision or result |
+|---|---|
+| “按这个已导出的 workflow 样例生成本地 DSL。” The variables and outputs are specified. | `dify-dsl-app-builder` produces and validates the local DSL directly, with no design approval round or credentials prompt. |
+| “用这个已验证的 DSL 覆盖测试 workspace 的应用 A。” The target and operation are explicit. | Reuse the target and the approved operation, export or reuse its backup, delegate to Console, and verify the result by re-exporting. |
+| The approved Console import returns pending with an unexpected compatibility warning. | Report the `IMPORT_ID` and warning, and wait for approval before confirming. If the response has no unexpected effects and the target matches, use the same authorization to continue. |
+| “查一下 SQLite 的表。” An unambiguous local config exists. | Use the database command and return table metadata directly. Read the MinIO reference only for object-storage work. |
+| “下载这个对象到指定路径。” The destination already exists. | Use a fresh path if acceptable, or ask before overwriting the specified file. |
+| “把这批我账号的文章链接备份成 Markdown。” The URLs and scope are supplied. | Archive into a fresh destination using the supplied links. Verify Markdown and indexes, and skip the formatter stage. |
+| “用归档里的文章重新排版。” The archive contains several articles and no selection was provided. | Ask which articles to use, then reuse archived Markdown and images. A staging-only run still writes to the stage root and should use a fresh path if it is only a rehearsal. |
+| “演练把 MaxKB 升到指定版本。” The service is in use. | Rehearse using independent resources. Before any live cutover, obtain authorization for the target, downtime, and known migration impact. |
+| “把导图发布到这个路径。” The slug already has a published `index.html` and no update was approved. | Show the destination URL and ask whether to replace it or use a new slug. Reuse explicit update authorization for the same URL when already granted. |

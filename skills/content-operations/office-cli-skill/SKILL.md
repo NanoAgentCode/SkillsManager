@@ -53,7 +53,7 @@ For command syntax and supported document elements, read [references/officecli-c
 6. Run `officecli close <file>` before another program reads the output or before delivery.
 7. Validate the result and inspect relevant text or issues. For visual work, also render or open the result with an available viewer.
 
-Keep generated artifacts under `output/office-cli-skill/` unless the user gives another path.
+Keep generated artifacts under the business project's `output/office-cli-skill/` unless the user gives another path.
 
 ## Template-based PowerPoint
 

@@ -45,7 +45,7 @@ skills/
     skill-linter/
 ```
 
-Generated artifacts do not live under `skills/`. Put them in `output/<skill-name>/` unless the user provides another output path.
+Put generated artifacts in the active business project's `output/<skill-name>/`. Use the skill's frontmatter name and honor an explicit output path.
 
 ## Scenario Boundaries
 
@@ -74,7 +74,7 @@ Generated artifacts do not live under `skills/`. Put them in `output/<skill-name
 1. Keep the concrete skill folder name equal to the `name` in its `SKILL.md` frontmatter.
 2. Add a skill to the scenario that best matches the user's requested outcome. Do not add a new scenario for a single implementation technology.
 3. Keep cross-skill references repository-relative when documenting invocation paths. Use relative Markdown links only when the linked file is inside the same scenario and the relationship is stable.
-4. Keep generated files, local configs, credentials, and test outputs under ignored paths. Default generated artifacts belong under the repository-level `output/` directory.
+4. Keep generated files, local configs, credentials, and test outputs under ignored paths. Default generated artifacts belong under the active business project's `output/<skill-name>/`.
 5. When moving or adding a skill, update `docs/skill-index.md` and any affected operational documentation. Keep `README.md` and `AGENTS.md` as concise entrypoints, then check scripts for hard-coded parent-directory depth and repository-relative commands.
 6. Validate the result from the repository root:
 

@@ -1,5 +1,7 @@
 > Read only for the mode linked from SKILL.md. Unless stated otherwise, command and resource paths are relative to the skill directory, not this references directory.
 
+以下产物路径均以业务项目根为基准。需要从其他目录运行时，传入项目内的绝对输出路径，并用安装位置定位脚本。
+
 #### 第 1.2 步：技术文章术语质量检查（条件触发）
 
 如果文章明显偏技术、AI、工程、架构、数据库、编程、开发者工具、基础设施或产品技术分析，先读取并遵循 [`../technical-article-polisher/SKILL.md`](../../technical-article-polisher/SKILL.md)。
@@ -33,7 +35,7 @@
 6. **不改措辞**：不调语序、不增删内容、不润色文字。用户写什么就是什么，只加结构标记
 
 **保存与告知**：
-- 结构化后保存为 `{repoRoot}/output/wechat-format/tmp/xxx-structured.md`
+- 结构化后保存为 `<项目根>/output/wechat-format/tmp/xxx-structured.md`
 - 告知用户："检测到输入缺少 Markdown 格式标记，已自动补充标题和结构，保存在 xxx-structured.md，可检查调整"
 - 后续第 2 步基于 structured.md 继续处理
 
@@ -74,7 +76,7 @@
 
 7. **外部链接** → 无需处理（脚本自动转脚注）
 
-**处理完成后**，把增强后的 Markdown 保存为临时文件（`{repoRoot}/output/wechat-format/tmp/xxx-enhanced.md`）。
+**处理完成后**，把增强后的 Markdown 保存为临时文件（`<项目根>/output/wechat-format/tmp/xxx-enhanced.md`）。
 
 #### 第 2.5 步：推荐主题
 
@@ -233,7 +235,7 @@ python3 {baseDir}/scripts/publish.py \
 - `--input` / `-i`：Markdown 文件路径（必须）
 - `--gallery`：打开主题画廊（手动预览路径；重复包装任务优先用 `article_workflow.py`）
 - `--theme` / `-t`：直接指定主题名（跳过画廊）
-- `--output` / `-o`：输出目录（默认 `{repoRoot}/output/wechat-format/tmp`）
+- `--output` / `-o`：输出目录（默认 `<项目根>/output/wechat-format/tmp`）
 - `--vault-root`：Obsidian Vault 根目录（用于搜索 wikilink 图片）
 - `config.json.image_search_paths`：额外图片搜索目录（用于 `![[image.jpg]]`）
 - `--recommend`：推荐的主题 ID 列表，gallery 中高亮显示
@@ -243,7 +245,7 @@ python3 {baseDir}/scripts/publish.py \
 **article_workflow.py**：
 - `--input` / `-i`：Markdown 文件路径（必须）
 - `--polish-style`：简单润色类型；执行 AI 润色时必须由用户显式选择 `professional`（专业文章）或 `popular-science`（科普文章），无默认值
-- `--output-root` / `-o`：workflow 输出根目录（默认 `{repoRoot}/output/wechat-format/article-workflows`）
+- `--output-root` / `-o`：workflow 输出根目录（默认 `<项目根>/output/wechat-format/article-workflows`）
 - `--theme`：最终主题 ID；省略时打开 gallery 并在终端提示选择
 - `--recommend`：gallery 中高亮推荐的主题 ID 列表，默认推荐技术产品主题
 - `--bytedance-preview`：额外输出 ByteDance 主题预览
@@ -264,7 +266,7 @@ python3 {baseDir}/scripts/publish.py \
 **publish.py**：
 - `--dir`：排版输出目录路径（已排版好的 HTML）
 - `--input`：Markdown 文件路径（自动排版再推送）
-- `--output` / `-o`：自动排版输出目录（仅 `--input` 模式有效，默认 `{repoRoot}/output/wechat-format/tmp`）
+- `--output` / `-o`：自动排版输出目录（仅 `--input` 模式有效，默认 `<项目根>/output/wechat-format/tmp`）
 - `--cover` / `-c`：封面图路径（可选，默认搜索目录内 cover.*）
 - `--title` / `-t`：文章标题（默认从 HTML 提取）
 - `--theme`：排版主题（仅 `--input` 模式有效）
@@ -346,7 +348,7 @@ $Python = Join-Path $env:USERPROFILE ".cache\codex-runtimes\codex-primary-runtim
 $env:PYTHONIOENCODING = 'utf-8'
 & $Python `
   ..\wechat-history-article-archive\scripts\reformat_archived_articles.py `
-  --archive-dir ..\..\..\output\wechat-history-article-archive\archive `
+  --archive-dir .\output\wechat-history-article-archive\archive `
   --article 1 `
   --theme apple-code `
   --skip-ai `
@@ -359,10 +361,10 @@ The bridge stages each archived `article.md` with its sibling `images/` and `met
 Expected linked outputs:
 
 ```text
-../../../output/wechat-history-article-archive/reformat-inputs/reformat-manifest.json
-../../../output/wechat-format/article-workflows/<archive-article-slug>/manifest.json
-../../../output/wechat-format/article-workflows/<archive-article-slug>/final/<theme>/preview.html
-../../../output/wechat-format/article-workflows/<archive-article-slug>/final/<theme>/article.html
+./output/wechat-history-article-archive/reformat-inputs/reformat-manifest.json
+./output/wechat-format/article-workflows/<archive-article-slug>/manifest.json
+./output/wechat-format/article-workflows/<archive-article-slug>/final/<theme>/preview.html
+./output/wechat-format/article-workflows/<archive-article-slug>/final/<theme>/article.html
 ```
 ### 注意事项
 

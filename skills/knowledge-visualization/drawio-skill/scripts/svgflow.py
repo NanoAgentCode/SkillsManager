@@ -59,7 +59,7 @@ def animate(svg, speed, dash, reverse):
 def main():
     ap = argparse.ArgumentParser(description="Animate a diagram's edges into a flowing SVG.")
     ap.add_argument("file", help=".drawio (exported to SVG) or an .svg")
-    ap.add_argument("-o", "--output", help="output .svg (default: <name>-flow.svg)")
+    ap.add_argument("-o", "--output", help="output .svg path (default: output/drawio-skill/)")
     ap.add_argument("--speed", type=float, default=1.2, help="seconds per flow cycle (default 1.2)")
     ap.add_argument("--dash", default="6 4", help='dash pattern, e.g. "6 4" (default)')
     ap.add_argument("--reverse", action="store_true", help="flow toward the source")
@@ -75,7 +75,9 @@ def main():
         sys.stderr.write("warning: no edges found to animate "
                          "(a diagram with no connectors?)\n")
 
-    out = args.output or os.path.splitext(args.file)[0] + "-flow.svg"
+    stem = os.path.splitext(os.path.basename(args.file))[0]
+    out = args.output or os.path.join("output", "drawio-skill", stem + "-flow.svg")
+    os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
         f.write(svg)
     sys.stderr.write(f"wrote {out} ({n} edge{'s' if n != 1 else ''} animated)\n")

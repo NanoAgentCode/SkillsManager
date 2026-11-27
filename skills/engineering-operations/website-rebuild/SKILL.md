@@ -45,7 +45,7 @@ Lower levels are prefixes of higher levels. Do not start collection beyond the c
 4. Register every intentional difference with the source behavior, local behavior, reason, and reconsideration condition.
 5. Give ported code a stable source coordinate, such as the beautified bundle path and line interval or the original module identifier.
 6. Keep producers separate from verifiers. A verification gate must not import the transformation it audits.
-7. Store generated artifacts under `output/website-rebuild/<project>/` unless the user supplies another project directory.
+7. Store generated artifacts under the business project's `output/website-rebuild/<site>/` unless the user supplies a destination.
 
 ## Workflow
 

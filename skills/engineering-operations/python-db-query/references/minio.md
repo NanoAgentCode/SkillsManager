@@ -77,14 +77,14 @@ python3 ./scripts/init_config.py \
 
 ## Commands
 
-Windows examples use the repository launcher:
+Windows examples use the repository launcher. Set `$ProjectRoot` to the absolute business project root before running the download:
 
 ```powershell
 ..\..\..\scripts\run-python.ps1 .\scripts\minio_mc.py --config .\config.json test-connection
 ..\..\..\scripts\run-python.ps1 .\scripts\minio_mc.py --config .\config.json list-buckets
 ..\..\..\scripts\run-python.ps1 .\scripts\minio_mc.py --config .\config.json list-objects assets --prefix images/ --recursive
 ..\..\..\scripts\run-python.ps1 .\scripts\minio_mc.py --config .\config.json stat assets images/logo.png
-..\..\..\scripts\run-python.ps1 .\scripts\minio_mc.py --config .\config.json download assets images/logo.png .\outputs\logo.png
+..\..\..\scripts\run-python.ps1 .\scripts\minio_mc.py --config .\config.json download assets images/logo.png "$ProjectRoot\output\python-db-query\logo.png"
 ```
 
 On Linux, replace the launcher prefix with `python3`:

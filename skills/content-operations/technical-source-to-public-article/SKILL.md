@@ -28,7 +28,7 @@ Return results in this order:
 
 Write the deliverable headings and notes in Simplified Chinese unless the user requests another language.
 
-When the user requests files, write them under `output/technical-source-to-public-article/<article-slug>/` as `article.md` and, when useful, `source-notes.md`. Do not create an output directory for a chat-only response.
+When the user requests files, write them under the business project's `output/technical-source-to-public-article/<article-slug>/` as `article.md` and, when useful, `source-notes.md`. Do not create an output directory for a chat-only response.
 
 ## Handoffs
 

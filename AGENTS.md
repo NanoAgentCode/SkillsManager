@@ -14,9 +14,9 @@ Skills live under `skills/<business-scenario>/<skill-name>/`. Directory boundari
 
 ## Output Directory
 
-- Put generated artifacts under the repository-level `output/` directory by default.
-- Use a skill-specific subdirectory such as `output/wechat-format/` or `output/mindmap-builder/`.
-- Respect a user-specified output path, but do not create new default output folders inside skill directories.
+- Resolve the active business project from the request and workspace. Ask for the project directory only when several roots are plausible or none is known.
+- Write generated files, retained intermediate artifacts, and run reports under `<project-root>/output/<skill-name>/`. Use the `SKILL.md` name for the folder. This rule also applies to independently installed skills.
+- Run scripts from the business project root or pass an absolute output path. Resolve the skill installation path separately. An explicit user-supplied destination takes precedence for the requested files or deployment.
 
 ## Documentation
 

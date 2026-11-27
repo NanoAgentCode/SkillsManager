@@ -142,7 +142,7 @@ For a small watchlist, analyze each symbol with the same fields and sort by scor
 
 For chat-only analysis, summarize the result instead of dumping raw JSON. Include score, recommendation, indicator drivers, data date/freshness, and limitations.
 
-For generated files, write outputs under `output/stock-analysis-system/` unless the user specifies another path.
+Write generated files under the business project's `output/stock-analysis-system/` unless the user specifies another path.
 
 ## Reference
 

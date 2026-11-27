@@ -44,4 +44,4 @@ PDF output additionally requires LibreOffice. If it is unavailable, deliver the 
 
 - Automatic formatting does not establish a document's official status, authenticity, secrecy classification, or approval.
 - Font fallback can change pagination. Visually verify on the target system, especially when 方正小标宋简体, 仿宋, 楷体, or 黑体 is unavailable.
-- Keep generated artifacts under `output/official-format-pro/` unless the user gives another path.
+- Keep generated artifacts under the business project's `output/official-format-pro/` unless the user gives another path.

@@ -24,19 +24,18 @@ description: Use when generating, regenerating, or inserting a WeChat article co
 - `config.example.json`：示例配置
 
 执行前必须先读取 `config.json`，需要：
-- `output_dir`：封面图输出根目录
 - `settings.base_url`：生图 API 地址（兼容 Gemini API 的第三方网关）
 - `settings.model`：模型名称（如 `gemini-3-pro-image-preview`）
 - `secrets.api_key`：API 密钥
 
 ## 路径约定
 
-- 目标目录：`<output_dir>/<文章文件名或topic-slug>/`
+- 单独生成时使用 `<业务项目根>/output/wechat-cover/<文章文件名或topic-slug>/`。通过其他技能生成时，沿用调用方显式传入的产物路径。
 - 如果目标目录已存在，重命名为 `<dirname>-backup-YYYYMMDD-HHMMSS`
 
 目录结构：
 ```
-<output_dir>/
+<业务项目根>/output/wechat-cover/
 └── article-name/
     ├── prompt.md          # 生图提示词（归档）
     └── cover.jpg          # 封面图

@@ -24,7 +24,7 @@ ASS_OVERRIDE_TAG = re.compile(r"\{[^}]*\}")
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Convert SRT, VTT, ASS/SSA, TTML, Bilibili JSON, or YouTube json3 subtitles to Markdown.")
     parser.add_argument("input", help="Input subtitle file (.srt/.vtt/.ass/.ssa/.ttml/.json/.json3).")
-    parser.add_argument("--output", help="Output Markdown file. Defaults beside the input.")
+    parser.add_argument("--output", help="Output Markdown file. Defaults under output/video-transcriber in the calling project.")
     parser.add_argument(
         "--merge-window",
         type=int,
@@ -259,7 +259,7 @@ def main() -> int:
     output_path = (
         Path(args.output).expanduser().resolve()
         if args.output
-        else input_path.with_suffix(".md")
+        else Path.cwd() / "output" / "video-transcriber" / input_path.stem / input_path.with_suffix(".md").name
     )
     cues = dedupe_cues(read_cues(input_path))
     if not cues:

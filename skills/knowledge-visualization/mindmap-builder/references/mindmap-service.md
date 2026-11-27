@@ -13,7 +13,7 @@ PDF/text/outline
   -> user double-clicks the HTML file
 ```
 
-Command from the repository root (PowerShell):
+Run from the business project root. These examples use the Skills Manager checkout as the project. When installed separately, substitute the absolute script path.
 
 ```powershell
 .\skills\knowledge-visualization\mindmap-builder\scripts\render_offline_mindmap.ps1 -InputMarkdown input.md -OutputHtml output/mindmap-builder/output.html
@@ -21,7 +21,7 @@ Command from the repository root (PowerShell):
 
 The script:
 
-- Runs `markmap input.md --output <repo-root>/output/mindmap-builder/output.html --no-open`.
+- Runs `markmap input.md --output <project-root>/output/mindmap-builder/output.html --no-open`.
 - Replaces supported CDN script/link tags with inline JS/CSS from bundled assets.
 - Rejects remaining separate resource dependencies; citation hyperlinks are allowed.
 - Outputs one self-contained HTML without creating `markmap-assets/`.

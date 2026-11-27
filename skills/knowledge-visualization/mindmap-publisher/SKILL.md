@@ -21,7 +21,7 @@ Before publishing, require all of these values:
 - `PathPrefix`: required URL path prefix, for example `/mindmaps`. Do not default, infer, or leave empty.
 - `Slug`: destination folder name under the path prefix, for example `zero-trust-ai-agents`.
 
-If `PathPrefix` is missing, stop and ask for it. Publishing without a path prefix is not allowed.
+Reuse explicit inputs and the configured hosting mapping. Ask for the missing values together before writing, including a user-supplied non-root `PathPrefix`.
 
 ## Publishing Model
 
@@ -59,18 +59,16 @@ Returned URL:
 
 ## Workflow
 
-1. Confirm explicit user intent:
-   - Continue only if the user says publish, deploy, host, expose, preview URL, server URL, or similar.
-   - Otherwise, recommend `mindmap-builder` local HTML output.
-2. Collect required inputs:
-   - Refuse to publish if `PathPrefix` is absent or `/`.
+1. Resolve the requested publication target:
+   - Use an explicit request for a hosted URL as publication intent. For requests to view the map locally, use `mindmap-builder`.
    - Normalize `PathPrefix` to start with `/` and have no trailing `/`.
    - Normalize `PublicBaseUrl` to have no trailing `/`.
-   - Validate `Slug` uses only letters, digits, hyphens, underscores, or dots.
-3. Verify source:
+   - Validate `Slug` is one folder name made of letters, digits, hyphens, underscores, or dots, excluding `.` and `..`.
+2. Verify source:
    - `SourceHtml` exists.
    - For legacy HTML referencing `markmap-assets/`, that sibling folder exists.
    - HTML does not contain `cdn.jsdelivr.net`.
+3. Check `{StaticRoot}/{Slug}` before publishing. If `index.html` or the referenced legacy destination assets already exist, reuse explicit authorization to update this URL. Otherwise, ask whether to replace it or use a new slug, and show the destination URL.
 4. Publish:
    - Use `scripts/publish_mindmap.ps1`.
    - Copy HTML as `index.html`.

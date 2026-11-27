@@ -158,7 +158,7 @@ curl -i -X POST "${DIFY_BASE_URL}/console/api/apps/imports" \
 JSON
 ```
 
-如果导入返回 `202` 且 `status: pending`，需要确认导入：
+如果导入返回 `202` 且 `status: pending`，先按 [远端操作确认](../SKILL.md#远端操作确认) 检查响应并核对授权，再执行对应的确认请求。
 
 ```bash
 export IMPORT_ID="your-import-id"
@@ -174,7 +174,7 @@ curl -i -X POST "${DIFY_BASE_URL}/console/api/apps/imports/${IMPORT_ID}/confirm"
 
 - `201 CREATED`：创建应用成功。
 - `200 OK`：导出或导入完成，或已返回数据。
-- `202 ACCEPTED`：导入进入 pending，需要调用 confirm 接口。
+- `202 ACCEPTED`：导入进入 pending，按入口中的确认规则处理。
 - `401 Invalid token`：admin key 缺失、未启用、值不正确，或配置变更后 API 进程未重启。
 - Connection refused：`DIFY_BASE_URL` 不可达，或 API 服务未运行。
 - `ModuleNotFoundError: werkzeug.utils`：`.venv` 里的 Werkzeug 安装损坏；重装 `Werkzeug==3.1.6` 或重建 `api/.venv`。

@@ -5,24 +5,30 @@ description: Use when calling Dify Console APIs with ADMIN_API_KEY to create app
 
 # Dify Console Admin API
 
-## 先收集参数
+## 操作参数
 
-在给出 curl 或执行请求前，先确认用户提供了这些必需参数：
+优先复用任务中已指定的目标和本地环境配置，合并询问仍缺少的参数。连接参数如下。
 
 - `DIFY_BASE_URL`：Dify API 地址，例如 `https://dify.example.com` 或 `http://127.0.0.1:5001`。
-- `ADMIN_API_KEY`：服务端配置的 admin key。
+- `ADMIN_API_KEY`：服务端配置的 admin key。只检查环境变量是否设置，缺失时请用户在本地配置。
 - `WORKSPACE_ID`：目标 workspace 的 `tenants.id`。
 - 操作类型：创建应用、导出 DSL、导入 DSL、覆盖导入、确认导入。
 
 根据操作类型继续收集附加参数：
 
-- 创建应用：`APP_NAME`，可选 `APP_DESCRIPTION`。
+- 创建 workflow 应用：`APP_NAME`，可选 `APP_DESCRIPTION`。用 `create` 创建空 workflow，或用无 `--app-id` 的 `import` 从 DSL 新建应用。
 - 导出 DSL：`APP_ID`，可选 `INCLUDE_SECRET`、`WORKFLOW_ID`。
 - 导入 DSL：`YAML_CONTENT` 或 `YAML_URL`。
 - 覆盖导入：额外需要 `APP_ID`，且只能覆盖 workflow 或 advanced-chat 应用。
 - 确认导入：`IMPORT_ID`。
 
 不要把 `ADMIN_API_KEY` 写入仓库文件、PR 描述、日志或长期保存的脚本。需要展示命令时，优先使用变量。
+
+## 远端操作确认
+
+- 普通导出按明确的目标直接执行。默认 `include_secret=false`，仅在用户明确要求时导出密钥。
+- 创建、导入、覆盖或确认导入前，核对 Dify 环境、workspace 和应用名、`APP_ID` 或 `IMPORT_ID`。用户已明确授权同一目标和操作时沿用授权。目标或影响不明确时，说明将新增或覆盖的内容并合并询问。覆盖已有应用前导出无密钥备份，或复用为本次更新准备且与目标匹配的备份。
+- 导入返回 `202 pending` 时，检查响应的 ID、目标和告警。确认调用在原授权范围内且无新增影响时，用对应 `IMPORT_ID` 继续；有兼容性告警、目标变化或其他未说明的影响时，先将具体内容交给用户确认。未完成的操作报告为 pending。超时或响应不明时先核对应用或导入状态，再决定是否重试写请求。
 
 ## 前置条件
 
@@ -51,4 +57,4 @@ dify-console confirm IMPORT_ID
 
 调用接口前读取 [api-operations.md](references/api-operations.md) 中的变量模板、请求头规则和所选操作（创建、导出、导入、覆盖或确认）章节；返回异常时查看排查部分。所有请求携带 Bearer admin key 和 `X-WORKSPACE-ID`。
 
-导出默认 `include_secret=false`。报告真实 HTTP 状态与应用/导入 ID；`202 pending` 不是完成，须按返回状态处理确认导入。
+报告真实 HTTP 状态、应用或导入 ID，以及实际完成的验证与备份路径。

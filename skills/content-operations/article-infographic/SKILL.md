@@ -11,7 +11,7 @@ description: Use when turning a finished article into a single-page ImageGen inf
 
 缺正文或方向时合并询问缺项；已提供的不再问。横版 `landscape` 默认 3:2，竖版 `portrait` 默认 2:3；用户尺寸优先，等待方向时可提炼内容。两版都要则分别布局与生成，不旋转或拉伸原图。
 
-独立输出根目录为 `output/article-infographic/<article-slug>/`，集成时沿用 workflow 根目录，用户路径优先。独立交付，不自动插入正文或发布。
+独立输出根目录为业务项目的 `output/article-infographic/<article-slug>/`，集成时沿用 workflow 根目录，用户路径优先。独立交付，不自动插入正文或发布。
 
 ## 内容 → 提示词 → 图片
 

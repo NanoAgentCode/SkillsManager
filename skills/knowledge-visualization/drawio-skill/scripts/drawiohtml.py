@@ -187,7 +187,7 @@ show(0);
 def main():
     ap = argparse.ArgumentParser(description="Export a .drawio to a self-contained interactive HTML viewer.")
     ap.add_argument("file")
-    ap.add_argument("-o", "--output", help="output .html (default: alongside input)")
+    ap.add_argument("-o", "--output", help="output .html path (default: output/drawio-skill/)")
     args = ap.parse_args()
 
     if not os.path.isfile(args.file):
@@ -217,7 +217,9 @@ def main():
     if not svgs:
         sys.exit("error: no pages exported (is the draw.io CLI installed?)")
     title = os.path.splitext(os.path.basename(args.file))[0]
-    out = args.output or os.path.splitext(args.file)[0] + ".html"
+    stem = os.path.splitext(os.path.basename(args.file))[0]
+    out = args.output or os.path.join("output", "drawio-skill", stem + ".html")
+    os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
         f.write(build_html(title, kept, svgs))
     sys.stderr.write(f"wrote {out} ({len(svgs)} page{'s' if len(svgs) != 1 else ''}"

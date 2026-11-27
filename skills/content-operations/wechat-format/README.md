@@ -18,6 +18,8 @@ A Claude Code skill for the full WeChat Official Account (公众号) publishing 
 
 ## Quick Start
 
+Run from the business project root. Replace sample script paths with the absolute paths to the installed skills.
+
 Windows PowerShell:
 
 ```powershell
@@ -48,10 +50,10 @@ python3 scripts/format.py --input article.md --theme newspaper
 python3 scripts/article_workflow.py --input article.md --theme apple-code --no-open
 
 # Publish to WeChat drafts
-python3 scripts/publish.py --dir ../../../output/wechat-format/tmp/article-name/ --cover cover.jpg
+python3 scripts/publish.py --dir ./output/wechat-format/tmp/article-name/ --cover cover.jpg
 
 # Or format and publish from Markdown through the same ignored output path
-python3 scripts/publish.py --input article.md --output ../../../output/wechat-format/tmp --theme newspaper --cover cover.jpg
+python3 scripts/publish.py --input article.md --output ./output/wechat-format/tmp --theme newspaper --cover cover.jpg
 ```
 
 ## Using with Claude Code
@@ -84,7 +86,7 @@ Claude will use the repo-local workflow script by default:
 Default output layout:
 
 ```text
-../../../output/wechat-format/article-workflows/<article-slug>/
+./output/wechat-format/article-workflows/<article-slug>/
   source/
   upstream/
   markdown/
@@ -104,7 +106,7 @@ PowerShell:
 ```powershell
 $Python = Join-Path $env:USERPROFILE ".cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
 $env:PYTHONIOENCODING = 'utf-8'
-& $Python .\scripts\article_workflow.py --input ..\..\..\article.md --bytedance-preview --cover
+& $Python .\scripts\article_workflow.py --input .\article.md --bytedance-preview --cover
 ```
 
 Portable shell:
@@ -117,10 +119,10 @@ For an article produced by `technical-source-to-public-article` and `technical-a
 
 ```powershell
 & $Python .\scripts\article_workflow.py `
-  --input ..\..\..\output\technical-article-visual-director\my-article\article-with-visuals.md `
-  --source-notes ..\..\..\output\technical-source-to-public-article\my-article\source-notes.md `
-  --visual-plan ..\..\..\output\technical-article-visual-director\my-article\visual-plan.md `
-  --assets-dir ..\..\..\output\technical-article-visual-director\my-article\images `
+  --input .\output\technical-article-visual-director\my-article\article-with-visuals.md `
+  --source-notes .\output\technical-source-to-public-article\my-article\source-notes.md `
+  --visual-plan .\output\technical-article-visual-director\my-article\visual-plan.md `
+  --assets-dir .\output\technical-article-visual-director\my-article\images `
   --preserve-content --strict-assets --theme apple-code --no-open --non-interactive
 ```
 
@@ -145,7 +147,7 @@ $Python = Join-Path $env:USERPROFILE ".cache\codex-runtimes\codex-primary-runtim
 $env:PYTHONIOENCODING = 'utf-8'
 & $Python `
   ..\wechat-history-article-archive\scripts\reformat_archived_articles.py `
-  --archive-dir ..\wechat-history-article-archive\output\archive `
+  --archive-dir .\output\wechat-history-article-archive\archive `
   --article 1 `
   --theme apple-code `
   --skip-ai `
@@ -157,7 +159,7 @@ Portable shell:
 
 ```bash
 PYTHONIOENCODING=utf-8 python3 ../wechat-history-article-archive/scripts/reformat_archived_articles.py \
-  --archive-dir ../wechat-history-article-archive/output/archive \
+  --archive-dir ./output/wechat-history-article-archive/archive \
   --article 1 \
   --theme apple-code \
   --skip-ai \
@@ -168,14 +170,14 @@ PYTHONIOENCODING=utf-8 python3 ../wechat-history-article-archive/scripts/reforma
 Linked output structure:
 
 ```text
-../../../output/wechat-history-article-archive/reformat-inputs/
+./output/wechat-history-article-archive/reformat-inputs/
   <archive-article-slug>/
     <archive-article-slug>.md
     images/
     meta.json
   reformat-manifest.json
 
-../../../output/wechat-format/article-workflows/<archive-article-slug>/
+./output/wechat-format/article-workflows/<archive-article-slug>/
   source/
   markdown/
   render/
@@ -273,7 +275,7 @@ Bob: Hi, how are you?
 
 ## Configuration
 
-Formatting works without `config.json`. If the file does not exist, the scripts use built-in defaults and write output to the repository-level `../../../output/wechat-format/` directory.
+Formatting works without `config.json`. The default is `output/wechat-format/` in the business project. Use CLI output arguments to select a different destination.
 
 For publishing, comment replies, cover generation, or custom output paths, copy and edit `config.json`:
 
@@ -283,7 +285,6 @@ cp config.example.json config.json
 
 ```json
 {
-  "output_dir": "../../../output/wechat-format/tmp",
   "vault_root": "/path/to/your/obsidian/vault",
   "image_search_paths": [],
   "settings": {
@@ -296,7 +297,6 @@ cp config.example.json config.json
     "author": "Author Name"
   },
   "cover": {
-    "output_dir": "../../../output/wechat-cover",
     "image_generation_script": ""
   },
   "ai": {
@@ -323,7 +323,6 @@ This repo includes a sibling cover-image skill at `../wechat-cover/`. It calls t
 
 ```json
 {
-  "output_dir": "../../../output/wechat-cover",
   "settings": {
     "base_url": "https://YOUR_PROVIDER/v1",
     "model": "gemini-3-pro-image-preview"

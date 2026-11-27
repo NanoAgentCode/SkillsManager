@@ -41,5 +41,6 @@ def main(argv=None):
         if args.no_reduce:
             options.append("--no-reduce")
         IMPORTERS[args.language](options)
+        args.output.parent.mkdir(parents=True, exist_ok=True)
         autolayout.main([graph, "--output", str(args.output)])
     return 0

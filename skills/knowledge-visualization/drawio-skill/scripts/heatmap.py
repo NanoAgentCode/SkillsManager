@@ -173,7 +173,7 @@ def main():
     ap = argparse.ArgumentParser(description="Recolour a .drawio into a metric heatmap.")
     ap.add_argument("file", help="input .drawio (uncompressed)")
     ap.add_argument("-m", "--metrics", required=True, help="metrics .csv or .json")
-    ap.add_argument("-o", "--output", help="output .drawio (default: <name>-heat.drawio)")
+    ap.add_argument("-o", "--output", help="output .drawio path (default: output/drawio-skill/)")
     ap.add_argument("--palette", default="heat", choices=list(PALETTES))
     ap.add_argument("--reverse", action="store_true", help="flip the ramp (low = hot)")
     ap.add_argument("--size", action="store_true", help="also scale node size by value")
@@ -215,7 +215,9 @@ def main():
     if args.legend and first_root is not None and matched:
         add_legend(first_root, anchors, lo, hi, args.reverse)
 
-    out = args.output or os.path.splitext(args.file)[0] + "-heat.drawio"
+    stem = os.path.splitext(os.path.basename(args.file))[0]
+    out = args.output or os.path.join("output", "drawio-skill", stem + "-heat.drawio")
+    os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     tree.write(out, encoding="utf-8", xml_declaration=False)
     if matched == 0:
         sys.stderr.write("warning: no nodes matched any metric key (check ids/labels)\n")

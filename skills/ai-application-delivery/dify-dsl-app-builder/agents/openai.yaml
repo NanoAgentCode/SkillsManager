@@ -1,4 +1,4 @@
 interface:
   display_name: "Dify DSL App Builder"
   short_description: "Build and update Dify DSL apps"
-  default_prompt: "Use $dify-dsl-app-builder to design, generate, import, and verify a Dify workflow DSL from these requirements."
+  default_prompt: "Use $dify-dsl-app-builder to generate and validate a local Dify DSL from these requirements."

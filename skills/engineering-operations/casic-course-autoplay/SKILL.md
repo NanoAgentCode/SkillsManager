@@ -10,8 +10,8 @@ description: Use when 用户明确要求在航天云课堂（train.casicloud.com
 ## 仓库使用约定
 
 - 收录不代表安装依赖或执行操作；用户明确要求后才登录、播放或启动值守。
-- Bash 示例从本技能目录执行。Windows 需使用具备 Node.js、agent-browser、GNU timeout 的 Git Bash / WSL；PowerShell 不能直接执行 .sh。独立运行器还需 Playwright 和可用浏览器。
-- config.env 已忽略。状态和日志默认应放在仓库 output/casic-course-autoplay/；原脚本保留原有默认路径，独立运行器请显式传 --state。
+- Bash 自愈示例从本技能目录执行。Windows 需使用具备 Node.js、agent-browser、GNU timeout 的 Git Bash / WSL；PowerShell 不能直接执行 .sh。独立运行器还需 Playwright 和可用浏览器。
+- 从业务项目根启动独立运行器和值守脚本，状态、诊断截图和值守日志默认写入 `<项目根>/output/casic-course-autoplay/`。按需通过 `--state` 指定续跑状态文件。账号配置保存在已忽略的 `config.env`。
 - 以下关于 5～7 分钟回收、600 秒工具超时、内存和效率的数据均为来源环境历史观察，未在本仓库验证。先检查当前环境，不直接认定回合结束是根因，不默认启动保活循环。
 - 页面选择器和服务端学时结算尚未实站验证；以平台完成状态为准。最多回补 6 轮，退出课程不保证学时已完成。
 
@@ -21,7 +21,7 @@ PowerShell 示例（仓库根目录；仅检查语法）：
 node --check .\skills\engineering-operations\casic-course-autoplay\scripts\standalone.js
 ```
 
-独立运行器示例（仅在用户明确要求运行后执行，需先创建输出目录）：
+独立运行器示例（仅在用户明确要求运行后执行）：
 
 ```powershell
 New-Item -ItemType Directory -Force .\output\casic-course-autoplay | Out-Null

@@ -9,14 +9,15 @@
 #   ./watch.sh 60 12      # 60 秒一轮，跑 12 轮（约 12 分钟）
 #   ./watch.sh 30 0       # 无限循环并每轮追加日志到 watch.log
 #
-# 日志：scripts/watch.log
+# 日志：当前项目的 output/casic-course-autoplay/watch.log
 
 set -uo pipefail
 DIR="$(cd "$(dirname "$0")" && pwd)"
 INTERVAL="${1:-30}"
 ROUNDS="${2:-0}"
-LOG="$DIR/watch.log"
+LOG="$PWD/output/casic-course-autoplay/watch.log"
 TITLE="${3:-}"
+mkdir -p "$(dirname "$LOG")" || exit 1
 
 st() {
   local out

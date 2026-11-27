@@ -298,7 +298,7 @@ def main():
     parser.add_argument("--cover", "-c", help="封面图片路径")
     parser.add_argument("--title", "-t", help="文章标题（默认从 HTML 提取）")
     parser.add_argument("--output", "-o", default=CONFIG["output_dir"],
-                        help="自动排版输出目录（仅 --input 模式有效，默认读 config.output_dir）")
+                        help="自动排版输出目录（仅 --input 模式有效，默认当前项目的 output/wechat-format/tmp）")
     parser.add_argument("--theme", default=None,
                         help="排版主题（仅 --input 模式有效，默认读取 gallery 选中的主题）")
     parser.add_argument("--author", "-a",
@@ -313,9 +313,7 @@ def main():
         # 确定主题：优先命令行指定 > gallery 选中 > 默认
         theme = args.theme
         input_path = Path(args.input).resolve()
-        output_base = Path(args.output).expanduser()
-        if not output_base.is_absolute():
-            output_base = SKILL_DIR / output_base
+        output_base = Path(args.output).expanduser().resolve()
         file_stem = re.sub(r"-(公众号|小红书|微博)$", "", input_path.stem)
         gallery_theme_file = output_base / file_stem / "selected-theme.txt"
         if not theme:
