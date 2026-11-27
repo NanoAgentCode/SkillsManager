@@ -9,7 +9,7 @@ from pathlib import Path
 SCRIPTS = Path(__file__).resolve().parents[1] / "skills" / "content-operations" / "wechat-format" / "scripts"
 COMMANDS = {
     "render": ("article_workflow.py", "Render a Markdown article with the WeChat workflow"),
-    "draft": ("publish.py", "Upload a WeChat article to the draft box"),
+    "draft": ("publish.py", "Check a draft offline, upload its images, or submit it to WeChat"),
 }
 
 

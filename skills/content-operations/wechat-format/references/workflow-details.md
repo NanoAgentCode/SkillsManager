@@ -143,7 +143,7 @@ python3 {baseDir}/scripts/format.py \
 
 ### 封面图生成（可选）
 
-排版完成后，用户说"配封面""生成封面"时执行。
+用户同时要求排版和封面时，默认用文章包装流程的 `--cover`。以下为手动流程。单独生成或更换封面时直接使用 [wechat-cover](../../wechat-cover/SKILL.md)。
 
 #### 封面提示词模板
 
@@ -271,7 +271,8 @@ python3 {baseDir}/scripts/publish.py \
 - `--title` / `-t`：文章标题（默认从 HTML 提取）
 - `--theme`：排版主题（仅 `--input` 模式有效）
 - `--author` / `-a`：作者名（默认读 config.json）
-- `--dry-run`：只做排版和图片上传，不推送草稿箱
+- `--dry-run` 离线检查正文、本地图片和封面，统计外链图片；传入 Markdown 时先在本地排版。
+- `--upload-only` 实际上传正文图片和封面，完成后返回封面素材 ID。依赖旧版 `--dry-run` 试传素材的命令应改用此参数。
 
 **check_dependencies.py**：
 - 无参数：检测 Python 版本、`markdown`、`requests`

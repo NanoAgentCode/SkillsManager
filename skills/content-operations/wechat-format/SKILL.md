@@ -1,11 +1,11 @@
 ---
 name: wechat-format
-description: Use when turning an article into WeChat-compatible HTML, running a source-to-WeChat production workflow, or explicitly requesting covers, draft publishing, or comment replies. Routes source rewriting and visual production to sibling skills; preserves approved Markdown.
+description: Use when formatting an article as WeChat-compatible HTML, running a source-to-WeChat article workflow, checking or submitting a WeChat draft, or replying to comments. Preserves approved Markdown.
 ---
 
 # wechat-format
 
-公众号一键排版技能。把任意文本内容（Markdown、纯文本、格式粗糙的笔记）转成微信公众号兼容的排版 HTML，AI 自动理解内容结构并增强排版，可视化选择主题后一键复制粘贴到微信后台。可选生成封面图、推送草稿箱。
+把 Markdown、纯文本或笔记排成微信公众号兼容的 HTML。用户同时要求排版和封面时，用 `article_workflow.py --cover` 一次交付 HTML 和封面。单独生成、更换或插入封面时，直接使用 [wechat-cover](../wechat-cover/SKILL.md)。
 
 ## 脚本目录
 
@@ -161,7 +161,7 @@ python scripts/wechat-tools.py render --input article.md --theme apple-code --pr
 python scripts/wechat-tools.py draft --dir ./rendered-article --cover ./cover.png
 ```
 
-将 `--dir` 指向排版产物中含 `article.html` 的目录。运行 `render --help` 或 `draft --help` 查看各自参数。草稿上传会调用微信接口，`--dry-run` 仍会上传图片。
+将 `--dir` 指向含 `article.html` 的排版目录。预演用 `draft --dry-run`，可离线检查正文、本地图片和封面，无需微信凭据。旧版预演中的素材试传改用 `draft --upload-only`，会真实上传正文图片和封面。省略这两个参数时会提交草稿。
 
 `article_workflow.py` 会执行本技能的 repo-local 标准流程：
 
@@ -232,7 +232,7 @@ PYTHONIOENCODING=utf-8 python3 {baseDir}/scripts/article_workflow.py --input "�
 
 - 手动润色、结构化、容器增强或单步排版：第 1.2–4 步。技术稿须保留术语修改记录与不确定项；仅排版时跳过润色。
 - 选主题或调整参数：参数说明、可用主题、内置排版增强。技术科普长文可选 `--theme science-blue`（科普蓝）。所有主题的正文段落和提示框正文首行缩进两字，文章标题、引用和提示框标题顶格。
-- 用户要求封面或推送：封面图生成、推送到公众号草稿箱。`publish.py --dry-run` 仍会上传图片，不是离线预演。
+- 排版时同时要求封面、草稿预演、素材试传或提交草稿时，查看对应操作与参数。
 - 历史归档文章：Archived Article Handoff，优先通过归档技能的桥接脚本暂存图片与元数据。
 
 交付前检查 manifest、最终 HTML、图片路径和术语记录。只有实际执行了封面、上传或草稿创建，才报告相应结果。

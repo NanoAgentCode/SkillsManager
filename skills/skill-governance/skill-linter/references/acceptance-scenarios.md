@@ -35,6 +35,7 @@ These are routing/contract checks, not substitutes for executing a real media, m
 | “只改术语，不要重写文章。” | `technical-article-polisher`; preserve claims and return a terminology log. |
 | “先规划配图，不要生成图片。” | `technical-article-visual-director` Plan; no claim of generated assets. |
 | “只给公众号文章生成封面。” | `wechat-cover`; cover and prompt, no automatic publishing. |
+| “把这篇 Markdown 排成公众号 HTML，并配一张封面。” | `wechat-format` owns the HTML and includes the requested cover once through its cover step. |
 | “给 Python 包画 import 依赖图。” | `drawio-skill`; editable dependency graph plus requested export. |
 | “画订单服务架构图。” | `excalidraw` or another appropriate diagram tool; do not select `drawio-skill`. |
 | “先做总览，之后再展开第三章。” | `mindmap-builder`; overview and stable section labels, detail maps on request. |

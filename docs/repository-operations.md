@@ -67,7 +67,9 @@ python scripts/wechat-tools.py render --input article.md --theme apple-code --pr
 python scripts/wechat-tools.py draft --dir ./rendered-article --cover ./cover.png
 ```
 
-Use the final directory containing `article.html` for `--dir`. Rendering requires `markdown`; draft upload requires `requests` and local WeChat credentials. The draft command's `--dry-run` still uploads images.
+Use the final directory containing `article.html` for `--dir`. Add `--dry-run` to check the article, local image files, and cover offline. Remote image URLs are counted without fetching them. The `--input` form also renders Markdown locally and requires `markdown`.
+
+To retain the former image-upload behavior of `--dry-run`, switch to `--upload-only`. This uploads body images and the cover to WeChat and stops before draft creation. Omit both flags to submit the draft. Both online modes require `requests` and local WeChat credentials.
 
 Install the Dify Console command with Python 3.10 or later. Set `DIFY_BASE_URL`, `ADMIN_API_KEY` and `WORKSPACE_ID` in the environment before use.
 

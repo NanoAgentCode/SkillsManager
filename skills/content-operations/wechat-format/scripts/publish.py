@@ -21,20 +21,13 @@ import os
 import re
 import subprocess
 import sys
+from html.parser import HTMLParser
 from pathlib import Path
 
 import html as html_module
 import tempfile
 
 from config_loader import load_config
-
-try:
-    import requests
-except ModuleNotFoundError:
-    print("Missing dependency: requests")
-    print(f"Install it with: {sys.executable} -m pip install requests")
-    print(f"Or run: {sys.executable} {Path(__file__).parent / 'check_dependencies.py'} --install")
-    sys.exit(1)
 
 # ── 路径 ──────────────────────────────────────────────────────────────
 SCRIPT_DIR = Path(__file__).parent
@@ -44,6 +37,14 @@ CONFIG = load_config(SKILL_DIR)
 
 
 # ── 微信 API ─────────────────────────────────────────────────────────
+def require_requests():
+    try:
+        import requests
+    except ImportError:
+        sys.exit(f"Missing dependency: requests\nInstall it with: {sys.executable} -m pip install requests")
+    return requests
+
+
 def get_access_token():
     """获取微信 API access_token"""
     wechat = CONFIG.get("wechat", {})
@@ -58,7 +59,7 @@ def get_access_token():
         "https://api.weixin.qq.com/cgi-bin/token"
         f"?grant_type=client_credential&appid={app_id}&secret={app_secret}"
     )
-    resp = requests.get(url, timeout=15)
+    resp = require_requests().get(url, timeout=15)
     data = resp.json()
 
     if "access_token" in data:
@@ -93,7 +94,7 @@ def upload_thumb_image(token, image_path):
 
     with open(image_path, "rb") as f:
         files = {"media": (filename, f, content_type)}
-        resp = requests.post(url, files=files, timeout=30)
+        resp = require_requests().post(url, files=files, timeout=30)
 
     data = resp.json()
     if "media_id" in data:
@@ -121,7 +122,7 @@ def upload_content_image(token, image_path, max_retries=3):
         try:
             with open(image_path, "rb") as f:
                 files = {"media": (filename, f, content_type)}
-                resp = requests.post(url, files=files, timeout=30)
+                resp = require_requests().post(url, files=files, timeout=30)
 
             data = resp.json()
             if "url" in data:
@@ -143,7 +144,7 @@ def download_external_image(url):
     try:
         # 还原 HTML 实体（&amp; → &）
         url = html_module.unescape(url)
-        resp = requests.get(url, timeout=30, headers={
+        resp = require_requests().get(url, timeout=30, headers={
             "User-Agent": "Mozilla/5.0"
         })
         resp.raise_for_status()
@@ -168,9 +169,15 @@ def download_external_image(url):
         return None
 
 
+def local_image_path(article_dir, src):
+    path = article_dir / src
+    if path.is_file():
+        return path
+    return article_dir / "images" / Path(src).name
+
+
 def replace_all_images(html, article_dir, token):
     """替换 HTML 中的所有图片（本地+外部）为微信 CDN URL"""
-    image_dir = article_dir / "images"
     replaced = 0
     failed = 0
 
@@ -196,11 +203,8 @@ def replace_all_images(html, article_dir, token):
             return match.group(0)
 
         # 本地图片
-        local_path = article_dir / src
-        if not local_path.exists() and image_dir.exists():
-            local_path = image_dir / os.path.basename(src)
-
-        if local_path.exists():
+        local_path = local_image_path(article_dir, html_module.unescape(src))
+        if local_path.is_file():
             cdn_url = upload_content_image(token, str(local_path))
             if cdn_url:
                 replaced += 1
@@ -238,8 +242,8 @@ def push_draft(token, title, content, thumb_media_id, author=""):
 
     # 必须用 ensure_ascii=False，否则中文被转义为 \uXXXX 导致微信计算标题长度错误
     body = json.dumps(data, ensure_ascii=False).encode("utf-8")
-    resp = requests.post(url, data=body,
-                         headers={"Content-Type": "application/json"}, timeout=30)
+    resp = require_requests().post(url, data=body,
+                                   headers={"Content-Type": "application/json"}, timeout=30)
     result = resp.json()
 
     if "media_id" in result:
@@ -260,17 +264,19 @@ def extract_title_from_html(html):
     return None
 
 
-def find_cover_image(article_dir, cover_arg=None):
+def find_cover_image(article_dir, cover_arg=None, *, allow_fallback=True):
     """找到封面图路径"""
     if cover_arg:
         p = Path(cover_arg)
-        if p.exists():
+        if p.is_file():
             return p
         # 尝试在 article_dir 下找
         p = article_dir / cover_arg
-        if p.exists():
+        if p.is_file():
             return p
         print(f"警告: 指定的封面图不存在: {cover_arg}")
+        if not allow_fallback:
+            return None
 
     # 在 images/ 目录下找封面图
     image_dir = article_dir / "images"
@@ -289,6 +295,40 @@ def find_cover_image(article_dir, cover_arg=None):
     return None
 
 
+class ArticleImages(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.sources = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "img":
+            self.sources.append(dict(attrs).get("src") or "")
+
+
+def check_local_draft(html, article_dir, cover_arg):
+    if not html.strip():
+        sys.exit("错误: 文章正文为空")
+
+    cover = find_cover_image(article_dir, cover_arg, allow_fallback=False)
+    if not cover or not cover.is_file() or not cover.stat().st_size:
+        sys.exit("错误: 缺少有效的封面文件，请使用 --cover 指定")
+
+    images = ArticleImages()
+    images.feed(html)
+    images.close()
+    remote_count = 0
+    for src in images.sources:
+        if src.lower().startswith(("http://", "https://", "//")):
+            remote_count += 1
+            continue
+        path = local_image_path(article_dir, src)
+        if not src or not path.is_file() or not path.stat().st_size:
+            sys.exit(f"错误: 正文图片缺失或为空: {src or '<img> 缺少 src'}")
+
+    print(f"[dry-run] 本地检查通过，封面: {cover}")
+    print(f"  本地正文图片: {len(images.sources) - remote_count}，外链图片: {remote_count}（未联网核验）")
+
+
 # ── 主流程 ────────────────────────────────────────────────────────────
 def main():
     parser = argparse.ArgumentParser(description="微信公众号草稿箱发布工具")
@@ -304,8 +344,11 @@ def main():
     parser.add_argument("--author", "-a",
                         default=CONFIG.get("wechat", {}).get("author", ""),
                         help="作者名")
-    parser.add_argument("--dry-run", action="store_true",
-                        help="只做排版和图片上传，不推送草稿箱（用于测试）")
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument("--dry-run", action="store_true",
+                       help="离线检查正文、本地图片和封面，无需微信凭据")
+    modes.add_argument("--upload-only", action="store_true",
+                       help="实际上传正文图片和封面后停止（旧版 --dry-run 的行为）")
     args = parser.parse_args()
 
     # ── 1. 确定文章目录 ──────────────────────────────────────────────
@@ -334,7 +377,8 @@ def main():
             "--output", str(output_base),
             "--no-open",
         ]
-        result = subprocess.run(format_cmd, capture_output=True, text=True)
+        result = subprocess.run(format_cmd, capture_output=True, encoding="utf-8",
+                                env={**os.environ, "PYTHONIOENCODING": "utf-8"})
         if result.returncode != 0:
             print(f"排版失败:\n{result.stderr}")
             sys.exit(1)
@@ -379,6 +423,10 @@ def main():
     author = args.author
     print(f"标题: {title}")
     print(f"作者: {author}")
+
+    if args.dry_run:
+        check_local_draft(html, article_dir, args.cover)
+        return
 
     # ── 4. 获取 token ────────────────────────────────────────────────
     print(f"\n获取 access_token...")
@@ -430,8 +478,8 @@ def main():
         sys.exit(1)
 
     # ── 7. 推送草稿箱 ────────────────────────────────────────────────
-    if args.dry_run:
-        print(f"\n[dry-run] 跳过推送草稿箱")
+    if args.upload_only:
+        print("\n[upload-only] 素材已上传，未创建草稿")
         print(f"  标题: {title}")
         print(f"  封面 media_id: {thumb_media_id}")
         print(f"  HTML 长度: {len(html)} 字符")

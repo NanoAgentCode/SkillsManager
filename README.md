@@ -70,7 +70,7 @@
 
 导图渲染与发布、Obsidian 检索、重建索引和审计可使用 `pwsh -File scripts/knowledge-tools.ps1 --help` 查看参数。
 
-公众号文章排版与草稿上传入口为 `python scripts/wechat-tools.py --help`。
+公众号文章排版与草稿入口为 `python scripts/wechat-tools.py --help`。草稿命令中，`draft --dry-run` 可离线检查文章和封面，`draft --upload-only` 会实际试传素材。示例见[仓库操作指南](docs/repository-operations.md#standalone-commands)。
 
 Dify 应用管理可安装 `dify-console`，用法见 [仓库操作指南](docs/repository-operations.md#standalone-commands)。
 
