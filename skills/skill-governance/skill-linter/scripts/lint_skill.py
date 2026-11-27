@@ -428,8 +428,8 @@ def check_repo_catalog(skill_dir: Path, repo_root: Path | None, frontmatter: dic
     if not repo_root:
         return []
     catalogs = [repo_root / relative_path for relative_path in REPOSITORY_CATALOGS]
-    existing_catalogs = [path for path in catalogs if path.exists()]
-    if not existing_catalogs:
+    catalog = next((path for path in catalogs if path.is_file()), None)
+    if catalog is None:
         return [
             Finding(
                 "warning",
@@ -438,16 +438,21 @@ def check_repo_catalog(skill_dir: Path, repo_root: Path | None, frontmatter: dic
                 rel(repo_root, base),
             )
         ]
-    text = "\n".join(path.read_text(encoding="utf-8") for path in existing_catalogs).lower()
-    skill_name = frontmatter.get("name", skill_dir.name).lower()
-    relative_skill_path = rel(skill_dir, repo_root).replace("\\", "/").lower()
-    if skill_name not in text and relative_skill_path not in text:
+    text = catalog.read_text(encoding="utf-8")
+    if catalog == catalogs[0]:
+        entry = rel(skill_dir / "SKILL.md", repo_root).replace("\\", "/")
+        pattern = rf"(?<![\w./-])(?:\.\./|\./)?{re.escape(entry)}(?![\w./-])"
+        found = re.search(pattern, text)
+    else:
+        entry = frontmatter.get("name", skill_dir.name)
+        found = re.search(rf"(?<![\w-]){re.escape(entry)}(?![\w-])", text, re.IGNORECASE)
+    if not found:
         return [
             Finding(
                 "warning",
                 "catalog-not-synced",
-                "Repository skill catalog does not mention this skill name or path",
-                rel(existing_catalogs[0], base),
+                f"Repository skill catalog is missing {entry}",
+                rel(catalog, base),
             )
         ]
     return []

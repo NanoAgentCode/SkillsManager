@@ -11,11 +11,12 @@ from __future__ import annotations
 import re
 import sys
 import argparse
-import json
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(Path(__file__).resolve().parent / "dify-dsl-app-builder" / "scripts"))
+from validate_dsl import validate_file, validate_graph
 
 
 class Validator:
@@ -154,26 +155,15 @@ def validate_workflow_with_pyyaml(v: Validator, workflow_path: Path) -> bool:
     if not isinstance(workflow, dict):
         return True
 
-    graph = workflow.get("workflow", {}).get("graph", {})
-    nodes = graph.get("nodes", [])
-    edges = graph.get("edges", [])
-    node_ids = {node.get("id") for node in nodes if isinstance(node, dict)}
-    node_types = {node.get("data", {}).get("type") for node in nodes if isinstance(node, dict)}
-
-    v.check(workflow.get("kind") == "app", "sample workflow kind is app")
-    v.check(isinstance(nodes, list) and len(nodes) >= 2, "sample workflow has nodes")
-    v.check(isinstance(edges, list) and len(edges) >= 1, "sample workflow has edges")
-    v.check({"start", "end"}.issubset(node_types), "sample workflow has start and end nodes")
-    v.check(len(node_ids) == len(nodes), "sample workflow node ids are unique")
-
-    for edge in edges:
-        if not isinstance(edge, dict):
-            v.check(False, "sample workflow edge is a mapping")
-            continue
-        edge_id = edge.get("id", "<missing id>")
-        v.check(edge.get("source") in node_ids, f"edge {edge_id} source resolves")
-        v.check(edge.get("target") in node_ids, f"edge {edge_id} target resolves")
-        v.check(edge.get("type") == "custom", f"edge {edge_id} type is custom")
+    errors = validate_graph(workflow)
+    for error in errors:
+        v.check(False, error)
+    if not errors:
+        graph = workflow["workflow"]["graph"]
+        types = {node["data"].get("type") for node in graph["nodes"]}
+        v.check(workflow.get("kind") == "app", "sample workflow kind is app")
+        v.check({"start", "end"}.issubset(types), "sample workflow has start and end nodes")
+        v.check(bool(graph["edges"]), "sample workflow has edges")
     return True
 
 
@@ -205,44 +195,11 @@ def validate_sample_workflow(v: Validator) -> None:
 
 
 def validate_workflow_input(v: Validator, workflow_path: Path) -> None:
-    """Validate a user-generated DSL when a parser is available."""
-    v.check(workflow_path.is_file(), f"input DSL {workflow_path} exists")
-    if not workflow_path.is_file():
-        return
-    if workflow_path.suffix.lower() == ".json":
-        workflow = json.loads(read_text(workflow_path))
-    else:
-        try:
-            import yaml  # type: ignore
-        except Exception:
-            print("[info] PyYAML is not installed; using text-only checks for YAML --input DSL")
-            validate_workflow_text_fallback(v, read_text(workflow_path))
-            return
-        workflow = yaml.safe_load(read_text(workflow_path))
-    if not isinstance(workflow, dict):
-        v.check(False, "input DSL parses as a mapping")
-        return
-    graph = workflow.get("workflow", {}).get("graph", {})
-    nodes = graph.get("nodes", [])
-    edges = graph.get("edges", [])
-    v.check(isinstance(nodes, list) and bool(nodes), "input DSL has nodes")
-    v.check(isinstance(edges, list), "input DSL has edges")
-    node_map = {node.get("id"): node for node in nodes if isinstance(node, dict) and node.get("id")}
-    v.check(len(node_map) == len(nodes), "input DSL node ids are unique and present")
-    edge_ids = [edge.get("id") for edge in edges if isinstance(edge, dict)]
-    v.check(len(edge_ids) == len(set(edge_ids)) and all(edge_ids), "input DSL edge ids are unique and present")
-    for edge in edges:
-        if not isinstance(edge, dict):
-            v.check(False, "input DSL edge is a mapping")
-            continue
-        source, target = edge.get("source"), edge.get("target")
-        data = edge.get("data") if isinstance(edge.get("data"), dict) else {}
-        v.check(source in node_map and target in node_map, f"edge {edge.get('id', '<missing>')} endpoints resolve")
-        v.check(edge.get("type") == "custom" and edge.get("sourceHandle") and edge.get("targetHandle"), f"edge {edge.get('id', '<missing>')} has type and handles")
-        if source in node_map and target in node_map:
-            source_type = node_map[source].get("data", {}).get("type")
-            target_type = node_map[target].get("data", {}).get("type")
-            v.check(data.get("sourceType") == source_type and data.get("targetType") == target_type, f"edge {edge.get('id', '<missing>')} type metadata matches nodes")
+    errors = validate_file(workflow_path)
+    for error in errors:
+        v.check(False, error)
+    if not errors:
+        v.check(True, f"graph and variable references checked in {workflow_path}")
 
 
 def main() -> int:
@@ -251,12 +208,12 @@ def main() -> int:
     args = parser.parse_args()
     print(f"[info] Python executable: {sys.executable}")
     v = Validator()
-    validate_console_admin_skill(v)
-    validate_dsl_app_builder_skill(v)
-    validate_readme_dify_paths(v)
     if args.input:
         validate_workflow_input(v, Path(args.input))
     else:
+        validate_console_admin_skill(v)
+        validate_dsl_app_builder_skill(v)
+        validate_readme_dify_paths(v)
         validate_sample_workflow(v)
 
     print()

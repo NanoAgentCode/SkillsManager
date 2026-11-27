@@ -88,7 +88,7 @@ class RepositoryEntrypointTests(unittest.TestCase):
             write_skill(root)
             (root / "docs").mkdir()
             (root / "docs" / "skill-index.md").write_text(
-                "- demo-skill: repository compatibility validation.\n",
+                "- `demo-skill/SKILL.md`: repository compatibility validation.\n",
                 encoding="utf-8",
             )
             skill_dir = root / "demo-skill"
@@ -96,6 +96,26 @@ class RepositoryEntrypointTests(unittest.TestCase):
             findings = lint_skill.check_repo_catalog(skill_dir, root, frontmatter, root)
 
         self.assertEqual(findings, [])
+
+    def test_primary_catalog_requires_the_exact_path_even_when_readme_names_the_skill(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            skill = root / "skills" / "tools" / "demo-skill"
+            skill.mkdir(parents=True)
+            index = root / "docs" / "skill-index.md"
+            index.parent.mkdir()
+            (root / "README.md").write_text("demo-skill", encoding="utf-8")
+            meta = {"name": "demo-skill"}
+            for entry in ("demo-skill", "skills/old/demo-skill/SKILL.md",
+                          "skills/tools/demo-skill/SKILL.md.bak", "other/skills/tools/demo-skill/SKILL.md"):
+                with self.subTest(entry=entry):
+                    index.write_text(f"- `{entry}`\n", encoding="utf-8")
+                    findings = lint_skill.check_repo_catalog(skill, root, meta, root)
+                    self.assertEqual([item.code for item in findings], ["catalog-not-synced"])
+            index.write_text("- [Demo](../skills/tools/demo-skill/SKILL.md)\n", encoding="utf-8")
+            self.assertEqual(lint_skill.check_repo_catalog(skill, root, meta, root), [])
+            index.unlink()
+            self.assertEqual(lint_skill.check_repo_catalog(skill, root, meta, root), [])
 
     def test_missing_platform_entrypoint_is_reported(self) -> None:
         with tempfile.TemporaryDirectory() as temp:

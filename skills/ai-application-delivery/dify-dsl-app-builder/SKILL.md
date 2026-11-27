@@ -14,17 +14,17 @@ description: Use when designing or updating Dify workflow/advanced-chat DSL from
 
 1. 复用用户提供的 DSL、相同版本的导出或仓库 fixture。读 [dsl-import-rules.md](dsl-import-rules.md)，按实际需要加载下表中的节点参考。
 2. 确定输入变量和默认值、节点链路、插件或模型等依赖、输出格式和错误处理。用户要求先审方案，或有影响交付的设计选项待定时，先给方案和待确认项。
-3. 保存 DSL，在仓库根目录运行 `quick_validate.py` 的输入文件检查。
+3. 保存 DSL，从业务项目目录调用本技能自带的 [校验脚本](scripts/validate_dsl.py)。以下命令中的技能目录和 Python 解释器请替换为本机路径；JSON 仅需 Python，YAML 需要 PyYAML。
 
    ```powershell
-   .\scripts\run-python.ps1 .\skills\ai-application-delivery\quick_validate.py --input .\app.yml
+   & 'C:\path\to\python.exe' 'C:\path\to\dify-dsl-app-builder\scripts\validate_dsl.py' --input .\app.yml
    ```
 
    ```bash
-   python3 ./skills/ai-application-delivery/quick_validate.py --input ./app.yml
+   python3 /path/to/dify-dsl-app-builder/scripts/validate_dsl.py --input ./app.yml
    ```
 
-   检查覆盖节点和 edge ID、连接端点、类型、必填 handle 与变量选择器。记录静态验证结果和需要目标环境核实的依赖。
+   脚本检查节点和边的 ID、连接端点、边类型和 handle，定位选择器及模板中引用的节点，并核对开始节点的输入名和代码节点声明的输出名。运行时变量、插件输出和嵌套字段还需目标环境核实。退出码为 0 表示这些静态检查通过。
 
 ## 远端交付
 

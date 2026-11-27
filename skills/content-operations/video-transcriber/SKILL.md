@@ -109,7 +109,7 @@ subtitles.srt
 subtitles.vtt
 ```
 
-Meeting notes:
+For meeting notes, distinguish confirmed decisions from proposals. Cite the source cue or audio time for each decision and action when timestamps are requested. For subtitles, `--merge-window 0` keeps separate cues in the Markdown transcript. Include an owner and deadline when stated. If timing is unavailable, identify the missing timing source.
 
 ```markdown
 # Meeting Notes
@@ -117,8 +117,10 @@ Meeting notes:
 ## Summary
 
 ## Decisions
+- [HH:MM:SS] Decision and scope.
 
 ## Action Items
+- [HH:MM:SS] Action, named owner and stated deadline.
 ```
 
 ## Safety And Privacy

@@ -54,7 +54,7 @@ Use `--json` when another script or CI step needs machine-readable output. Use `
    - missing or stale repository compatibility entrypoints (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `GLM.md`)
    - committed-looking credentials or local `config.json`
 4. Re-run the linter after edits.
-5. For release or commit preparation, also check the repository catalog (`docs/skill-index.md`, with `README.md` as a fallback) mentions the skill path and purpose.
+5. Check that the formal catalog lists the skill's full path to `SKILL.md` and explains its purpose. Use the README fallback only when `docs/skill-index.md` is absent.
 
 ## Human Checks
 
@@ -81,6 +81,6 @@ For a release-sized change, also run the small request-to-skill acceptance set i
 - Repository-level compatibility entrypoints exist when `--repo-root` is supplied: `AGENTS.md` mentions the compatibility surface, and Claude, Gemini, and GLM entrypoints point users to `AGENTS.md` and `SKILL.md`.
 - Example config files do not look like real secrets.
 - Local config files, generated outputs, and likely credentials are flagged.
-- The repository catalog in `docs/skill-index.md` or `README.md` mentions the skill path or name when `--repo-root` is supplied.
+- With `--repo-root`, the formal index must contain the exact path to the skill's `SKILL.md`. In a repository without a formal index, the README may identify a skill by name.
 
 Treat script output as a review checklist: fix errors, evaluate warnings, and leave intentional exceptions only when there is a clear reason.

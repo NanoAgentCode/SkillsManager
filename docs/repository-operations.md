@@ -111,6 +111,8 @@ Run the dependency-free Dify structure checks:
 .\scripts\run-python.ps1 .\skills\ai-application-delivery\quick_validate.py
 ```
 
+For a generated app, the builder includes [a standalone validator](../skills/ai-application-delivery/dify-dsl-app-builder/scripts/validate_dsl.py). Pass `--input app.json` or `--input app.yml` from the business project. YAML input requires PyYAML. The repository's `quick_validate.py --input` uses the same validator.
+
 ## Outputs
 
 - Treat the business project and the skill installation as separate paths. For example, an installed WeChat skill can render into `<business-project>/output/wechat-format/article-workflows/`.

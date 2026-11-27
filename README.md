@@ -89,3 +89,4 @@ skill-lint check . --repo-root . --strict --json
 ```
 
 更多校验命令见 [仓库操作指南](docs/repository-operations.md)。
+独立安装的 Dify DSL Builder 可在业务项目中直接校验应用文件，命令见 [Dify 本地验证](skills/ai-application-delivery/dify-dsl-app-builder/SKILL.md#设计与本地验证)。
