@@ -28,4 +28,17 @@ Linux 上先设置同名 shell 变量，再用 `getent ahosts "$target"` 查看�
 
 修复后用原应用、原域名和原网络复测。要求 FlClash `DIRECT` 时，用连接记录核对规则和链路；要求物理网络直连时，用接口和路由证据核对实际出站路径。
 
+## 定位 Nginx 虚拟主机匹配
+
+- DNS 为客户端提供连接地址。Nginx 根据连接到达的地址和端口确定 `listen` 范围，再用客户端提供的名称匹配 `server_name`。常规 HTTP/1.1 请求携带 `Host`，HTTP/2 和 HTTP/3 通常携带 `:authority`。没有名称匹配时，检查对应监听地址和端口的默认虚拟主机。
+- HTTPS 在 TLS 握手阶段根据 SNI 选择证书，解密后再处理 HTTP 层的主机名和路径。证书异常时先定位 TLS 阶段。证书正确但返回其他站点时，继续核对 HTTP 主机名和实际匹配的 `server`、`location`。
+- 可用下面的命令隔离 DNS。两条命令均保留 URL 主机名。对 HTTPS 保留正常证书校验。Windows PowerShell 中将 `curl` 改为 `curl.exe`。用预期证书和站点特有的响应或访问日志验收。
+
+```sh
+curl -q --noproxy '*' --resolve 'api.example.com:80:192.0.2.10' http://api.example.com/
+curl -q --noproxy '*' --resolve 'api.example.com:443:192.0.2.10' https://api.example.com/
+```
+
+[Nginx 虚拟主机选择](https://nginx.org/en/docs/http/server_names.html#virtual_server_selection) · [curl --resolve](https://curl.se/docs/manpage.html#--resolve)
+
 命令与配置参考：[curl 手册](https://curl.se/docs/manpage.html) · [Microsoft Test-NetConnection](https://learn.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection) · [Mihomo 路由规则](https://wiki.metacubex.one/config/rules/) · [Mihomo Select 组](https://wiki.metacubex.one/en/config/proxy-groups/select/)
