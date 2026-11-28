@@ -288,6 +288,8 @@ body {
 </div>
 
 <script>
+{{COPY_WECHAT_SCRIPT}}
+
 var selectedTheme = '{{DEFAULT_THEME}}';
 
 function switchTheme(themeId) {
@@ -326,38 +328,15 @@ function switchTheme(themeId) {
     document.getElementById('previewScroll').scrollTop = 0;
 }
 
-function copyCurrentPreview() {
-    var target = document.querySelector('.theme-preview[data-theme="' + selectedTheme + '"]');
-    if (!target) return false;
-
-    // Temporarily make it selectable
-    var range = document.createRange();
-    range.selectNodeContents(target);
-    var sel = window.getSelection();
-    sel.removeAllRanges();
-    sel.addRange(range);
-
-    var success = false;
+async function copyCurrentPreview() {
+    const target = document.querySelector('.theme-preview[data-theme="' + selectedTheme + '"]');
+    if (!target) return;
     try {
-        success = document.execCommand('copy');
-    } catch(e) {}
-
-    sel.removeAllRanges();
-
-    if (!success) {
-        // Fallback: Clipboard API
-        var html = target.innerHTML;
-        var blob = new Blob([html], { type: 'text/html' });
-        var item = new ClipboardItem({ 'text/html': blob });
-        navigator.clipboard.write([item]).then(function() {
-            showCopied();
-        }).catch(function() {
-            alert('复制失败，请手动选中文章内容复制');
-        });
-        return;
+        await copyWechatContent(target);
+        showCopied();
+    } catch (error) {
+        alert('复制失败，请手动选中文章内容复制');
     }
-
-    showCopied();
 }
 
 function confirmAndCopy() {

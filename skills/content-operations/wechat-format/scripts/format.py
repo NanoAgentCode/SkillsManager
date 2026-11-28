@@ -1487,6 +1487,7 @@ def generate_preview(article_html: str, footnote_html: str, theme: dict,
 
     preview_html = (
         template
+        .replace("{{COPY_WECHAT_SCRIPT}}", (TEMPLATE_DIR / "copy-wechat.js").read_text(encoding="utf-8"))
         .replace("{{TITLE}}", title)
         .replace("{{THEME_NAME}}", theme.get("name", ""))
         .replace("{{WORD_COUNT}}", f"{word_count:,}")
@@ -1601,6 +1602,7 @@ def generate_gallery(rendered_map: dict, theme_map: dict,
 
     gallery_html = (
         template
+        .replace("{{COPY_WECHAT_SCRIPT}}", (TEMPLATE_DIR / "copy-wechat.js").read_text(encoding="utf-8"))
         .replace("{{TITLE}}", title)
         .replace("{{WORD_COUNT}}", f"{word_count:,}")
         .replace("{{THEME_BUTTONS}}", buttons_html)
